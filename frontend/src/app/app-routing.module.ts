@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthRoutingModule } from './auth/auth-routing.module';
+import { ValidarTokenGuard } from './guards/validar-token.guard';
 
 const routes: Routes = [{
   path: '',
@@ -11,15 +11,21 @@ const routes: Routes = [{
     },
     {
       path: 'dashboard',
-      loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule)
+      loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule),
+      canActivate: [ValidarTokenGuard],//ValidarAdminGuard
+      canLoad: [ValidarTokenGuard]
     },
     {
       path: 'tecnico',
-      loadChildren: () => import('./tecnico/tecnico.module').then(m => m.TecnicoModule)
+      loadChildren: () => import('./tecnico/tecnico.module').then(m => m.TecnicoModule),
+      canActivate: [ValidarTokenGuard],
+      canLoad: [ValidarTokenGuard]
     },
     {
       path: 'cliente',
-      loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule)
+      loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule),
+      canActivate: [ValidarTokenGuard],
+      canLoad: [ValidarTokenGuard]
     },
     {
       path: '**',
