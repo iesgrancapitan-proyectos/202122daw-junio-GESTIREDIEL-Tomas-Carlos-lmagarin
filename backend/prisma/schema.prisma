@@ -1,0 +1,162 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model almacen {
+  id        Int        @id @default(autoincrement())
+  direccion String     @db.VarChar(50)
+  articulo  articulo[]
+}
+
+model articulo {
+  id                 Int                  @id @default(autoincrement())
+  descripcion        String               @db.VarChar(50)
+  referencia         String               @db.VarChar(50)
+  precio_coste       Int
+  precio_venta       Int
+  stock              Int
+  id_categoria       Int
+  id_almacen         Int
+  almacen            almacen              @relation(fields: [id_almacen], references: [id], onDelete: Cascade, map: "fk_almacen")
+  categoria          categoria            @relation(fields: [id_categoria], references: [id], onDelete: Cascade, map: "fk_categoria")
+  articulo_factura   articulo_factura[]   @ignore
+  proveedor_articulo proveedor_articulo[] @ignore
+  reparacion         reparacion[]
+
+  @@index([id_almacen], map: "fk_almacen")
+  @@index([id_categoria], map: "fk_categoria")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model articulo_factura {
+  serial      String   @db.VarChar(50)
+  precio      Int
+  id_articulo Int
+  descripcion String   @db.VarChar(255)
+  cantidad    Int
+  dto         Int
+  articulo    articulo @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_articulo_factura")
+  factura     factura  @relation(fields: [serial], references: [serial], onDelete: Cascade, map: "fk_factura")
+
+  @@index([id_articulo], map: "fk_articulo_factura")
+  @@index([serial], map: "fk_factura")
+  @@ignore
+}
+
+model categoria {
+  id       Int        @id @default(autoincrement())
+  nombre   String     @db.VarChar(50)
+  seccion  String     @db.VarChar(50)
+  articulo articulo[]
+}
+
+model cliente {
+  id               Int           @id @default(autoincrement())
+  nif              Int           @unique(map: "nif")
+  nombre_fiscal    String        @db.VarChar(50)
+  domicilio        String        @db.VarChar(255)
+  CP               String        @db.VarChar(10)
+  poblacion        String        @db.VarChar(50)
+  provincia        String        @db.VarChar(50)
+  persona_contacto String        @db.VarChar(50)
+  email            String        @db.VarChar(50)
+  id_usuario       String        @db.VarChar(100)
+  usuarios         usuarios      @relation(fields: [id_usuario], references: [id], onDelete: Cascade, map: "fk_id_user2")
+  dispositivo      dispositivo[]
+  factura          factura[]
+
+  @@index([id_usuario], map: "fk_id_user2")
+}
+
+model dispositivo {
+  id                Int          @id @default(autoincrement())
+  tipo              String       @db.VarChar(50)
+  marca             String       @db.VarChar(50)
+  modelo            String       @db.VarChar(50)
+  id_cliente        Int
+  codigo_desbloqueo Int?
+  pin_sim           Int?
+  cliente           cliente      @relation(fields: [id_cliente], references: [id], onDelete: Cascade, map: "fk_cliente")
+  reparacion        reparacion[]
+
+  @@index([id_cliente], map: "fk_cliente")
+}
+
+model factura {
+  serial           String             @id @db.VarChar(50)
+  id_cliente       Int
+  fecha_hora       DateTime           @default(now()) @db.DateTime(0)
+  cliente          cliente            @relation(fields: [id_cliente], references: [id], onDelete: Cascade, map: "fk_cliente_factura")
+  articulo_factura articulo_factura[] @ignore
+
+  @@index([id_cliente], map: "fk_cliente_factura")
+}
+
+model proveedor {
+  id                 Int                  @id @default(autoincrement())
+  nombre_fiscal      String               @db.VarChar(50)
+  nombre_comercial   String               @db.VarChar(50)
+  proveedor_articulo proveedor_articulo[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model proveedor_articulo {
+  id_proveedor Int
+  id_articulo  Int
+  articulo     articulo  @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo")
+  proveedor    proveedor @relation(fields: [id_proveedor], references: [id], onDelete: Cascade, map: "fk_id_proveedor")
+
+  @@index([id_articulo], map: "fk_id_articulo")
+  @@index([id_proveedor], map: "fk_id_proveedor")
+  @@ignore
+}
+
+model reparacion {
+  id               Int         @id @default(autoincrement())
+  id_dispositivo   Int
+  id_tecnico       Int
+  id_articulo      Int
+  estado           String      @db.VarChar(50)
+  accesorios       String      @db.VarChar(500)
+  fecha_compromiso DateTime    @db.DateTime(0)
+  averia           String      @db.VarChar(50)
+  observaciones    String      @db.VarChar(255)
+  articulo         articulo    @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo_reparacion")
+  dispositivo      dispositivo @relation(fields: [id_dispositivo], references: [id], onDelete: Cascade, map: "fk_id_dispositivo")
+  tecnico          tecnico     @relation(fields: [id_tecnico], references: [id], onDelete: Cascade, map: "fk_id_tecnico")
+
+  @@index([id_articulo], map: "fk_id_articulo_reparacion")
+  @@index([id_dispositivo], map: "fk_id_dispositivo")
+  @@index([id_tecnico], map: "fk_id_tecnico")
+}
+
+model roles {
+  rol String @id @db.VarChar(50)
+}
+
+model tecnico {
+  id         Int          @id @default(autoincrement())
+  nombre     String       @db.VarChar(50)
+  id_usuario String       @db.VarChar(100)
+  usuarios   usuarios     @relation(fields: [id_usuario], references: [id], onDelete: Cascade, map: "fk_id_rol1")
+  reparacion reparacion[]
+
+  @@index([id_usuario], map: "fk_id_rol1")
+}
+
+model usuarios {
+  id         String    @id @db.VarChar(100)
+  username   String    @db.VarChar(100)
+  password   String    @db.VarChar(100)
+  registered DateTime? @db.DateTime(0)
+  last_login DateTime? @db.DateTime(0)
+  rol        String    @db.VarChar(50)
+  email      String    @unique(map: "email") @db.VarChar(100)
+  cliente    cliente[]
+  tecnico    tecnico[]
+}
