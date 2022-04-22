@@ -17,6 +17,10 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required]]
   });
 
+  errorMsg:string = ""
+  errorEmail:string = ""
+  errorPassword:string =""
+
   constructor(private fb: FormBuilder, 
               private authService: AuthService,
               private router:Router) { }
@@ -36,11 +40,9 @@ export class LoginComponent implements OnInit {
               //comprobar el tipo de usuario
               this.router.navigate(['/dashboard']);
             }else{
+              this.errorMsg = "Usuario o contraseña incorrectos"
               Swal.fire('Error', ok.msg, 'error')
             }
-          },
-          error:()=>{
-            console.log("Error")
           }
         }
       )
