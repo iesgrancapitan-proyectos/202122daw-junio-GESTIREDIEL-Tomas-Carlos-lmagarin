@@ -11,7 +11,7 @@ const routes: Routes = [{
     },
     {
       path: 'dashboard',
-      loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule),
+      loadChildren: () => import('./admin-dashboard/admin-dashboard-routing.module').then(m => m.AdminDashboardRoutingModule),
       canActivate: [ValidarTokenGuard],//ValidarAdminGuard
       canLoad: [ValidarTokenGuard]
     },
