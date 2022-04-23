@@ -16,8 +16,10 @@ app.use(cors());
 //lectura y parseo del body
 app.use(express.json());
 
-//get
+//rutas
 app.use('/api/auth',require('./routes/auth'));
+app.use('/api/clientes',require('./routes/clientes'));
+
 
 //manegar rutas
 app.get('*' ,(req,res) => {

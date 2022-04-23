@@ -57,15 +57,14 @@ model categoria {
 
 model cliente {
   id               Int           @id @default(autoincrement())
-  nif              Int           @unique(map: "nif")
+  nif              String        @unique(map: "nif") @db.VarChar(50)
   nombre_fiscal    String        @db.VarChar(50)
   domicilio        String        @db.VarChar(255)
   CP               String        @db.VarChar(10)
   poblacion        String        @db.VarChar(50)
   provincia        String        @db.VarChar(50)
   persona_contacto String        @db.VarChar(50)
-  email            String        @db.VarChar(50)
-  id_usuario       String        @db.VarChar(100)
+  id_usuario       String        @unique(map: "id_usuario") @db.VarChar(100)
   usuarios         usuarios      @relation(fields: [id_usuario], references: [id], onDelete: Cascade, map: "fk_id_user2")
   dispositivo      dispositivo[]
   factura          factura[]
@@ -153,10 +152,10 @@ model usuarios {
   id         String    @id @db.VarChar(100)
   username   String    @db.VarChar(100)
   password   String    @db.VarChar(100)
-  registered DateTime? @db.DateTime(0)
+  registered DateTime  @default(now()) @db.DateTime(0)
   last_login DateTime? @db.DateTime(0)
   rol        String    @db.VarChar(50)
   email      String    @unique(map: "email") @db.VarChar(100)
-  cliente    cliente[]
+  cliente    cliente?
   tecnico    tecnico[]
 }

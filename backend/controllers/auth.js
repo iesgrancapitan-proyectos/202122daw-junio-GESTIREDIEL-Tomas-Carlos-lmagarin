@@ -37,7 +37,7 @@ const crearUsuario = async (req, res = response) => {
     if (usuario) {
       return res.status(400).json({
         ok: false,
-        msg: 'El usuario ya el usuario con ese email'
+        msg: 'El usuario con ese email ya existe'
       })
     }
 
@@ -157,9 +157,41 @@ const revalidarToken = async (req, res = response) => {
 
 }
 
+const borrarUsuario = async (req, res = response) => {
+  const {
+    id
+  } = req.params;
+
+  try {
+
+    await prisma.usuarios.delete({
+      where: {
+        id
+      }
+    })
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Usuario eliminado'
+    })
+
+  } catch (error) {
+    if (error.meta.cause === 'Record to delete does not exist.') {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no existe'
+      })
+    }
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
 
 module.exports = {
   crearUsuario,
   loginUsuario,
+  borrarUsuario,
   revalidarToken
 }
