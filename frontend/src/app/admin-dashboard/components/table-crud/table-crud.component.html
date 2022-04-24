@@ -1,33 +1,50 @@
-<table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
-    <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>NIF</th>
-            <th>Domicilio</th>
-            <th>Codigo postal</th>
-            <th>Poblacion</th>
-            <th>Provincia</th>
-            <th>Persona de contacto</th>
-            <th>Registrado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let cliente of clientes">
-            <td>{{cliente.nombre_fiscal}}</td>
-            <td>{{cliente.email}}</td>
-            <td>{{cliente.nif}}</td>
-            <td>{{cliente.domicilio}}</td>
-            <td>{{cliente.CP}}</td>
-            <td>{{cliente.poblacion}}</td>
-            <td>{{cliente.provincia}}</td>
-            <td>{{cliente.persona_contacto}}</td>
-            <td>{{cliente.registered | date}}</td>
-            <td class="flex items-center gap-4">
-                <button class="bg-yellow-500 rounded-full p-2 w-10 " (click)="editCliente(cliente)"><i class="pi pi-user-edit"></i></button>
-                <button class="bg-red-500 rounded-full p-2 w-10 " (click)="deleteCliente(cliente)"><i class="pi pi-trash"></i></button>
-            </td>
-        </tr>
-    </tbody>
+ <div class="table-responsive">
+ <table
+  datatable
+  [dtOptions]="dtOptions"
+  [dtTrigger]="dtTrigger"
+  class="table-auto row-border hover">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Email</th>
+      <th>NIF</th>
+      <th>Domicilio</th>
+      <th>Codigo postal</th>
+      <th>Poblacion</th>
+      <th>Provincia</th>
+      <th>Persona de contacto</th>
+      <th>Registrado</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let cliente of clientes">
+      <td>{{ cliente.nombre_fiscal }}</td>
+      <td>{{ cliente.email }}</td>
+      <td>{{ cliente.nif }}</td>
+      <td>{{ cliente.domicilio }}</td>
+      <td>{{ cliente.CP }}</td>
+      <td>{{ cliente.poblacion }}</td>
+      <td>{{ cliente.provincia }}</td>
+      <td>{{ cliente.persona_contacto }}</td>
+      <td>{{ cliente.registered | date }}</td>
+      <td class="flex items-center gap-4">
+        <button
+          class="bg-yellow-500 rounded-full p-2 w-10"
+          (click)="editCliente(cliente)"
+        >
+          <i class="pi pi-user-edit"></i>
+        </button>
+        <button
+          class="bg-red-500 rounded-full p-2 w-10"
+          (click)="deleteCliente(cliente)"
+        >
+          <i class="pi pi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
 </table>
+</div>
+

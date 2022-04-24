@@ -1,45 +1,50 @@
-<div [ngClass]="open ? 'w-72' : 'w-20'" class="bg-blue-900 h-screen p-5  pt-8 relative duration-300" >
+<!-- <div
+  [ngClass]="open ? 'w-72' : 'w-20'"
+  class="bg-blue-900 h-full p-5 pt-8 relative duration-300"
+>
   <img
-  src="/assets/open-icon.png"
-  [ngClass]="!open ? 'rotate-180': ''"
-  class="absolute cursor-pointer -right-3 top-9 w-7 border-blue-900 border-4 rounded-full"
-  (click)="toogleOpen(!open)"
+    src="/assets/open-icon.png"
+    [ngClass]="!open ? 'rotate-180' : ''"
+    class="absolute cursor-pointer -right-3 top-9 w-7 border-blue-900 border-4 rounded-full"
+    (click)="toogleOpen(!open)"
   />
 
   <div class="flex gap-x-4 items-center">
     <img
       src="/assets/logo.png"
-      class="cursor-pointer duration-500 w-14 bg-white rounded-full" 
-      [ngClass]="open ? 'rotate-[360deg]':''"
+      class="cursor-pointer duration-500 w-14 bg-white rounded-full"
+      [ngClass]="open ? 'rotate-[360deg]' : ''"
     />
     <h1
-      class="text-white origin-left font-medium text-xl duration-200 "
-      [ngClass]="!open ? 'scale-0':''"
+      class="text-white origin-left font-medium text-xl duration-200"
+      [ngClass]="!open ? 'scale-0' : ''"
     >
       Admin
     </h1>
   </div>
   <ul class="pt-6">
-      <li
-        *ngFor="let item of Menus; let index = index"
-        class="flex  rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center gap-x-4" 
-        [ngClass]="item.gap ? 'mt-9' : 'mt-2'"
-        [routerLink]="item.path"
-        routerLinkActive="bg-blue-500"
-      >
-        <img src="/assets/{{item.src}}.png" />
-        <span [ngClass]="!open ? 'hidden':''" class="origin-left duration-200">
-          {{item.title}}
-        </span>
-      </li>
-      <li
-        class="flex mt-9 rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center pl-3 gap-x-4" 
-        (click)="logout()"
-      >
-        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-        <span [ngClass]="!open ? 'hidden':''" class="origin-left duration-200">
-          Logout
-        </span>
-      </li>
+    <li
+      *ngFor="let item of Menus; let index = index"
+      class="flex rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center gap-x-4"
+      [ngClass]="item.gap ? 'mt-9' : 'mt-2'"
+      [routerLink]="item.path"
+      routerLinkActive="bg-blue-500"
+    >
+      <img src="/assets/{{ item.src }}.png" />
+      <span [ngClass]="!open ? 'hidden' : ''" class="origin-left duration-200">
+        {{ item.title }}
+      </span>
+    </li>
+    <li
+      class="flex mt-9 rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center pl-3 gap-x-4"
+      (click)="logout()"
+    >
+      <i class="fa-solid fa-arrow-right-from-bracket"></i>
+      <span [ngClass]="!open ? 'hidden' : ''" class="origin-left duration-200">
+        Logout
+      </span>
+    </li>
   </ul>
-</div>
+</div> -->
+
+
