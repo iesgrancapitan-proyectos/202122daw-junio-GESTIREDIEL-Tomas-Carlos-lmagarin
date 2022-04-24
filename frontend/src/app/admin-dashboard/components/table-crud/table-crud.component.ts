@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfirmationService } from 'primeng/api';
-import { MessageService } from 'primeng/api';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Cliente } from '../../../interfaces/cliente';
 import { ClientesService } from '../../../shared/services/clientes.service';
 
@@ -8,124 +7,55 @@ import { ClientesService } from '../../../shared/services/clientes.service';
     selector: 'app-table-crud',
     templateUrl: './table-crud.component.html',
     styleUrls: ['./table-crud.component.css'],
-    styles: [`
-        :host ::ng-deep .p-dialog .product-image {
-            width: 150px;
-            margin: 0 auto 2rem auto;
-            display: block;
-        }
-    `],
-    providers: [MessageService,ConfirmationService]
 })
-export class TableCrudComponent implements OnInit {
-
-    clienteDialog!: boolean;
+export class TableCrudComponent implements OnInit,OnDestroy {
 
     clientes!: Cliente[];
 
-    cliente!:Cliente;
+    cliente!: Cliente;
 
     selectedClientes!: Cliente[] | null;
 
-    submitted!: boolean;
+    dtOptions: DataTables.Settings = {};
+    dtTrigger: Subject<any> = new Subject<any>();
 
-    statuses!: any[];
+    @ViewChild('dTable', { static: false }) dataTable: any;
 
-    constructor(private clientesService:ClientesService,private messageService: MessageService, private confirmationService: ConfirmationService) { }
 
-    ngOnInit() {
-        this.clientesService.getClientes().subscribe(clientes => {
-            this.clientes = clientes;
-        });
+    constructor(private clientesService: ClientesService) { }
 
-        this.statuses = [
-            {label: 'INSTOCK', value: 'instock'},
-            {label: 'LOWSTOCK', value: 'lowstock'},
-            {label: 'OUTOFSTOCK', value: 'outofstock'}
-        ];
-    }
 
-    openNew() {
-        this.cliente = {} as Cliente;
-        this.submitted = false;
-        this.clienteDialog = true;
-    }
-
-    deleteSelectedProducts() {
-        this.confirmationService.confirm({
-            message: '¿Estas seguro de querer borrar estos clientes?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.clientes = this.clientes.filter(val => !this.selectedClientes?.includes(val));
-                this.selectedClientes = null;
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Cliente borrado', life: 3000});
+    ngOnInit(): void {
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            pageLength: 5,
+            responsive: true,
+            language: {
+                url:'//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
             }
-        });
+        };
+        this.clientesService.getClientes()
+            .subscribe(data => {
+                this.clientes = data;
+                // Calling the DT trigger to manually render the table
+                this.dtTrigger.next(null);
+            });
     }
 
-    editProduct(cliente: Cliente) {
-        this.cliente = {...cliente};
-        this.clienteDialog = true;
+    ngOnDestroy(): void {
+        // Do not forget to unsubscribe the event
+        this.dtTrigger.unsubscribe();
     }
 
-    deleteProduct(cliente: Cliente) {
-        this.confirmationService.confirm({
-            message: '¿Estas seguro que quieres borrar el cliente ' + cliente.nombre_fiscal + '?',
-            header: 'Confirm',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.clientes = this.clientes.filter(val => val.id_usuario !== cliente.id_usuario);
-                this.cliente = {} as Cliente;
-                this.messageService.add({severity:'success', summary: 'Successful', detail: 'Cliente borrado', life: 3000});
-            }
-        });
+    editCliente(cliente: Cliente): void {
+        this.cliente = cliente;
     }
 
-    hideDialog() {
-        this.clienteDialog = false;
-        this.submitted = false;
+    deleteCliente(cliente: Cliente): void {
+        // this.clientesService.deleteCliente(cliente.id)
+        //     .subscribe(data => {
+        //         this.clientes = this.clientes.filter(c => c !== cliente);
+        //     });
     }
 
-    saveProduct() {
-        this.submitted = true;
-
-        // if (this.product.name.trim()) {
-        //     if (this.product.id) {
-        //         this.products[this.findIndexById(this.product.id)] = this.product;
-        //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Updated', life: 3000});
-        //     }
-        //     else {
-        //         this.product.id = this.createId();
-        //         this.product.image = 'product-placeholder.svg';
-        //         this.products.push(this.product);
-        //         this.messageService.add({severity:'success', summary: 'Successful', detail: 'Product Created', life: 3000});
-        //     }
-
-        //     this.products = [...this.products];
-        //     this.productDialog = false;
-        //     this.product = {};
-        // }
-    }
-
-    findIndexById(id: string): number {
-        let index = -1;
-        // for (let i = 0; i < this.products.length; i++) {
-        //     if (this.products[i].id === id) {
-        //         index = i;
-        //         break;
-        //     }
-        // }
-
-        return index;
-    }
-
-    createId(): string {
-        let id = '';
-        var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        for ( var i = 0; i < 5; i++ ) {
-            id += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return id;
-    }
 }

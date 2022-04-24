@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
+import { DataTablesModule } from "angular-datatables";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
-    AdminDashboardModule
+    AdminDashboardModule,
+    DataTablesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
