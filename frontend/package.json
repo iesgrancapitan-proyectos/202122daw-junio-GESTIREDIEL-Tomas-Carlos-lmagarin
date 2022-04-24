@@ -26,6 +26,7 @@
     "datatables.net-colreorder": "^1.5.5",
     "datatables.net-colreorder-dt": "^1.5.5",
     "datatables.net-dt": "^1.11.5",
+    "flowbite": "^1.4.2",
     "jquery": "^3.6.0",
     "ngx-captcha": "^11.0.0",
     "primeicons": "^5.0.0",
