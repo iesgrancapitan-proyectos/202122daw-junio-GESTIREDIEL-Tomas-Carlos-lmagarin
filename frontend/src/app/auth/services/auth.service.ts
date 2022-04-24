@@ -72,14 +72,12 @@ export class AuthService {
           }
           return resp.ok
         }),
-        catchError(err => of(false))
+        catchError(() => of(false))
       )
   }
 
   logout() {
     localStorage.clear()
   }
-
-
 
 }

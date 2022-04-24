@@ -41,12 +41,7 @@
               <p class="text-xs italic text-red-500">{{errorPassword}}</p>
             </div>
             <p class="text-xs italic text-red-500">{{errorMsg}}</p>
-            <div class="mb-4">
-              <input class="mr-2 leading-tight" type="checkbox" id="checkbox_id" />
-              <label class="text-sm" for="checkbox_id">
-                Remember Me
-              </label>
-            </div>
+           
             <ngx-recaptcha2 #captchaElem
               [siteKey]="siteKey"
               formControlName="recaptcha">
