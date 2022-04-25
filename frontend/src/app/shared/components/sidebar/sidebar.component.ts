@@ -37,8 +37,7 @@ export class SidebarComponent implements OnInit {
   }
 
   public toogleOpen(open: boolean) {
-    this.open = open;
-    console.log(open);
+
   }
 
   public logout() {

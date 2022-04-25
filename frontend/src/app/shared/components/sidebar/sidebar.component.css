@@ -1,0 +1,9 @@
+.subrayado{
+  text-decoration: none;
+  list-style: none;
+}
+
+.fondoAltura{
+  height:50px;
+  margin:0 !important;
+}

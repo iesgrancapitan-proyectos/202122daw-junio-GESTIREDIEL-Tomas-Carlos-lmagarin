@@ -35,27 +35,35 @@
     >
       <!-- Left links -->
       <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
-        <li class="nav-item p-2">
-          <a
-            class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-            href="#"
-            >Dashboard</a
+        <li
+          *ngFor="let item of Menus;"
+          class="flex mt-9 rounded-md p-2 lista cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center pl-3 gap-x-4"
+          [ngClass]="item.gap ? 'mt-9' : 'mt-2'"
+          [routerLink]="item.path"
+          routerLinkActive="bg-blue-500"
+        >
+          <img src="/assets/{{ item.src }}.png" />
+
+          <i
+            [ngClass]="!open ? 'hidden' : ''"
+            class="origin-left duration-200"
           >
+          {{ item.title }}
+          </i>
         </li>
-        <li class="nav-item p-2">
-          <a
-            class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-            href="#"
-            >Team</a
+        <li
+          class="flex mt-9 rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center pl-3 gap-x-4"
+          (click)="logout()"
+        >
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <i
+            [ngClass]="!open ? 'hidden' : ''"
+            class="origin-left duration-200"
           >
+            Logout
+          </i>
         </li>
-        <li class="nav-item p-2">
-          <a
-            class="nav-link text-gray-500 hover:text-gray-700 focus:text-gray-700 p-0"
-            href="#"
-            >Projects</a
-          >
-        </li>
+
       </ul>
       <!-- Left links -->
     </div>
