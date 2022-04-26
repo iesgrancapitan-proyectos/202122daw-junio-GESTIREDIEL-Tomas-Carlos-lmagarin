@@ -1,115 +1,63 @@
-<!-- <div
-  [ngClass]="open ? 'w-72' : 'w-20'"
-  class="bg-blue-900 h-full p-5 pt-8 relative duration-300"
->
-  <img
-    src="/assets/open-icon.png"
-    [ngClass]="!open ? 'rotate-180' : ''"
-    class="absolute cursor-pointer -right-3 top-9 w-7 border-blue-900 border-4 rounded-full"
-    (click)="toogleOpen(!open)"
-  />
-
-  <div class="flex gap-x-4 items-center">
-    <img
-      src="/assets/logo.png"
-      class="cursor-pointer duration-500 w-14 bg-white rounded-full"
-      [ngClass]="open ? 'rotate-[360deg]' : ''"
-    />
-    <h1
-      class="text-white origin-left font-medium text-xl duration-200"
-      [ngClass]="!open ? 'scale-0' : ''"
-    >
-      Admin
-    </h1>
+<div #sidebar class="sidebar close">
+  <div class="logo-details">
+    <i class='bx bxl-google'></i>
+    <span class="logo_name">Gestirediel</span>
   </div>
-  <ul class="pt-6">
-    <li
-      *ngFor="let item of Menus; let index = index"
-      class="flex rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center gap-x-4"
-      [ngClass]="item.gap ? 'mt-9' : 'mt-2'"
-      [routerLink]="item.path"
-      routerLinkActive="bg-blue-500"
-    >
-      <img src="/assets/{{ item.src }}.png" />
-      <span [ngClass]="!open ? 'hidden' : ''" class="origin-left duration-200">
-        {{ item.title }}
-      </span>
+  <ul class="nav-links">
+    <li *ngFor="let item of Menu">
+
+      <div *ngIf="!item.items">
+        <a href="#">
+          <i class='bx bx-grid-alt'></i>
+          <span class="link_name">{{item.title | titlecase}}</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="#">{{item.title | titlecase}}</a></li>
+        </ul>
+      </div>
+
+      <div *ngIf="item.items">
+        <div class="iocn-link">
+          <a href="#">
+            <i class='bx bx-collection'></i>
+            <span class="link_name">{{item.title | titlecase}}</span>
+          </a>
+          <i #ref (click)="arrowParent(ref)" class='bx bxs-chevron-down arrow'></i>
+        </div>
+        <ul class="sub-menu">
+          <li *ngFor="let li of item.items">
+            <span [routerLink]="li.path">{{li.title}}</span>
+          </li>
+        </ul>
+      </div>
+
     </li>
-    <li
-      class="flex mt-9 rounded-md p-2 cursor-pointer hover:bg-blue-500 text-gray-300 text-sm items-center pl-3 gap-x-4"
-      (click)="logout()"
-    >
-      <i class="fa-solid fa-arrow-right-from-bracket"></i>
-      <span [ngClass]="!open ? 'hidden' : ''" class="origin-left duration-200">
-        Logout
-      </span>
+    <li>
+      <a href="#">
+        <i class='bx bx-cog'></i>
+        <span class="link_name">Setting</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" href="#">Setting</a></li>
+      </ul>
+    </li>
+    <li>
+      <div class="profile-details">
+        <div class="profile-content">
+          <img src="image/profile.jpg" alt="profile">
+        </div>
+        <div class="name-job">
+          <div class="profile_name">Prem Shahi</div>
+          <div class="job">Web Desginer</div>
+        </div>
+        <i class='bx bx-log-out'></i>
+      </div>
     </li>
   </ul>
-</div> -->
+</div>
 
-<nav
-  class="relative w-full flex flex-col flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-lg navbar-light"
->
-  <div
-    class="container-fluid w-full flex flex-wrap items-center justify-between px-6"
-  >
-    <button
-      class="navbar-toggler text-gray-500 border-0 hover:shadow-none hover:no-underline py-2 px-2.5 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        data-prefix="fas"
-        data-icon="bars"
-        class="w-6"
-        role="img"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
-      >
-        <path
-          fill="currentColor"
-          d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
-        ></path>
-      </svg>
-    </button>
-    <div
-      class="collapse navbar-collapse flex-grow items-center"
-      id="navbarSupportedContent"
-    >
-      <!-- Left links -->
-      <ul
-        class="navbar-nav flex justify-center align-middle pl-0 list-style-none m-auto"
-      >
-        <li
-          *ngFor="let item of Menus"
-          class="flex rounded-md p-2 list-none md: fondoAltura none subrayado cursor-pointer hover:bg-blue-500 text-teal-400 hover:text-teal-50 text-sm items-center pl-3 gap-x-4"
-          [ngClass]="item.gap ? 'mt-9' : 'mt-2'"
-          [routerLink]="item.path"
-          routerLinkActive="bg-blue-500"
-        >
-          <img src="/assets/{{ item.src }}.png" />
-          <i (click)="toogleOpen" class="origin-left duration-200">
-            {{ item.title }}
-          </i>
-        </li>
-        <li
-          class="flex mt-9 rounded-md p-2 fondoAltura cursor-pointer hover:bg-blue-500 text-teal-400 hover:text-teal-50 text-sm items-center pl-3 gap-x-4"
-          (click)="logout()"
-        >
-          <i class="fa-solid fa-arrow-right-from-bracket"></i>
-          <i class="origin-left duration-200">
-            Logout
-          </i>
-        </li>
-      </ul>
-      <!-- Left links -->
-    </div>
-    <!-- Collapsible wrapper -->
+<section class="home-section">
+  <div class="home-content">
+    <i (click)="toogleSidebar()" class='bx bx-menu'></i>
   </div>
-</nav>
+</section>

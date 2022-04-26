@@ -1,12 +1,24 @@
-<div class="card m-10 responsive">
-  <div class="card-body responsive">
-    <h5 class="card-header">Tabla de clientes</h5>
-    <div class="table-responsive">
+
+<div class="text-gray-900 tracking-wider leading-normal">
+
+
+	<!--Container-->
+	<div class="container w-full md:w-4/5   mx-auto px-2">
+
+		<!--Title-->
+		<h1 class="flex items-center font-sans font-bold break-normal text-indigo-500 px-2 py-8 text-xl md:text-2xl">
+			Clientes
+		</h1>
+
+
+		<!--Card-->
+		<div id='recipients' >
+
       <table
         datatable
         [dtOptions]="dtOptions"
         [dtTrigger]="dtTrigger"
-        class="table-auto row-stripped hover"
+        class="row-border hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;"
       >
         <thead>
           <tr>

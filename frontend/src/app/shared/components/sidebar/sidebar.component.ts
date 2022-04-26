@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../../../auth/services/auth.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -10,35 +10,58 @@ import Swal from 'sweetalert2';
 })
 export class SidebarComponent implements OnInit {
 
-  Menus = [
+  Menu = [
     { title: "Dashboard", src: "Chart_fill", path: "/dashboard" },
-    { title: "Clientes", src: "User", gap: true, path: "/dashboard/clientes" },
-    { title: "Tecnicos", src: "User", path: "/dashboard/tecnicos" },
-    { title: "Empresa", src: "Setting", path: "/dashboard/empresa" },
-    { title: "Informes", src: "Chart", path: "/dashboard/informes" },
+    {
+      title: "Gestión",
+      items: [
+        { title: "Clientes", src: "User", path: "/dashboard/clientes" },
+        { title: "Tecnicos", src: "User", path: "/dashboard/tecnicos" },
+        { title: "Empresa", src: "Setting", path: "/dashboard/empresa" },
+        { title: "Informes", src: "Chart", path: "/dashboard/informes" }
+      ]
+    },
     // { title: "Facturas", src: "Folder", path: "/dashboard/facturas" },
     // { title: "Presupuestos", src: "Folder", path: "/dashboard/presupuestos" },
-    { title: "Pedidos", src: "Folder", gap: true, path: "/dashboard/pedidos" },
+    { title: "Pedidos", src: "Folder", path: "/dashboard/pedidos" },
     { title: "Devoluciones ", src: "Calendar", path: "/dashboard/devoluciones" },
+
     // { title: "Anticipos", src: "Folder", path: "/dashboard/anticipos" },
-    { title: "Proveedores", src: "User", gap: true, path: "/dashboard/proveedores" },
-    { title: "Pedidos a proveedores", src: "Chart", path: "/dashboard/proveedores/pedidos" },
+
+    {
+      title: "Proveedores",
+      items: [
+        { title: "Proveedores", src: "User", path: "/dashboard/proveedores" },
+        { title: "Pedidos a proveedores", src: "Chart", path: "/dashboard/proveedores/pedidos" }
+      ]
+    },
     // { title: "Facturas a proveedores", src: "Chart", path: "/dashboard/proveedores/facturas" },
-    { title: "Articulos ", src: "Folder", gap: true, path: "/dashboard/articulos" },
+    { title: "Articulos ", src: "Folder", path: "/dashboard/articulos" },
     // { title: "Setting", src: "Setting", path: "/setting" }
   ];
 
   open: boolean = true;
 
+  @ViewChild('sidebar')
+  sidebar!: ElementRef;
+
+
   constructor(private authService: AuthService,
     private router: Router) { }
 
   ngOnInit(): void {
+    
   }
 
-  public toogleOpen(open: boolean) {
-
+  public arrowParent(e: HTMLElement) {
+    e.offsetParent?.classList.toggle("showMenu");
   }
+
+  public toogleSidebar() {
+    this.sidebar?.nativeElement.classList.toggle("close");
+  }
+
+
 
   public logout() {
     Swal.fire({
