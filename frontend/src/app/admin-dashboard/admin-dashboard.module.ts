@@ -11,6 +11,9 @@ import { DataTablesModule } from "angular-datatables";
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
+import { EditFormComponent } from './components/edit-form/edit-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -19,7 +22,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     DashboardComponent,
     HomeComponent,
     ClientesComponent,
-    TableCrudComponent
+    TableCrudComponent,
+    EditFormComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +32,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     DataTablesModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminDashboardModule { }

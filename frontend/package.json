@@ -22,6 +22,7 @@
     "@angular/router": "~13.3.0",
     "@popperjs/core": "^2.11.5",
     "angular-datatables": "^13.0.1",
+    "animate.css": "^4.1.1",
     "boxicons": "^2.1.2",
     "datatables.net": "^1.11.5",
     "datatables.net-colreorder": "^1.5.5",

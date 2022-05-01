@@ -1,4 +1,4 @@
-import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,6 +6,9 @@ import { Cliente } from 'src/app/interfaces/cliente';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
+import {MatDialog} from '@angular/material/dialog';
+import { EditFormComponent } from '../edit-form/edit-form.component';
+
 
 @Component({
     selector: 'app-table-crud',
@@ -36,7 +39,8 @@ export class TableCrudComponent implements OnInit {
 
 
     constructor(private clientesService: ClientesService,
-            private authService:AuthService) { }
+            private authService:AuthService,
+            public dialog: MatDialog) { }
 
     ngOnInit(): void {
         this.clientesService.getClientes().subscribe(
@@ -56,8 +60,13 @@ export class TableCrudComponent implements OnInit {
             this.dataSource.paginator.firstPage();
         }
     }
-    edit(cliente: Cliente): void {
 
+    edit(cliente: Cliente): void {
+        const dialogRef = this.dialog.open(EditFormComponent);
+        dialogRef.componentInstance.cliente = cliente;
+        dialogRef.afterClosed().subscribe(result => {
+          console.log(`Dialog result: ${result}`);
+        });
     }
 
     delete(cliente: Cliente): void {
