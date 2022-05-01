@@ -1,61 +1,80 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Subject } from 'rxjs';
-import { Cliente } from '../../../interfaces/cliente';
-import { ClientesService } from '../../../shared/services/clientes.service';
+import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Cliente } from 'src/app/interfaces/cliente';
+import { ClientesService } from 'src/app/shared/services/clientes.service';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
     selector: 'app-table-crud',
     templateUrl: './table-crud.component.html',
     styleUrls: ['./table-crud.component.css'],
 })
-export class TableCrudComponent implements OnInit,OnDestroy {
+export class TableCrudComponent implements OnInit {
 
-    clientes!: Cliente[];
+    displayedColumns: string[] = [
+        'nombre',
+        'email',
+        'domicilio',
+        'cp',
+        'poblacion',
+        'provincia',
+        'persona_contacto',
+        'registrado',
+        'acciones'
+    ];
+    dataSource!: MatTableDataSource<Cliente>;
 
-    cliente!: Cliente;
+    resultsLength = 0;
+    isLoadingResults = true;
+    isRateLimitReached = false;
 
-    selectedClientes!: Cliente[] | null;
-
-    dtOptions: DataTables.Settings = {};
-    dtTrigger: Subject<any> = new Subject<any>();
-
-    @ViewChild('dTable', { static: false }) dataTable: any;
+    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild(MatSort) sort!: MatSort;
 
 
-    constructor(private clientesService: ClientesService) { }
-
+    constructor(private clientesService: ClientesService,
+            private authService:AuthService) { }
 
     ngOnInit(): void {
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 10,
-            responsive: true,
-            language: {
-                url:'//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-            }
-        };
-        this.clientesService.getClientes()
-            .subscribe(data => {
-                this.clientes = data;
-                // Calling the DT trigger to manually render the table
-                this.dtTrigger.next(null);
+        this.clientesService.getClientes().subscribe(
+            (clientes: Cliente[]) => {
+                this.dataSource = new MatTableDataSource(clientes);
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+                this.isLoadingResults = false;
             });
     }
 
-    ngOnDestroy(): void {
-        // Do not forget to unsubscribe the event
-        this.dtTrigger.unsubscribe();
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
+    }
+    edit(cliente: Cliente): void {
+
     }
 
-    editCliente(cliente: Cliente): void {
-        this.cliente = cliente;
-    }
-
-    deleteCliente(cliente: Cliente): void {
-        // this.clientesService.deleteCliente(cliente.id)
-        //     .subscribe(data => {
-        //         this.clientes = this.clientes.filter(c => c !== cliente);
-        //     });
+    delete(cliente: Cliente): void {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "Estas a punto de boorar a " + cliente.nombre_fiscal + " y todos sus datos.", 
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.authService.borrarUsuario(cliente.id_usuario!).subscribe();
+                this.dataSource.data = this.dataSource.data.filter(cli => cli.id_usuario !== cliente.id_usuario);
+            }
+        })
     }
 
 }

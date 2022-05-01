@@ -1,0 +1,12 @@
+.main-div{
+  position: relative;
+  left: 260px;
+  width: calc(100% - 260px);
+  transition: all 0.5s ease;
+  margin-top: 150px;
+}
+
+app-sidebar.close ~ .main-div{
+  left: 78px;
+  width: calc(100% - 78px);
+}

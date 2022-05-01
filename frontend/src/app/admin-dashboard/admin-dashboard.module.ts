@@ -8,6 +8,11 @@ import { ClientesComponent } from './pages/clientes/clientes.component';
 import { TableCrudComponent } from './components/table-crud/table-crud.component';
 
 import { DataTablesModule } from "angular-datatables";
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
+
 
 @NgModule({
   declarations: [
@@ -20,7 +25,10 @@ import { DataTablesModule } from "angular-datatables";
     CommonModule,
     SharedModule,
     AdminDashboardRoutingModule,
-    DataTablesModule
+    DataTablesModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AdminDashboardModule { }

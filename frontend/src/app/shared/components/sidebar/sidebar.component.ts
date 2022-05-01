@@ -11,32 +11,31 @@ import Swal from 'sweetalert2';
 export class SidebarComponent implements OnInit {
 
   Menu = [
-    { title: "Dashboard", src: "Chart_fill", path: "/dashboard" },
+    { title: "Dashboard",icon:"bx-home-alt-2", src: "Chart_fill", path: "/dashboard" },
     {
-      title: "Gestión",
+      title: "Gestión",icon:"bx-briefcase-alt",
       items: [
         { title: "Clientes", src: "User", path: "/dashboard/clientes" },
         { title: "Tecnicos", src: "User", path: "/dashboard/tecnicos" },
-        { title: "Empresa", src: "Setting", path: "/dashboard/empresa" },
         { title: "Informes", src: "Chart", path: "/dashboard/informes" }
       ]
     },
     // { title: "Facturas", src: "Folder", path: "/dashboard/facturas" },
     // { title: "Presupuestos", src: "Folder", path: "/dashboard/presupuestos" },
-    { title: "Pedidos", src: "Folder", path: "/dashboard/pedidos" },
-    { title: "Devoluciones ", src: "Calendar", path: "/dashboard/devoluciones" },
+    { title: "Reparaciones",icon:"bx-folder-minus", src: "Folder", path: "/dashboard/pedidos" },
+    { title: "Devoluciones ",icon:"bx-refresh", src: "Calendar", path: "/dashboard/devoluciones" },
 
     // { title: "Anticipos", src: "Folder", path: "/dashboard/anticipos" },
 
     {
-      title: "Proveedores",
+      title: "Proveedores",icon:"bx-package",
       items: [
         { title: "Proveedores", src: "User", path: "/dashboard/proveedores" },
         { title: "Pedidos a proveedores", src: "Chart", path: "/dashboard/proveedores/pedidos" }
       ]
     },
     // { title: "Facturas a proveedores", src: "Chart", path: "/dashboard/proveedores/facturas" },
-    { title: "Articulos ", src: "Folder", path: "/dashboard/articulos" },
+    { title: "Articulos ",icon:"bx-mobile-alt", src: "Folder", path: "/dashboard/articulos" },
     // { title: "Setting", src: "Setting", path: "/setting" }
   ];
 
@@ -59,9 +58,8 @@ export class SidebarComponent implements OnInit {
 
   public toogleSidebar() {
     this.sidebar?.nativeElement.classList.toggle("close");
+    document.querySelector('app-sidebar')?.classList.toggle("close");
   }
-
-
 
   public logout() {
     Swal.fire({

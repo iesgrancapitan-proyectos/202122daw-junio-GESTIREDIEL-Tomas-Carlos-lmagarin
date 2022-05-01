@@ -80,4 +80,9 @@ export class AuthService {
     localStorage.clear()
   }
 
+  borrarUsuario(id_usuario: string){
+    const url = `${this.baseUrl}/auth/${id_usuario}`
+    return this.http.delete(url)
+  }
+
 }

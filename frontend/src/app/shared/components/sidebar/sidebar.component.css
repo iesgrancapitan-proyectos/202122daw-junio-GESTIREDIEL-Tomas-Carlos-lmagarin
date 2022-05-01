@@ -12,7 +12,7 @@
   left: 0;
   height: 100%;
   width: 260px;
-  background: #11101d;
+  background: #369FFF;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -32,6 +32,7 @@
   min-width: 78px;
   text-align: center;
   line-height: 50px;
+  cursor: pointer;
 }
 .sidebar .logo-details .logo_name{
   font-size: 22px;
@@ -62,7 +63,7 @@
   transition: all 0.4s ease;
 }
 .sidebar .nav-links li:hover{
-  background: #1d1b31;
+  background: #5EB2FF;
 }
 .sidebar .nav-links li .iocn-link{
   display: flex;
@@ -107,7 +108,7 @@
 .sidebar .nav-links li .sub-menu{
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #1d1b31;
+  background: #5EB2FF;
   display: none;
 }
 .sidebar .nav-links li.showMenu .sub-menu{
@@ -168,7 +169,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1d1b31;
+  background: #5EB2FF;
   padding: 12px 0;
   transition: all 0.5s ease;
 }
@@ -188,7 +189,7 @@
   object-fit: cover;
   border-radius: 16px;
   margin: 0 14px 0 12px;
-  background: #1d1b31;
+  background: #5EB2FF;
   transition: all 0.5s ease;
 }
 .sidebar.close .profile-details img{
@@ -208,48 +209,4 @@
 }
 .sidebar .profile-details .job{
   font-size: 12px;
-}
-.home-section{
-  position: fixed;
-  left: 260px;
-  width: calc(100% - 260px);
-  transition: all 0.5s ease;
-}
-.sidebar.close ~ .home-section{
-  left: 78px;
-  width: calc(100% - 78px);
-}
-.home-section .home-content{
-  height: 60px;
-  display: flex;
-  align-items: center;
-}
-.home-section .home-content .bx-menu,
-.home-section .home-content .text{
-  color: #11101d;
-  font-size: 35px;
-}
-.home-section .home-content .bx-menu{
-  margin: 0 15px;
-  cursor: pointer;
-}
-.home-section .home-content .text{
-  font-size: 26px;
-  font-weight: 600;
-}
-@media (max-width: 1024px) {
-  .sidebar.close .nav-links li .sub-menu{
-    display: none;
-  }
-  .sidebar.close{
-    width: 0;
-  }
-  .home-section{
-    width: calc(100% - 78px);
-    z-index: 100;
-  }
-  .sidebar.close ~ .home-section{
-    width: 100%;
-    left: 0;
-  }
 }

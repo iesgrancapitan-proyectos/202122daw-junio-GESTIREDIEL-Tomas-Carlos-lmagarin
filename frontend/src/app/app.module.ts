@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { AdminDashboardModule } from './admin-dashboard/admin-dashboard.module';
 import { DataTablesModule } from "angular-datatables";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DataTablesModule } from "angular-datatables";
     AuthModule,
     HttpClientModule,
     AdminDashboardModule,
-    DataTablesModule
+    DataTablesModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

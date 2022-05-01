@@ -1,25 +1,26 @@
 <div #sidebar class="sidebar close">
   <div class="logo-details">
-    <i class='bx bxl-google'></i>
+    <i (click)="toogleSidebar()" class='bx bx-menu'></i>
+    <!-- <i class='bx bxl-google'></i> -->
     <span class="logo_name">Gestirediel</span>
   </div>
   <ul class="nav-links">
     <li *ngFor="let item of Menu">
 
       <div *ngIf="!item.items">
-        <a href="#">
-          <i class='bx bx-grid-alt'></i>
+        <a [routerLink]="item.path">
+          <i class='bx {{item.icon}}'></i>
           <span class="link_name">{{item.title | titlecase}}</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="#">{{item.title | titlecase}}</a></li>
+          <li><a class="link_name"[routerLink]="item.path">{{item.title | titlecase}}</a></li>
         </ul>
       </div>
 
       <div *ngIf="item.items">
         <div class="iocn-link">
-          <a href="#">
-            <i class='bx bx-collection'></i>
+          <a>
+            <i class='bx {{item.icon}}'></i>
             <span class="link_name">{{item.title | titlecase}}</span>
           </a>
           <i #ref (click)="arrowParent(ref)" class='bx bxs-chevron-down arrow'></i>
@@ -41,23 +42,5 @@
         <li><a class="link_name" href="#">Setting</a></li>
       </ul>
     </li>
-    <li>
-      <div class="profile-details">
-        <div class="profile-content">
-          <img src="image/profile.jpg" alt="profile">
-        </div>
-        <div class="name-job">
-          <div class="profile_name">Prem Shahi</div>
-          <div class="job">Web Desginer</div>
-        </div>
-        <i class='bx bx-log-out'></i>
-      </div>
-    </li>
   </ul>
 </div>
-
-<section class="home-section">
-  <div class="home-content">
-    <i (click)="toogleSidebar()" class='bx bx-menu'></i>
-  </div>
-</section>
