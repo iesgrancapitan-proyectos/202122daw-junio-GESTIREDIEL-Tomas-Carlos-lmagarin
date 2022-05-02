@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {crearCliente, getallClientes, editarCliente} = require('../controllers/clientes');
+const {crearCliente, getallClientes, editarCliente, getClienteByToken} = require('../controllers/clientes');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -32,8 +32,9 @@ router.put('/:id',[
   validarCampos
 ],editarCliente)
 
+router.get('/user/:token',getClienteByToken)
 
-router.get('/',getallClientes)
+router.get('/:token',getallClientes)
 
 
 module.exports = router;

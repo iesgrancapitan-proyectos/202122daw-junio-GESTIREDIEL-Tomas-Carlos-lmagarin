@@ -17,7 +17,7 @@ router.put('/password-reset',[
   check('email', 'El email es obligatorio').isEmail()
 ],forgotPassword)
 
-router.get("/new-password/:token",generateNewPassword)
+router.put("/new-password/:token",generateNewPassword)
 
 router.post('/', [
   check('email', 'El email es obligatorio').isLength({min:3,max:50}).isEmail(),

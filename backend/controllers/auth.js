@@ -238,7 +238,7 @@ const forgotPassword = async (req, res = response) => {
       html: `
         <h1>Cambiar contraseña</h1>
         <p>Para cambiar su contraseña ingrese al siguiente link:</p>
-        <a href="${process.env.URL}/api/auth/new-password/${token}">Cambiar contraseña</a>
+        <a href="${process.env.URL_CLIENT}/auth/new-password/${token}">Cambiar contraseña</a>
       `
     };
 
