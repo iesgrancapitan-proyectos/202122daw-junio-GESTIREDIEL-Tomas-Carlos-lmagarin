@@ -11,14 +11,14 @@ export class AuthService {
 
   private baseUrl: string = environment.baseUrl;
   private _usuario!: Usuario;
-  
+
   constructor(private http:HttpClient) { }
 
   get usuario() {
     return { ...this._usuario };
   }
 
-  singup(username: string, email: string, password: string, rol:string) {
+  signUp(username: string, email: string, password: string, rol:string) {
 
     const url = `${this.baseUrl}/auth/new`
     const body = { username, email, password , rol}

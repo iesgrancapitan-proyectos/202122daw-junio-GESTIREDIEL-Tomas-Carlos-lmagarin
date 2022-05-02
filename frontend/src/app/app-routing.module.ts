@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthRoutingModule } from './auth/auth-routing.module';
 import { ValidarTokenGuard } from './guards/validar-token.guard';
 
 const routes: Routes = [{
@@ -7,6 +8,14 @@ const routes: Routes = [{
   children: [
     {
       path: 'login',
+      loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule)
+    },
+    {
+      path: 'register',
+      loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule)
+    },
+    {
+      path: 'password-reset',
       loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule)
     },
     {
@@ -35,7 +44,7 @@ const routes: Routes = [{
 }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),AuthRoutingModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
