@@ -15,8 +15,8 @@ export class RegisterComponent implements OnInit {
   constructor(private fb: FormBuilder,private router: Router,private authService: AuthService ) { }
 
   formRegister: FormGroup = this.fb.group({
-    username:['',[Validators.required,Validators.minLength(3),Validators.maxLength(20)]],
-    email: ['', [Validators.required, Validators.email]],
+    username:['',[Validators.required]],
+    email: ['', [Validators.required, Validators.email,Validators.minLength(3),Validators.maxLength(50)]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
   siteKey: string = "6LeC2ZMfAAAAAEE8Z1L4cLhr8IZVMLmdu_WRu5Zp"
@@ -31,7 +31,6 @@ export class RegisterComponent implements OnInit {
 
   signUp(){
     const { username, email, password } = this.formRegister.value;
-    console.log(username, email, password);
     this.authService.signUp(username,email, password,"cliente")
       .subscribe(
         {

@@ -6,7 +6,7 @@ import { RegisterComponent } from './pages/register/register.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'login',
     component: LoginComponent
   },
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
   },
  {
     path: '**',
-    redirectTo: ''
+    redirectTo: 'login'
   }];
 
 @NgModule({
