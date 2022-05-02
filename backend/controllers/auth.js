@@ -7,6 +7,7 @@ const {
 } = require('../helpers/jwt');
 
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const {
   PrismaClient
 } = require('@prisma/client')
@@ -15,6 +16,8 @@ const prisma = new PrismaClient()
 const {
   v4: uuidv4
 } = require('uuid');
+
+const jwt = require('jsonwebtoken');
 
 const crearUsuario = async (req, res = response) => {
 
@@ -189,9 +192,149 @@ const borrarUsuario = async (req, res = response) => {
   }
 }
 
+const forgotPassword = async (req, res = response) => {
+  const {
+    email
+  } = req.body;
+
+  if (!email) {
+    return res.status(400).json({
+      ok: false,
+      msg: 'Por favor ingrese un email'
+    })
+  }
+
+  try {
+
+    const userExist = await prisma.usuarios.findUnique({
+      where: {
+        email: email
+      }
+    });
+
+    if (!userExist) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no existe'
+      })
+    }
+
+    //Generar token
+    const token = await generarJWT(userExist.id, userExist.username);
+
+    //Enviar email con token
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD
+      }
+    });
+
+    const mailOptions = {
+      from: '"Cambiar contraseña"' + process.env.EMAIL,
+      to: email,
+      subject: 'Cambiar contraseña',
+      html: `
+        <h1>Cambiar contraseña</h1>
+        <p>Para cambiar su contraseña ingrese al siguiente link:</p>
+        <a href="${process.env.URL}/api/auth/new-password/${token}">Cambiar contraseña</a>
+      `
+    };
+
+    await transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        return res.status(500).json({
+          ok: false,
+          msg: 'Por favor hable con el administrador'
+        })
+      } else {
+        return res.status(200).json({
+          ok: true,
+          msg: 'Se ha enviado un email con el link para cambiar contraseña'
+        })
+      }
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+
+}
+
+
+const generateNewPassword = async (req, res = response) => {
+  const {
+    token
+  } = req.params;
+
+  //Obtener id del usuario
+  const userId = await jwt.verify(token, process.env.JWT_SECRET_SEED);
+
+  const {
+    password
+  } = req.body;
+
+  if (!password) {
+    return res.status(400).json({
+      ok: false,
+      msg: 'Por favor ingrese una contraseña'
+    })
+  }
+
+  try {
+
+    const userExist = await prisma.usuarios.findUnique({
+      where: {
+        id: userId.uid
+      }
+    });
+
+    if (!userExist) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no existe'
+      })
+    }
+
+    //Encriptar password
+    const salt = bcrypt.genSaltSync();
+    const newPassword = bcrypt.hashSync(password, salt);
+
+    //Actualizar password
+    await prisma.usuarios.update({
+      where: {
+        id: userId.uid
+      }, data: {
+      password: newPassword
+    }})
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Contraseña actualizada'
+    })
+
+
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+
+
+}
+
+
 module.exports = {
   crearUsuario,
   loginUsuario,
   borrarUsuario,
-  revalidarToken
+  revalidarToken,
+  forgotPassword,
+  generateNewPassword
 }
