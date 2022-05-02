@@ -1,0 +1,53 @@
+import { Component, OnInit, Output } from '@angular/core';
+import { Cliente } from '../../../interfaces/cliente';
+import { ClientesService } from '../../../shared/services/clientes.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-edit-form',
+  templateUrl: './edit-cliente-form.component.html',
+  styleUrls: ['./edit-cliente-form.component.css']
+})
+export class EditFormComponent implements OnInit {
+
+  @Output() cliente!: Cliente
+
+  public form!: FormGroup;
+
+  constructor(private clientesService: ClientesService,
+    private fb: FormBuilder,
+    public dialogRef: MatDialogRef<EditFormComponent>) { }
+
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      username: [this.cliente.username, [Validators.required]],
+      email: [this.cliente.email, [Validators.required, Validators.email]],
+      nombre_fiscal: [this.cliente.nombre_fiscal, [Validators.required]],
+      nif: [this.cliente.nif, [Validators.required,Validators.pattern('[0-9]{8}[A-Z]{1}')]],
+      domicilio: [this.cliente.domicilio, [Validators.required]],
+      CP: [this.cliente.CP, [Validators.required, Validators.pattern('[0-9]{5}')]],
+      poblacion: [this.cliente.poblacion, [Validators.required]],
+      provincia: [this.cliente.provincia, [Validators.required]],
+      persona_contacto: [this.cliente.persona_contacto, [Validators.required]]
+    })
+  }
+
+  editar() {
+    this.clientesService.editarCliente(this.cliente.id_usuario!, this.form.value).subscribe(
+      {
+        next: (res) => {
+          console.log(res);
+          this.dialogRef.close();
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      }
+    )
+  }
+
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+}

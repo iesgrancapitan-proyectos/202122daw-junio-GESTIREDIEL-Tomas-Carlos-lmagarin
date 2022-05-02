@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ClientesService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +19,10 @@ export class ClientesService {
 
   getClientes():Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${environment.baseUrl}/clientes`);
+  }
+
+  editarCliente(id: string, cliente: any) {
+    return this.http.put<Cliente>(`${environment.baseUrl}/clientes/${id}`, cliente);
   }
 
 }
