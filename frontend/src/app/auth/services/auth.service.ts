@@ -18,6 +18,12 @@ export class AuthService {
     return { ...this._usuario };
   }
 
+  newPassword(password: string,token:string) {
+    const url = `${this.baseUrl}/auth/new-password/${token}`
+    const body = { password }
+    return this.http.put(url, body)
+  }
+
   sendEmail(email: string) {
     const url = `${this.baseUrl}/auth/password-reset`
     return this.http.put(url, { email })

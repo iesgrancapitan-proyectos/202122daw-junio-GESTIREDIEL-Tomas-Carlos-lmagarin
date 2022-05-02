@@ -6,6 +6,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { RegisterComponent } from './pages/register/register.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { RouterModule } from '@angular/router';
+import { NewPasswordComponent } from './pages/new-password/new-password.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { RouterModule } from '@angular/router';
     LoginComponent,
     RegisterComponent,
     PasswordResetComponent,
+    NewPasswordComponent,
   ],
   imports: [
     CommonModule,
