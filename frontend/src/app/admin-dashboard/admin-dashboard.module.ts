@@ -12,8 +12,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
-import { EditFormComponent } from './components/edit-form/edit-form.component';
+
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditFormComponent } from './components/edit-cliente-form/edit-cliente-form.component';
 
 
 

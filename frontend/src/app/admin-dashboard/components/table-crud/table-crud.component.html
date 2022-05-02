@@ -4,8 +4,8 @@
       class="appearance-none block  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
       type="text" (keyup)="applyFilter($event)" placeholder="Buscar..." #input>
 
-    <div class="flex justify-center items-center px-2 bg-primary-color rounded cursor-pointer text-white"><i
-        class='bx bx-plus'></i> Nuevo cliente</div>
+    <!-- <div class="flex justify-center items-center px-2 bg-primary-color rounded cursor-pointer text-white"><i
+        class='bx bx-plus'></i> Nuevo cliente</div> -->
   </div>
 
   <table mat-table [dataSource]="dataSource" matSort>
@@ -13,6 +13,11 @@
     <ng-container matColumnDef="nombre">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
       <td mat-cell *matCellDef="let element"> {{element.nombre_fiscal}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nif">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nif </th>
+      <td mat-cell *matCellDef="let element"> {{element.nif}} </td>
     </ng-container>
 
     <ng-container matColumnDef="email">
@@ -66,7 +71,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
     <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+      <td class="mat-cell" colspan="4">No se ha encontrada con el termino "{{input.value}}"</td>
     </tr>
   </table>
 

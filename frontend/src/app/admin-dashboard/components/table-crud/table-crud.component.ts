@@ -6,8 +6,8 @@ import { Cliente } from 'src/app/interfaces/cliente';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
-import {MatDialog} from '@angular/material/dialog';
-import { EditFormComponent } from '../edit-form/edit-form.component';
+import { MatDialog } from '@angular/material/dialog';
+import { EditFormComponent } from '../edit-cliente-form/edit-cliente-form.component';
 
 
 @Component({
@@ -19,6 +19,7 @@ export class TableCrudComponent implements OnInit {
 
     displayedColumns: string[] = [
         'nombre',
+        'nif',
         'email',
         'domicilio',
         'cp',
@@ -39,10 +40,14 @@ export class TableCrudComponent implements OnInit {
 
 
     constructor(private clientesService: ClientesService,
-            private authService:AuthService,
-            public dialog: MatDialog) { }
+        private authService: AuthService,
+        public dialog: MatDialog) { }
 
     ngOnInit(): void {
+        this.getClientes()
+    }
+
+    private getClientes(): void {
         this.clientesService.getClientes().subscribe(
             (clientes: Cliente[]) => {
                 this.dataSource = new MatTableDataSource(clientes);
@@ -65,14 +70,15 @@ export class TableCrudComponent implements OnInit {
         const dialogRef = this.dialog.open(EditFormComponent);
         dialogRef.componentInstance.cliente = cliente;
         dialogRef.afterClosed().subscribe(result => {
-          console.log(`Dialog result: ${result}`);
+            this.getClientes()
+            console.log(`Dialog result: ${result}`);
         });
     }
 
     delete(cliente: Cliente): void {
         Swal.fire({
             title: '¿Estás seguro?',
-            text: "Estas a punto de boorar a " + cliente.nombre_fiscal + " y todos sus datos.", 
+            text: "Estas a punto de boorar a " + cliente.nombre_fiscal + " y todos sus datos.",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -85,5 +91,4 @@ export class TableCrudComponent implements OnInit {
             }
         })
     }
-
 }
