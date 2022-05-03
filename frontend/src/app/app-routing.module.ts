@@ -6,7 +6,7 @@ const routes: Routes = [{
   path: '',
   children: [
     {
-      path: 'login',
+      path: 'auth',
       loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule)
     },
     {
@@ -29,7 +29,7 @@ const routes: Routes = [{
     },
     {
       path: '**',
-      redirectTo: 'login'
+      redirectTo: 'auth'
     }
   ]
 }];

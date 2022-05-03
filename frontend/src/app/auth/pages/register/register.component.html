@@ -15,8 +15,8 @@
         <div class="w-full lg:w-1/2 bg-white p-5 rounded-lg lg:rounded-l-none">
           <h3 class="pt-4 text-2xl text-center">Bienvenid@ 🙂</h3>
           <form
-            [formGroup]="formLogin"
-            (ngSubmit)="login()"
+            [formGroup]="formRegister"
+            (ngSubmit)="signUp()"
             class="px-8 pt-6 pb-8 mb-4 bg-white rounded"
           >
             <div class="mb-4">
@@ -38,6 +38,22 @@
             <div class="mb-4">
               <label
                 class="block mb-2 text-sm font-bold text-gray-700"
+                for="username"
+              >
+                Username
+              </label>
+              <input
+                formControlName="username"
+                class="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                id="username"
+                type="text"
+                placeholder="JuanPedro"
+              />
+              <p class="text-xs italic text-red-500">{{ errorUser }}</p>
+            </div>
+            <div class="mb-4">
+              <label
+                class="block mb-2 text-sm font-bold text-gray-700"
                 for="password"
               >
                 Contraseña
@@ -51,36 +67,25 @@
               />
               <p class="text-xs italic text-red-500">{{ errorPassword }}</p>
             </div>
+
+
             <p class="text-xs italic text-red-500">{{ errorMsg }}</p>
 
-            <ngx-recaptcha2
-              #captchaElem
-              [siteKey]="siteKey"
-              formControlName="recaptcha"
-            >
-            </ngx-recaptcha2>
             <div class="my-6 text-center">
               <button
                 class="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
                 type="submit"
               >
-                Sign In
+                Sign up
               </button>
             </div>
             <hr class="mb-6 border-t" />
             <div class="text-center flex flex-col">
               <a
                 class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                routerLink="/auth/register"
+                routerLink="/auth"
               >
-                Register
-              </a>
-
-              <a
-                class="inline-block text-sm text-blue-500 align-baseline hover:text-blue-800"
-                routerLink="/auth/password-reset"
-              >
-                Forgot Password?
+                Login
               </a>
             </div>
           </form>

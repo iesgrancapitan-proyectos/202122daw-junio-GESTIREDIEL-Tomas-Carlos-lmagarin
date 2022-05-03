@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const {
   PrismaClient
 } = require('@prisma/client')
-
+const jwt=require('jsonwebtoken');
 const prisma = new PrismaClient()
 const {
   v4: uuidv4
@@ -125,6 +125,39 @@ const getallClientes = async (req, res = response) => {
   }
 }
 
+const getClienteByToken = async (req, res = response) => {
+  const {
+    token
+  } = req.params;
+  const idCliente = await jwt.verify(token, process.env.JWT_SECRET_SEED);
+  try {
+    const {id} = await prisma.usuarios.findUnique({
+      where: {
+        id: idCliente.uid
+      }
+    });
+    const cliente = await prisma.cliente.findUnique({
+      where: {
+        id_usuario: id
+      }
+    });
+    if(!cliente){
+      return res.status(400).json({
+        ok:false,
+        msg:'El cliente no existe'
+      })
+    }
+    return res.status(200).json(cliente)
+  }catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+
+}
+
 const editarCliente = async (req, res = response) => {
   const {
     id
@@ -219,5 +252,6 @@ const editarCliente = async (req, res = response) => {
 module.exports = {
   crearCliente,
   getallClientes,
-  editarCliente
+  editarCliente,
+  getClienteByToken
 }

@@ -1,0 +1,107 @@
+<div class="animate__animated animate__fadeIn text-center flex justify-center">
+  <form class="w-full max-w-lg" [formGroup]="form">
+    <div class="flex flex-wrap -mx-3 mb-6">
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-username"
+        >
+          Nombre fiscal
+        </label>
+        <input
+          formControlName="nombre_fiscal"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-username"
+          type="text"
+          placeholder="Nombre..."
+        />
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-nif"
+        >
+          Nif
+        </label>
+        <input
+          formControlName="nif"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-nif"
+          type="text"
+          placeholder="Nif..."
+        />
+        <!-- border-red-500  -->
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-domicilio"
+        >
+          Domicilio
+        </label>
+        <input
+          formControlName="domicilio"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-domicilio"
+          type="text"
+          placeholder="Domicilio..."
+        />
+        <!-- border-red-500  -->
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-cp"
+        >
+          Código postal
+        </label>
+        <input
+          formControlName="cp"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-cp"
+          type="text"
+          placeholder="CP..."
+        />
+        <!-- border-red-500  -->
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-poblacion"
+        >
+          Población
+        </label>
+        <input
+          formControlName="poblacion"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-poblacion"
+          type="text"
+          placeholder="poblacion..."
+        />
+        <!-- border-red-500  -->
+      </div>
+      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="grid-provincia"
+        >
+          Provincia
+        </label>
+        <input
+          formControlName="provincia"
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="grid-provincia"
+          type="text"
+          placeholder="provincia..."
+        />
+        <!-- border-red-500  -->
+      </div>
+    </div>
+    <button
+      class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit"
+    >
+      Actualizar datos
+    </button>
+  </form>
+</div>

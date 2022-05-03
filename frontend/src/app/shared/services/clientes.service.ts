@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ClientesService {
-  
+
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +23,10 @@ export class ClientesService {
 
   editarCliente(id: string, cliente: any) {
     return this.http.put<Cliente>(`${environment.baseUrl}/clientes/${id}`, cliente);
+  }
+
+  getClient(token: string) {
+    return this.http.get<Cliente>(`${environment.baseUrl}/clientes/user/${token}`);
   }
 
 }

@@ -13,8 +13,8 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit {
 
   formLogin: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(50)]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
     recaptcha: ['', Validators.required]
   });
   siteKey: string = "6LeC2ZMfAAAAAEE8Z1L4cLhr8IZVMLmdu_WRu5Zp"
