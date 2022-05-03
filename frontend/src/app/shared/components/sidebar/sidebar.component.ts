@@ -22,7 +22,7 @@ export class SidebarComponent implements OnInit {
     },
     // { title: "Facturas", src: "Folder", path: "/dashboard/facturas" },
     // { title: "Presupuestos", src: "Folder", path: "/dashboard/presupuestos" },
-    { title: "Ventas",icon:"bx-dollar-minus", path: "/dashboard/ventas" },
+    { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
     { title: "Reparaciones",icon:"bx-folder-minus", path: "/dashboard/pedidos" },
     // { title: "Devoluciones ",icon:"bx-refresh", src: "Calendar", path: "/dashboard/devoluciones" },
 
