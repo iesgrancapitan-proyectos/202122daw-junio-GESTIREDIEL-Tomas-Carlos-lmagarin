@@ -19,6 +19,7 @@ app.use(express.json());
 //rutas
 app.use('/api/auth',require('./routes/auth'));
 app.use('/api/clientes',require('./routes/clientes'));
+app.use('/api/tecnicos',require('./routes/tecnicos'));
 
 
 //manegar rutas
