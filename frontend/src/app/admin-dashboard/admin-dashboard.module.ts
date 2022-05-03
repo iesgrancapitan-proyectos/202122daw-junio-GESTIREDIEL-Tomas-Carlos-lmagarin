@@ -5,7 +5,6 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
 import { ClientesComponent } from './pages/clientes/clientes.component';
-import { TableCrudComponent } from './components/table-crud/table-crud.component';
 
 import { DataTablesModule } from "angular-datatables";
 import {MatTableModule} from '@angular/material/table';
@@ -15,6 +14,9 @@ import {MatDialogModule} from '@angular/material/dialog';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditFormComponent } from './components/edit-cliente-form/edit-cliente-form.component';
+import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
+import { TecnicoCardComponent } from './components/tecnico-card/tecnico-card.component';
+import { TecnicoFormComponent } from './components/tecnico-form/tecnico-form.component';
 
 
 
@@ -23,8 +25,10 @@ import { EditFormComponent } from './components/edit-cliente-form/edit-cliente-f
     DashboardComponent,
     HomeComponent,
     ClientesComponent,
-    TableCrudComponent,
-    EditFormComponent
+    EditFormComponent,
+    TecnicosComponent,
+    TecnicoCardComponent,
+    TecnicoFormComponent
   ],
   imports: [
     CommonModule,

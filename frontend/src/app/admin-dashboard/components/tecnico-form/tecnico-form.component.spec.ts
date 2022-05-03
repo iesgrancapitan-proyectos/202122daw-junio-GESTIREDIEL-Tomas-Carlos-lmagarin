@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TableCrudComponent } from './table-crud.component';
+import { TecnicoFormComponent } from './tecnico-form.component';
 
-describe('TableCrudComponent', () => {
-  let component: TableCrudComponent;
-  let fixture: ComponentFixture<TableCrudComponent>;
+describe('TecnicoFormComponent', () => {
+  let component: TecnicoFormComponent;
+  let fixture: ComponentFixture<TecnicoFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TableCrudComponent ]
+      declarations: [ TecnicoFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableCrudComponent);
+    fixture = TestBed.createComponent(TecnicoFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
