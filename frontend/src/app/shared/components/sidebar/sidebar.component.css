@@ -162,6 +162,9 @@
   top: 50%;
   transform: translateY(-50%);
 }
+.sidebar .nav-links li .sub-menu li{
+  padding: 7px 0 7px 0 ;
+}
 .sidebar .profile-details{
   position: fixed;
   bottom: 0;
