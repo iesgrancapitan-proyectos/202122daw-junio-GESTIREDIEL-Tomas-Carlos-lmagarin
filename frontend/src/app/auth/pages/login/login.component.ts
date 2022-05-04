@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         {
           next: (ok) => {
+            console.log(ok);
             if (ok === true && this.formLogin.valid) {
               //comprobar el tipo de usuario
               this.router.navigate(['/dashboard']);

@@ -163,15 +163,13 @@ const editarCliente = async (req, res = response) => {
     id
   } = req.params;
   const {
-    username,
     email,
     nif,
     nombre_fiscal,
     domicilio,
     CP,
     poblacion,
-    provincia,
-    persona_contacto
+    provincia
   } = req.body;
 
   try {
@@ -206,7 +204,6 @@ const editarCliente = async (req, res = response) => {
         id
       },
       data: {
-        username,
         email,
       }
     });
@@ -229,7 +226,6 @@ const editarCliente = async (req, res = response) => {
         CP,
         poblacion,
         provincia,
-        persona_contacto
       }
     })
 
@@ -237,7 +233,6 @@ const editarCliente = async (req, res = response) => {
     return res.status(200).json({
       ok: true,
       uid: id,
-      username,
       email
     })
 

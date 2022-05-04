@@ -115,7 +115,49 @@ const loginUsuario = async (req, res = response) => {
 
     //generar JWT
     const token = await generarJWT(DBuser.id, DBuser.username);
-
+    if (DBuser.last_login == null) {
+      await prisma.usuarios.update({
+        where: {
+          id: DBuser.id
+        },
+        data: {
+          last_login: new Date()
+        }
+      })
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL,
+          pass: process.env.PASSWORD
+        }
+      });
+  
+      const mailOptions = {
+        from: '"Cambiar contraseña"' + process.env.EMAIL,
+        to: DBuser.email,
+        subject: 'Mensaje de bienvenida a la aplicación',
+        html: `
+        <h1>Hola ${DBuser.username}</h1>
+          <h2>Te recomendamos cambiar la contraseña</h2>
+          <p>Para cambiar su contraseña ingrese al siguiente link:</p>
+          <a href="${process.env.URL_CLIENT}/auth/new-password/${token}">Cambiar contraseña</a>
+        `
+      };
+  
+      await transporter.sendMail(mailOptions, function (err, info) {
+        if (err) {
+          return res.status(500).json({
+            ok: false,
+            msg: 'Por favor hable con el administrador'
+          })
+        } else {
+          return res.status(200).json({
+            ok: true,
+            msg: 'Se ha enviado un email con el link para cambiar contraseña'
+          })
+        }
+      });
+    }
     //respuesta del servicio
     return res.status(201).json({
       ok: true,
@@ -308,9 +350,11 @@ const generateNewPassword = async (req, res = response) => {
     await prisma.usuarios.update({
       where: {
         id: userId.uid
-      }, data: {
-      password: newPassword
-    }})
+      },
+      data: {
+        password: newPassword
+      }
+    })
 
     return res.status(200).json({
       ok: true,

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
 import Swal from 'sweetalert2';
+import { ClientesService } from '../../services/clientes.service';
 
 @Component({
   selector: 'app-header',
@@ -11,10 +12,16 @@ import Swal from 'sweetalert2';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private authService: AuthService,
+  constructor(private authService: AuthService,private clientesService: ClientesService,
     private router: Router) { }
 
+  username='';
+
   ngOnInit(): void {
+    let token=localStorage.getItem('token');
+    this.clientesService.getClient(token!).subscribe((res: any) => {
+      this.username=res.nombre_fiscal;
+    });
   }
 
   public logout() {
