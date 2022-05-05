@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
-import { Tecnico } from '../../../interfaces/tecnico';
+import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 import { TecnicoFormComponent } from '../tecnico-form/tecnico-form.component';
 import { MatDialog } from '@angular/material/dialog';

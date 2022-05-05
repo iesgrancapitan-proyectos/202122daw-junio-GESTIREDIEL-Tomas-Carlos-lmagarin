@@ -5,6 +5,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
 import { PerfilComponent } from '../shared/pages/perfil/perfil.component';
+import { ArticulosComponent } from './pages/articulos/articulos.component';
+import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
 
 
 const routes: Routes = [
@@ -16,6 +18,8 @@ const routes: Routes = [
       { path: 'clientes', component: ClientesComponent },
 
       { path: 'tecnicos', component: TecnicosComponent },
+      { path: 'articulos', component: ArticulosComponent },
+      { path: 'proveedores', component: ProveedoresComponent },
 
       {path:'perfil',component: PerfilComponent},
 

@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Cliente } from 'src/app/interfaces/cliente';
+import { Cliente } from 'src/app/interfaces/cliente.interface';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
@@ -45,6 +45,7 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClientes()
+    console.log(this.dataSource);
   }
 
   private getClientes(): void {

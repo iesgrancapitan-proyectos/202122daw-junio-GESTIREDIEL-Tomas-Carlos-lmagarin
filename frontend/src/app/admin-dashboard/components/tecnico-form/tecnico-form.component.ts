@@ -1,7 +1,7 @@
 import { Component, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TecnicosService } from '../../../shared/services/tecnicos.service';
-import { Tecnico } from '../../../interfaces/tecnico';
+import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { MatDialogRef } from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 

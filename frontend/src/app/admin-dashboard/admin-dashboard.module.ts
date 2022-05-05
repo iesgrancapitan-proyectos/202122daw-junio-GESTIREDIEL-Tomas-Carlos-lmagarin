@@ -17,6 +17,9 @@ import { EditFormComponent } from './components/edit-cliente-form/edit-cliente-f
 import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
 import { TecnicoCardComponent } from './components/tecnico-card/tecnico-card.component';
 import { TecnicoFormComponent } from './components/tecnico-form/tecnico-form.component';
+import { ArticulosComponent } from './pages/articulos/articulos.component';
+import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
+import { ArticuloFormComponent } from './components/articulo-form/articulo-form.component';
 
 
 
@@ -28,7 +31,10 @@ import { TecnicoFormComponent } from './components/tecnico-form/tecnico-form.com
     EditFormComponent,
     TecnicosComponent,
     TecnicoCardComponent,
-    TecnicoFormComponent
+    TecnicoFormComponent,
+    ArticulosComponent,
+    ProveedoresComponent,
+    ArticuloFormComponent
   ],
   imports: [
     CommonModule,

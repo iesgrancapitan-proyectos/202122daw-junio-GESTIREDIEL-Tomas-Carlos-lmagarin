@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Cliente } from 'src/app/interfaces/cliente';
+import { Cliente } from 'src/app/interfaces/cliente.interface';
 import { ClientesService } from '../../services/clientes.service';
 
 @Component({

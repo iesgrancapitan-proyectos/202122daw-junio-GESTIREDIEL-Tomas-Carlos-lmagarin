@@ -34,7 +34,7 @@ router.put('/:id',[
 
 router.get('/user/:token',getClienteByToken)
 
-router.get('/:token',getallClientes)
+router.get('/',getallClientes)
 
 
 module.exports = router;
