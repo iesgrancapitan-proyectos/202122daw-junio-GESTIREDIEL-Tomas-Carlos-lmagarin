@@ -16,27 +16,28 @@ const crearArticulo = async (req, res = response) => {
     precio_coste,
     precio_venta,
     id_categoria,
-    id_proveedor,
-    stock
   } = req.body;
 
   try {
 
-    const articuloExist = await prisma.articulo.findUnique({
-      where: {
-        referencia
-      }
-    })
-
-    if (articuloExist) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'El articulo ya existe'
+    if (referencia) {
+      const articuloExist = await prisma.articulo.findUnique({
+        where: {
+          referencia
+        }
       })
+  
+      if (articuloExist) {
+        return res.status(400).json({
+          ok: false,
+          msg: 'El articulo ya existe'
+        })
+      }
     }
+    
 
     //crear articulo en la BD
-    const articulo = await prisma.articulo.create({
+    await prisma.articulo.create({
       data: {
         descripcion,
         referencia,
@@ -45,11 +46,6 @@ const crearArticulo = async (req, res = response) => {
         id_categoria
       }
     });
-
-    await prisma.$executeRaw `
-      INSERT INTO proveedor_articulo (id_articulo,id_proveedor,stock)
-      VALUES (${articulo.id},${id_proveedor},${stock})
-      `
 
     //generar respuesta
     return res.status(200).json({
@@ -198,11 +194,45 @@ const entradaArticulo = async (req, res = response) => {
   }
 }
 
+const articuloExist = async (req, res = response) => {
+  const {
+    referencia
+  } = req.params;
+
+  try {
+    const articuloExist = await prisma.articulo.findUnique({
+      where: {
+        referencia
+      }
+    })
+
+    if (articuloExist) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'Esa referencia ya existe'
+      })
+    } else {
+      return res.status(200).json({
+        ok: true,
+        msg: 'Esa referencia no existe'
+      })
+      
+    }
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
 
 module.exports = {
   crearArticulo,
   editarArticulo,
   borrarArticulo,
   getAllArticulo,
-  entradaArticulo
+  entradaArticulo,
+  articuloExist
 }

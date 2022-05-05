@@ -17,7 +17,7 @@ const crearCategoria = async (req, res = response) => {
   try {
 
     //crear categoria en la BD
-    await prisma.categoria.create({
+    const categoria = await prisma.categoria.create({
       data: {
         nombre
       }
@@ -26,7 +26,8 @@ const crearCategoria = async (req, res = response) => {
     //generar respuesta
     return res.status(200).json({
       ok: true,
-      msg: 'Categoria creada correctamente'
+      msg: 'Categoria creada correctamente',
+      id:categoria.id
     })
 
   } catch (error) {

@@ -15,8 +15,8 @@ export class CategoriaService {
     return this.http.get<Categoria[]>(`${environment.baseUrl}/categorias`);
   }
 
-  createCategoria(categoria: Categoria) {
-    return this.http.post(`${environment.baseUrl}/categorias`, categoria);
+  createCategoria(categoria: Categoria):Observable<Categoria> {
+    return this.http.post<Categoria>(`${environment.baseUrl}/categorias`, categoria);
   }
 
   borrarCategoria(id: number) {
