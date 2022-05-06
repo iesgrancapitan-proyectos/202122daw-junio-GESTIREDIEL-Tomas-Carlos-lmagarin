@@ -1,5 +1,5 @@
 export interface EntradaArticulo {
-  id_proveedor: string;
-  id_articulo:  string;
+  id_proveedor: number;
+  id_articulo:  number;
   cantidad:     number;
 }

@@ -1,0 +1,53 @@
+<div class="text-center text-2xl">
+  Nueva entrada de stock
+</div>
+<div class="text-center text-base my-3">
+  {{articulo.descripcion}}
+</div>
+<form class="w-full max-w-lg duration-200" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-descripcion">
+        Proveedor
+      </label>
+      <select
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+        formControlName="proveedor">
+        <option value="">Elige un proveedor</option>
+        <option *ngFor="let proveedor of proveedores; let i = index" [value]="proveedor.id">
+          {{ proveedor.nombre_comercial+' - '+proveedor.nombre_fiscal }}
+        </option>
+      </select>
+
+      <p *ngIf="form.controls['proveedor'].invalid && form.controls['proveedor'].touched" class="text-red-500 text-xs italic">El proveedor es obligatorio.</p>
+
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-cantidad">
+        Cantidad
+      </label>
+      <input formControlName="cantidad"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-cantidad" type="number" placeholder="Cantidad...">
+      <p *ngIf="form.controls['cantidad'].invalid && form.controls['cantidad'].touched" class="text-red-500 text-xs italic">La cantidad es obligatoria.
+      </p>
+    </div>
+  </div>
+
+  <p class="text-red-500 text-xs italic">{{msgError}}</p>
+
+  <div class="mt-5 flex justify-end gap-5">
+    <button
+      class="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      (click)="closeDialog()" type="button">
+      Cancelar
+    </button>
+    <button [disabled]="form.pristine || form.invalid"
+      class="shadow bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Guardar
+    </button>
+  </div>
+</form>

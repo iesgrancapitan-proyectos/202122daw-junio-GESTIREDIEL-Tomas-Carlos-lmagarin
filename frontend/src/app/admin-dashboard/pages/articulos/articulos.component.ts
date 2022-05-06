@@ -7,6 +7,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Articulo } from '../../../interfaces/articulo.interface';
 import { ArticulosService } from '../../services/articulos.service';
 import { ArticuloFormComponent } from '../../components/articulo-form/articulo-form.component';
+import { EntradaArticuloFormComponent } from '../../components/entrada-articulo-form/entrada-articulo-form.component';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-articulos',
@@ -14,6 +17,8 @@ import { ArticuloFormComponent } from '../../components/articulo-form/articulo-f
   styleUrls: ['./articulos.component.css']
 })
 export class ArticulosComponent implements OnInit {
+  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
+  position = new FormControl(this.positionOptions[3]);
 
   displayedColumns: string[] = [
     'descripcion',
@@ -71,6 +76,14 @@ export class ArticulosComponent implements OnInit {
 
   add(){
     const dialogRef = this.dialog.open(ArticuloFormComponent, { disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getArticulos()
+    });
+  }
+
+  nuevaEntrada(articulo: Articulo) {
+    const dialogRef = this.dialog.open(EntradaArticuloFormComponent, { disableClose: true });
+    dialogRef.componentInstance.articulo = articulo;
     dialogRef.afterClosed().subscribe(result => {
       this.getArticulos()
     });

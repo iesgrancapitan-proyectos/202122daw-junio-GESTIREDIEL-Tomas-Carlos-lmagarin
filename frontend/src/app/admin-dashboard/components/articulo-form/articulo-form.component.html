@@ -1,3 +1,6 @@
+<div class="text-center text-3xl">
+  {{editForm?"Editar artículo":"Crear artículo"}}
+</div>
 <form class="w-full max-w-lg duration-200" [formGroup]="form" (ngSubmit)="submit()">
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class=" w-full px-3">
@@ -16,7 +19,7 @@
         </option>
       </select>
       <!-- error block -->
-      
+
       <button type="button" (click)="createNewCategoriaBtn()" class="text-white text-2xl py-2 w-12 rounded-full bg-primary-color hover:bg-blue-400 duration-300">
         <i class='flex justify-center bx bx-plus'></i>
       </button>
@@ -27,8 +30,8 @@
         formControlName="categoria"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-categoria" type="text" placeholder="Categoria...">
-        <p *ngIf="form.controls['categoria'].invalid" class="text-red-500 text-xs italic">La categoria es obligatoria.</p>
-      
+        <p *ngIf="form.controls['categoria'].invalid && form.controls['categoria'].touched" class="text-red-500 text-xs italic">La categoria es obligatoria.</p>
+
     </div>
   </div>
   <div class="flex flex-wrap -mx-3 mb-6">
@@ -40,7 +43,7 @@
         formControlName="descripcion"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-username" type="text" placeholder="Nombre...">
-        <p *ngIf="form.controls['descripcion'].invalid" class="text-red-500 text-xs italic">La descripción es obligatoria.</p>
+        <p *ngIf="form.controls['descripcion'].invalid && form.controls['descripcion'].touched" class="text-red-500 text-xs italic">La descripción es obligatoria.</p>
     </div>
   </div>
   <div *ngIf="!articuloIsServicio" class="flex flex-wrap -mx-3 mb-6">
@@ -52,7 +55,7 @@
         formControlName="referencia"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-referencia" type="text" placeholder="Referencia...">
-        <p *ngIf="form.controls['referencia'].invalid" class="text-red-500 text-xs italic">La referencia es obligatoria.</p>
+        <p *ngIf="form.controls['referencia'].invalid && form.controls['referencia'].touched" class="text-red-500 text-xs italic">La referencia es obligatoria.</p>
     </div>
   </div>
   <div class="flex flex-wrap -mx-3 mb-6">
@@ -65,7 +68,7 @@
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-precio_coste" type="number" placeholder="Precio de coste...">
         <!-- border-red-500  -->
-        <p *ngIf="form.controls['precio_coste'].invalid" class="text-red-500 text-xs italic">El precio de coste es obligatorio.</p>
+        <p *ngIf="form.controls['precio_coste'].invalid && form.controls['precio_coste'].touched" class="text-red-500 text-xs italic">El precio de coste es obligatorio.</p>
     </div>
     <div class="w-full md:w-1/2 px-3">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-precio_venta">
@@ -73,15 +76,15 @@
       </label>
       <input
         formControlName="precio_venta"
-        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-precio_venta" type="number" placeholder="Precio de venta...">
-        <p *ngIf="form.controls['precio_venta'].invalid" class="text-red-500 text-xs italic">El precio de venta es obligatorio.</p>
+        <p *ngIf="form.controls['precio_venta'].invalid && form.controls['precio_venta'].touched" class="text-red-500 text-xs italic">El precio de venta es obligatorio.</p>
     </div>
   </div>
- 
+
 
   <p class="text-red-500 text-xs italic">{{msgError}}</p>
-  
+
 
   <div class="mt-5 flex justify-end gap-5">
     <button
@@ -91,7 +94,7 @@
       Cancelar
     </button>
     <button
-      *ngIf="editForm"  
+      *ngIf="editForm"
       [disabled]="form.pristine || form.invalid"
       class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
       type="submit">

@@ -26,7 +26,7 @@ const crearArticulo = async (req, res = response) => {
           referencia
         }
       })
-  
+
       if (articuloExist) {
         return res.status(400).json({
           ok: false,
@@ -34,7 +34,7 @@ const crearArticulo = async (req, res = response) => {
         })
       }
     }
-    
+
 
     //crear articulo en la BD
     await prisma.articulo.create({
@@ -142,26 +142,26 @@ const borrarArticulo = async (req, res = response) => {
   } = req.params;
 
   try {
-      
-      await prisma.articulo.delete({
-        where: {
-          id: Number(id)
-        }
-      });
-  
-      //generar respuesta
-      return res.status(200).json({
-        ok: true,
-        msg: 'Articulo borrado correctamente'
-      })
-  
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json({
-        ok: false,
-        msg: 'Por favor hable con el administrador'
-      })
-    }
+
+    await prisma.articulo.delete({
+      where: {
+        id: Number(id)
+      }
+    });
+
+    //generar respuesta
+    return res.status(200).json({
+      ok: true,
+      msg: 'Articulo borrado correctamente'
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
 }
 
 
@@ -173,11 +173,24 @@ const entradaArticulo = async (req, res = response) => {
   } = req.body;
 
   try {
-    
-    await prisma.$queryRaw `
-      UPDATE proveedor_articulo SET stock = stock + ${cantidad}
+
+    const relacionExist = await prisma.$queryRaw `
+      SELECT * FROM proveedor_articulo WHERE id_articulo = ${id_articulo} AND id_proveedor = ${id_proveedor}  
+    `
+    if (relacionExist.length > 0) {
+      const stock = relacionExist.stock + cantidad;
+
+      await prisma.$queryRaw `
+      UPDATE proveedor_articulo SET stock = ${stock}
       WHERE id_articulo = ${id_articulo} AND id_proveedor = ${id_proveedor}
     `
+    } else {
+      const stock = cantidad;
+      await prisma.$queryRaw `
+      INSERT INTO proveedor_articulo (id_articulo,id_proveedor,stock)
+      VALUES (${id_articulo},${id_proveedor},${stock})
+      `
+    }
 
     //generar respuesta
     return res.status(200).json({
@@ -216,7 +229,7 @@ const articuloExist = async (req, res = response) => {
         ok: true,
         msg: 'Esa referencia no existe'
       })
-      
+
     }
 
   } catch (error) {

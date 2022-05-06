@@ -20,8 +20,10 @@ import { TecnicoFormComponent } from './components/tecnico-form/tecnico-form.com
 import { ArticulosComponent } from './pages/articulos/articulos.component';
 import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
 import { ArticuloFormComponent } from './components/articulo-form/articulo-form.component';
+import { EntradaArticuloFormComponent } from './components/entrada-articulo-form/entrada-articulo-form.component';
 
 
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { ArticuloFormComponent } from './components/articulo-form/articulo-form.
     TecnicoFormComponent,
     ArticulosComponent,
     ProveedoresComponent,
-    ArticuloFormComponent
+    ArticuloFormComponent,
+    EntradaArticuloFormComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { ArticuloFormComponent } from './components/articulo-form/articulo-form.
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule
   ]
 })
 export class AdminDashboardModule { }
