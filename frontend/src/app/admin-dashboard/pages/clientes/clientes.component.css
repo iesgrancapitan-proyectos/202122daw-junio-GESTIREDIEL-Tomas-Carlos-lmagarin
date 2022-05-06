@@ -1,7 +1,19 @@
+
 table {
   width: 100%;
 }
+.mat-table{    
+  border-radius:  0.25rem;
+  overflow:hidden !important;
+}
 
+table .mat-header-row {
+  background-color: #369FFF;
+}
+
+table th{
+  color: #fff;
+}
 table td{
   height: 70px;
 }

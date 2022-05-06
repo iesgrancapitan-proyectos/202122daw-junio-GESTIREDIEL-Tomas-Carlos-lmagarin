@@ -1,6 +1,27 @@
 table {
   width: 100%;
 }
+.mat-table{    
+  border-radius:  0.25rem;
+  overflow:hidden !important;
+}
+
+table .mat-header-row {
+  background-color: #369FFF;
+}
+
+table th{
+  color: #fff;
+  width: 15.5%;
+}
+
+table .stock{
+  width: 10px;
+}
+
+table .acciones{
+  width: 10px;
+}
 
 table td{
   height: 70px;
@@ -16,3 +37,4 @@ table th{
   font-weight: bold;
   font-size: 14px;
 }
+

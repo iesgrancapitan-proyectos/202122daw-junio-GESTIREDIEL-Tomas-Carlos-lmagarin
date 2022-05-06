@@ -74,7 +74,7 @@ export class ArticulosComponent implements OnInit {
     });
   }
 
-  add(){
+  add() {
     const dialogRef = this.dialog.open(ArticuloFormComponent, { disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       this.getArticulos()
@@ -88,5 +88,34 @@ export class ArticulosComponent implements OnInit {
       this.getArticulos()
     });
   }
+
+  delete(articulo: Articulo): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: `¿Seguro que quieres eliminar el artículo ${articulo.descripcion}?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'No, cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.articulosService.borrarArticulo(articulo.id!).subscribe(
+          () => {
+            this.getArticulos()
+          }
+        );
+
+        Swal.fire({
+          title: 'Eliminado',
+          text: `El artículo ${articulo.descripcion} ha sido eliminado`,
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        });
+      }
+
+    })
+  };
 
 }

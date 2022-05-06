@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+.mat-table{    
+  border-radius:  0.25rem;
+  overflow:hidden !important;
+}
+
+table .mat-header-row {
+  background-color: #369FFF;
+}
+
+table th{
+  color: #fff;
+  width: 50%;
+}
+
+table .acciones{
+  width: 10px;
+}
+
+table td{
+  height: 70px;
+}
+table .mat-row{
+  cursor: pointer;
+  transition: all .5s;
+}
+table .mat-row:hover{
+  background-color: #D1E5FE;
+}
+table th{
+  font-weight: bold;
+  font-size: 14px;
+}
+

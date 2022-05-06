@@ -39,16 +39,16 @@ export class ArticuloFormComponent implements OnInit {
     if (this.editForm) {
       this.form = this.fb.group({
         categoria: [this.articulo.id_categoria+"-"+this.articulo.categoria, [Validators.required]],
-        descripcion: [this.articulo.descripcion, [Validators.required]],
-        referencia: [this.articulo.referencia, [Validators.required]],
+        descripcion: [this.articulo.descripcion, [Validators.required, Validators.maxLength(45)]],
+        referencia: [this.articulo.referencia, [Validators.required,Validators.maxLength(45)]],
         precio_coste: [this.articulo.precio_coste, [Validators.required]],
         precio_venta: [this.articulo.precio_venta, [Validators.required]]
       })
     } else {
       this.form = this.fb.group({
         categoria: ['', [Validators.required]],
-        descripcion: ['', [Validators.required]],
-        referencia: ['', [Validators.required]],
+        descripcion: ['', [Validators.required,Validators.maxLength(45)]],
+        referencia: ['', [Validators.required,Validators.maxLength(45)]],
         precio_coste: ['', [Validators.required]],
         precio_venta: ['', [Validators.required]]
       })

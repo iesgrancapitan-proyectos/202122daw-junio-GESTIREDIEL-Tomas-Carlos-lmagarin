@@ -10,6 +10,7 @@ import { EntradaArticulo } from '../../interfaces/entradaArticulo.interface';
   providedIn: 'root'
 })
 export class ArticulosService {
+  
 
 
   constructor(private http:HttpClient) { }
@@ -33,5 +34,9 @@ export class ArticulosService {
 
   nuevaEntrada(entrada:EntradaArticulo):Observable<ApiResponse>{
     return this.http.put<ApiResponse>(`${environment.baseUrl}/articulos/entrada`,entrada);
+  }
+
+  borrarArticulo(id: number):Observable<ApiResponse>{
+    return this.http.delete<ApiResponse>(`${environment.baseUrl}/articulos/${id}`);
   }
 }

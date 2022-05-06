@@ -8,7 +8,7 @@
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-username" type="text" placeholder="Nombre...">
       <!-- border-red-500  -->
-      <p *ngIf="form.controls['username'].invalid" class="text-red-500 text-xs italic">El nombre de usuario es
+      <p *ngIf="form.controls['username'].invalid && form.controls['username'].touched" class="text-red-500 text-xs italic">El nombre de usuario es
         obligatorio.</p>
     </div>
     <div class="w-full md:w-1/2 px-3">
@@ -18,7 +18,7 @@
       <input formControlName="email"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-email" type="email" placeholder="example@gmail.com...">
-      <p *ngIf="form.controls['email'].invalid" class="text-red-500 text-xs italic">El email es obligatorio.</p>
+      <p *ngIf="form.controls['email'].invalid && form.controls['email'].touched" class="text-red-500 text-xs italic">El email es obligatorio.</p>
     </div>
   </div>
   <div class="flex flex-wrap -mx-3 mb-6">
@@ -29,7 +29,7 @@
       <input formControlName="nombre"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-nombre" type="text" placeholder="Nombre...">
-      <p *ngIf="form.controls['nombre'].invalid" class="text-red-500 text-xs italic">El nombre es obligatorio.</p>
+      <p *ngIf="form.controls['nombre'].invalid && form.controls['nombre'].touched" class="text-red-500 text-xs italic">El nombre es obligatorio.</p>
     </div>
   </div>
   <div *ngIf="!typeFormEditar" class="flex flex-wrap -mx-3 mb-6">
@@ -40,8 +40,8 @@
       <input formControlName="password"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-password" type="password" placeholder="Contraseña...">
-      <p *ngIf="form.controls['password'].hasError('required')" class="text-red-500 text-xs italic">La contraseña es obligatoria.</p>
-      <p *ngIf="form.controls['password'].hasError('minlength')" class="text-red-500 text-xs italic">El contraseña debe de tener al menos 6 caracteres</p>
+      <p *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched" class="text-red-500 text-xs italic">La contraseña es obligatoria.</p>
+      <p *ngIf="form.controls['password'].hasError('minlength') && form.controls['password'].touched" class="text-red-500 text-xs italic">El contraseña debe de tener al menos 6 caracteres</p>
     </div>
   </div>
 
