@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import Swal from 'sweetalert2';
+import { Cliente } from 'src/app/interfaces/cliente.interface';
 import { ClientesService } from '../../services/clientes.service';
 import { Usuario } from '../../../auth/AuthResponse.interface';
 import { Router } from '@angular/router';

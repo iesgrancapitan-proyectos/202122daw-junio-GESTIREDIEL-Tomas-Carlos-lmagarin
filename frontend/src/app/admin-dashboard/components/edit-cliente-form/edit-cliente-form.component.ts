@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { Cliente } from '../../../interfaces/cliente';
+import { Cliente } from '../../../interfaces/cliente.interface';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -37,7 +37,6 @@ export class EditFormComponent implements OnInit {
     this.clientesService.editarCliente(this.cliente.id_usuario!, this.form.value).subscribe(
       {
         next: (res) => {
-          console.log(res);
           this.dialogRef.close();
         },
         error: (err) => {

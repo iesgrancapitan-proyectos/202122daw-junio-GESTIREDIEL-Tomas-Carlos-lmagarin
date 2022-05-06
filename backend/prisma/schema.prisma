@@ -7,28 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model almacen {
-  id        Int        @id @default(autoincrement())
-  direccion String     @db.VarChar(50)
-  articulo  articulo[]
-}
-
 model articulo {
   id                 Int                  @id @default(autoincrement())
   descripcion        String               @db.VarChar(50)
-  referencia         String               @db.VarChar(50)
+  referencia         String?              @unique(map: "referencia") @db.VarChar(50)
   precio_coste       Int
   precio_venta       Int
-  stock              Int
   id_categoria       Int
-  id_almacen         Int
-  almacen            almacen              @relation(fields: [id_almacen], references: [id], onDelete: Cascade, map: "fk_almacen")
   categoria          categoria            @relation(fields: [id_categoria], references: [id], onDelete: Cascade, map: "fk_categoria")
   articulo_factura   articulo_factura[]   @ignore
   proveedor_articulo proveedor_articulo[] @ignore
   reparacion         reparacion[]
 
-  @@index([id_almacen], map: "fk_almacen")
   @@index([id_categoria], map: "fk_categoria")
 }
 
@@ -50,8 +40,7 @@ model articulo_factura {
 
 model categoria {
   id       Int        @id @default(autoincrement())
-  nombre   String     @db.VarChar(50)
-  seccion  String     @db.VarChar(50)
+  nombre   String     @unique(map: "nombre") @db.VarChar(50)
   articulo articulo[]
 }
 
@@ -98,7 +87,7 @@ model factura {
 
 model proveedor {
   id                 Int                  @id @default(autoincrement())
-  nombre_fiscal      String               @db.VarChar(50)
+  nombre_fiscal      String               @unique(map: "nombre_fiscal") @db.VarChar(50)
   nombre_comercial   String               @db.VarChar(50)
   proveedor_articulo proveedor_articulo[] @ignore
 }
@@ -107,6 +96,7 @@ model proveedor {
 model proveedor_articulo {
   id_proveedor Int
   id_articulo  Int
+  stock        Int
   articulo     articulo  @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo")
   proveedor    proveedor @relation(fields: [id_proveedor], references: [id], onDelete: Cascade, map: "fk_id_proveedor")
 

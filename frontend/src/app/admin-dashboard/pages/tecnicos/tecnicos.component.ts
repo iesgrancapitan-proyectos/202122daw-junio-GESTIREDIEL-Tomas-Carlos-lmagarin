@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TecnicosService } from '../../../shared/services/tecnicos.service';
-import { Tecnico } from '../../../interfaces/tecnico';
+import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { TecnicoFormComponent } from '../../components/tecnico-form/tecnico-form.component';
 

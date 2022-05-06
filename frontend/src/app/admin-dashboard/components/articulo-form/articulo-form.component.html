@@ -1,0 +1,111 @@
+<div class="text-center text-3xl">
+  {{editForm?"Editar artículo":"Crear artículo"}}
+</div>
+<form class="w-full max-w-lg duration-200" [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-descripcion">
+        Categoria
+      </label>
+      <div *ngIf="!createNewCategoria" class="flex gap-5 items-center">
+        <select
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
+        (change)="changeCategory()"
+        formControlName="categoria"
+      >
+        <option value="">Elige una categoria</option>
+        <option *ngFor="let categoria of categorias; let i = index" [value]="categoria.id+'-'+categoria.nombre">
+          {{ categoria.nombre }}
+        </option>
+      </select>
+      <!-- error block -->
+
+      <button type="button" (click)="createNewCategoriaBtn()" class="text-white text-2xl py-2 w-12 rounded-full bg-primary-color hover:bg-blue-400 duration-300">
+        <i class='flex justify-center bx bx-plus'></i>
+      </button>
+      </div>
+
+      <input
+        *ngIf="createNewCategoria"
+        formControlName="categoria"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-categoria" type="text" placeholder="Categoria...">
+        <p *ngIf="form.controls['categoria'].invalid && form.controls['categoria'].touched" class="text-red-500 text-xs italic">La categoria es obligatoria.</p>
+
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-descripcion">
+        Descripción
+      </label>
+      <input
+        formControlName="descripcion"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-username" type="text" placeholder="Nombre...">
+        <p *ngIf="form.controls['descripcion'].invalid && form.controls['descripcion'].touched" class="text-red-500 text-xs italic">La descripción es obligatoria.</p>
+    </div>
+  </div>
+  <div *ngIf="!articuloIsServicio" class="flex flex-wrap -mx-3 mb-6">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-referencia">
+        Referencia
+      </label>
+      <input
+        formControlName="referencia"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-referencia" type="text" placeholder="Referencia...">
+        <p *ngIf="form.controls['referencia'].invalid && form.controls['referencia'].touched" class="text-red-500 text-xs italic">La referencia es obligatoria.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-precio_coste">
+        Precio de coste
+      </label>
+      <input
+        formControlName="precio_coste"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-precio_coste" type="number" placeholder="Precio de coste...">
+        <!-- border-red-500  -->
+        <p *ngIf="form.controls['precio_coste'].invalid && form.controls['precio_coste'].touched" class="text-red-500 text-xs italic">El precio de coste es obligatorio.</p>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-precio_venta">
+        Precio de venta
+      </label>
+      <input
+        formControlName="precio_venta"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-precio_venta" type="number" placeholder="Precio de venta...">
+        <p *ngIf="form.controls['precio_venta'].invalid && form.controls['precio_venta'].touched" class="text-red-500 text-xs italic">El precio de venta es obligatorio.</p>
+    </div>
+  </div>
+
+
+  <p class="text-red-500 text-xs italic">{{msgError}}</p>
+
+
+  <div class="mt-5 flex justify-end gap-5">
+    <button
+      class="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      (click)="closeDialog()"
+      type="button">
+      Cancelar
+    </button>
+    <button
+      *ngIf="editForm"
+      [disabled]="form.pristine || form.invalid"
+      class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Editar
+    </button>
+    <button
+      *ngIf="!editForm"
+      [disabled]="form.pristine || form.invalid"
+      class="shadow bg-blue-500 hover:bg-blue-700 disabled:bg-gray-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Guardar
+    </button>
+  </div>
+</form>
