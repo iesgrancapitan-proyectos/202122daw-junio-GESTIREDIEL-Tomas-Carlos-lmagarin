@@ -213,6 +213,7 @@ const articuloExist = async (req, res = response) => {
   } = req.params;
 
   try {
+
     const articuloExist = await prisma.articulo.findUnique({
       where: {
         referencia
