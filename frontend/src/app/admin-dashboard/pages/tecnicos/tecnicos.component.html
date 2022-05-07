@@ -2,7 +2,7 @@
 
 <div class="mx-auto w-4/5 animate__animated animate__fadeIn">
   <div class="flex justify-end">
-    <button (click)="agregarDialog()" class="bg-primary-color rounded text-white flex items-center py-1 px-2 text-base"><i class='bx bx-plus'></i> Nuevo tecnico</button>
+    <button (click)="agregarDialog()" class="duration-300 text-center bg-primary-color hover:bg-blue-400 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"><i class='bx bx-plus'></i> Nuevo tecnico</button>
   </div>
   <div class="mt-5 grid grid-cols-3 gap-20">
     <app-tecnico-card (aztualizarTecnicos)="aztualizarTecnicos()" [tecnico]="tecnico" *ngFor="let tecnico of tecnicos"></app-tecnico-card>

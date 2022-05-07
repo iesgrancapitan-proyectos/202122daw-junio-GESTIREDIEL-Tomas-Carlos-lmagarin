@@ -5,7 +5,9 @@ table {
   border-radius:  0.25rem;
   overflow:hidden !important;
 }
-
+h1{
+  font-family: Montserrat, sans-serif;
+}
 table .mat-header-row {
   background-color: #369FFF;
 }
