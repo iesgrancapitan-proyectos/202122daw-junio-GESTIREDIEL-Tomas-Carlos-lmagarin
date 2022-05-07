@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditFormComponent } from '../../components/edit-cliente-form/edit-cliente-form.component';
-
+import { CreateClienteFormComponent } from '../../components/create-cliente-form/create-cliente-form.component';
 
 @Component({
   selector: 'app-clientes',
@@ -16,18 +16,14 @@ import { EditFormComponent } from '../../components/edit-cliente-form/edit-clien
   styleUrls: ['./clientes.component.css'],
 })
 export class ClientesComponent implements OnInit {
-
   displayedColumns: string[] = [
     'nombre',
     'nif',
     'email',
     'domicilio',
-    'cp',
     'poblacion',
     'provincia',
-    'persona_contacto',
-    'registrado',
-    'acciones'
+    'acciones',
   ];
   dataSource!: MatTableDataSource<Cliente>;
 
@@ -38,24 +34,24 @@ export class ClientesComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
-  constructor(private clientesService: ClientesService,
+  constructor(
+    private clientesService: ClientesService,
     private authService: AuthService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
-    this.getClientes()
+    this.getClientes();
     console.log(this.dataSource);
   }
 
   private getClientes(): void {
-    this.clientesService.getClientes().subscribe(
-      (clientes: Cliente[]) => {
-        this.dataSource = new MatTableDataSource(clientes);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isLoadingResults = false;
-      });
+    this.clientesService.getClientes().subscribe((clientes: Cliente[]) => {
+      this.dataSource = new MatTableDataSource(clientes);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.isLoadingResults = false;
+    });
   }
 
   applyFilter(event: Event) {
@@ -68,28 +64,43 @@ export class ClientesComponent implements OnInit {
   }
 
   edit(cliente: Cliente): void {
-    const dialogRef = this.dialog.open(EditFormComponent, { disableClose: true });
+    const dialogRef = this.dialog.open(EditFormComponent, {
+      disableClose: true,
+    });
     dialogRef.componentInstance.cliente = cliente;
-    dialogRef.afterClosed().subscribe(result => {
-      this.getClientes()
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getClientes();
     });
   }
 
   delete(cliente: Cliente): void {
     Swal.fire({
       title: '¿Estás seguro?',
-      text: "Estas a punto de boorar a " + cliente.nombre_fiscal + " y todos sus datos.",
+      text:
+        'Estas a punto de boorar a ' +
+        cliente.nombre_fiscal +
+        ' y todos sus datos.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si'
+      confirmButtonText: 'Si',
     }).then((result) => {
       if (result.isConfirmed) {
         this.authService.borrarUsuario(cliente.id_usuario!).subscribe();
-        this.dataSource.data = this.dataSource.data.filter(cli => cli.id_usuario !== cliente.id_usuario);
+        this.dataSource.data = this.dataSource.data.filter(
+          (cli) => cli.id_usuario !== cliente.id_usuario
+        );
       }
-    })
+    });
   }
 
+  create(): void {
+    const dialogRef = this.dialog.open(CreateClienteFormComponent, {
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getClientes();
+    });
+  }
 }

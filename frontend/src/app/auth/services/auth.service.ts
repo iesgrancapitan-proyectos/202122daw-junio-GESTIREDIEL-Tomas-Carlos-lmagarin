@@ -77,7 +77,7 @@ export class AuthService {
         map(resp => {
           this.saveToken(resp);
           this._usuario = {
-            username: resp.username!,
+            username: resp.name!,
             email: resp.email!,
             uid: resp.uid!,
           }

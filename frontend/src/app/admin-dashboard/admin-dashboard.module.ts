@@ -25,6 +25,7 @@ import { EntradaArticuloFormComponent } from './components/entrada-articulo-form
 
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ProveedoresFormComponent } from './components/proveedores-form/proveedores-form.component';
+import { CreateClienteFormComponent } from './components/create-cliente-form/create-cliente-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ProveedoresFormComponent } from './components/proveedores-form/proveedo
     ProveedoresComponent,
     ArticuloFormComponent,
     EntradaArticuloFormComponent,
-    ProveedoresFormComponent
+    ProveedoresFormComponent,
+    CreateClienteFormComponent
   ],
   imports: [
     CommonModule,

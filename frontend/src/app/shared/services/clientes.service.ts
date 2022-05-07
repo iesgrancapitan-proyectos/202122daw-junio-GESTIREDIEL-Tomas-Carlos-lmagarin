@@ -13,7 +13,7 @@ export class ClientesService {
   constructor(private http: HttpClient) { }
 
 
-  createCliente(cliente: Cliente) {
+  createCliente(cliente: any) {
     return this.http.post<Cliente>(`${environment.baseUrl}/clientes`, cliente);
   }
 
