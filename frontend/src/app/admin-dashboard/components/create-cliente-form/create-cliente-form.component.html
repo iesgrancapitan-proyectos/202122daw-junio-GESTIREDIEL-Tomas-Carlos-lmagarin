@@ -1,0 +1,120 @@
+<form class="w-full max-w-lg" [formGroup]="form" (ngSubmit)="crear()">
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-username">
+        Nombre de usuario
+      </label>
+      <input
+        formControlName="username"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-username" type="text" placeholder="Nombre...">
+        <!-- border-red-500  -->
+        <p *ngIf="form.controls['username'].invalid" class="text-red-500 text-xs italic">El nombre de usuario es obligatorio.</p>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-email">
+        Email
+      </label>
+      <input
+        formControlName="email"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-email" type="email" placeholder="example@gmail.com...">
+        <p *ngIf="form.controls['email'].invalid" class="text-red-500 text-xs italic">El email es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-nombre-fiscal">
+        Nombre fiscal
+      </label>
+      <input
+        formControlName="nombre_fiscal"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-nombre-fiscal" type="text" placeholder="Nombre...">
+        <p *ngIf="form.controls['nombre_fiscal'].invalid" class="text-red-500 text-xs italic">El nombre fiscal es obligatorio.</p>
+    </div>
+    <div class="w-full md:w-1/2 px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-nif">
+        Nif
+      </label>
+      <input
+        formControlName="nif"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-nif" type="text" placeholder="NIF...">
+        <p *ngIf="form.controls['nif'].hasError('required')" class="text-red-500 text-xs italic">El nif es obligatorio.</p>
+        <p *ngIf="form.controls['nif'].hasError('pattern')" class="text-red-500 text-xs italic">El nif tiene un formato incorrecto.</p>
+
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-6">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-domicilio">
+        Domicilio
+      </label>
+      <input
+        formControlName="domicilio"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-domicilio" type="text" placeholder="Domicilio...">
+        <p *ngIf="form.controls['domicilio'].invalid" class="text-red-500 text-xs italic">El domicilio es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 mb-2">
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-cp">
+        CP
+      </label>
+      <input
+        formControlName="CP"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-cp" type="number" placeholder="CP...">
+        <p *ngIf="form.controls['CP'].invalid" class="text-red-500 text-xs italic">El CP es obligatorio.</p>
+    </div>
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-poblacion">
+        Población
+      </label>
+      <input
+        formControlName="poblacion"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-poblacion" type="text" placeholder="Población...">
+        <p *ngIf="form.controls['poblacion'].invalid" class="text-red-500 text-xs italic">La población es obligatoria.</p>
+    </div>
+    <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-provincia">
+        Provincia
+      </label>
+      <input
+        formControlName="provincia"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-provincia" type="text" placeholder="Provincia...">
+        <p *ngIf="form.controls['provincia'].invalid" class="text-red-500 text-xs italic">La provincia es obligatoria.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 m-6">
+    <div class="w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-domicilio">
+        Persona de contacto
+      </label>
+      <input
+        formControlName="persona_contacto"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        id="grid-domicilio" type="text" placeholder="Persona de contacto...">
+        <p *ngIf="form.controls['persona_contacto'].invalid" class="text-red-500 text-xs italic">La persona de contacto es obligatoria.</p>
+    </div>
+  </div>
+
+  <div class="mt-5 flex justify-end gap-5">
+    <button
+      class="shadow bg-red-500 hover:bg-red-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      (click)="closeDialog()"
+      type="button">
+      Cancelar
+    </button>
+    <button
+      [disabled]="form.pristine || form.invalid"
+      class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Crear
+    </button>
+  </div>
+</form>
