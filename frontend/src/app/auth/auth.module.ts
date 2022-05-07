@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { RegisterComponent } from './pages/register/register.component';
 import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { RouterModule } from '@angular/router';
 import { NewPasswordComponent } from './pages/new-password/new-password.component';
@@ -12,7 +11,6 @@ import { NewPasswordComponent } from './pages/new-password/new-password.componen
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent,
     PasswordResetComponent,
     NewPasswordComponent,
   ],
