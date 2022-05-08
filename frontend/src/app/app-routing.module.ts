@@ -13,19 +13,28 @@ const routes: Routes = [{
       path: 'dashboard',
       loadChildren: () => import('./admin-dashboard/admin-dashboard-routing.module').then(m => m.AdminDashboardRoutingModule),
       canActivate: [ValidarTokenGuard],//ValidarAdminGuard
-      canLoad: [ValidarTokenGuard]
+      canLoad: [ValidarTokenGuard],
+      data: {
+        role: 'admin'
+      }
     },
     {
       path: 'tecnico',
       loadChildren: () => import('./tecnico/tecnico.module').then(m => m.TecnicoModule),
       canActivate: [ValidarTokenGuard],
-      canLoad: [ValidarTokenGuard]
+      canLoad: [ValidarTokenGuard],
+      data: {
+        role: 'tecnico'
+      }
     },
     {
       path: 'cliente',
       loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule),
       canActivate: [ValidarTokenGuard],
-      canLoad: [ValidarTokenGuard]
+      canLoad: [ValidarTokenGuard],
+      data: {
+        role: 'cliente'
+      }
     },
     {
       path: '**',

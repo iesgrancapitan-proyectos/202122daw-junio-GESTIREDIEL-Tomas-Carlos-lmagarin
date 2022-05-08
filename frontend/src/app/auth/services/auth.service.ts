@@ -80,6 +80,7 @@ export class AuthService {
             username: resp.name!,
             email: resp.email!,
             uid: resp.uid!,
+            rol: resp.rol
           }
           return resp.ok
         }),
@@ -96,4 +97,13 @@ export class AuthService {
     return this.http.delete(url)
   }
 
+  getRolByToken() {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${this.baseUrl}/auth/rol/${token}`)
+      .pipe(
+        map((res: any) => {
+          return res.rol
+        }),
+      )
+  }
 }

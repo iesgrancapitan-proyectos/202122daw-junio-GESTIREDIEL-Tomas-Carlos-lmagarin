@@ -15,14 +15,11 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: '', component: HomeComponent },
-      { path: 'clientes', component: ClientesComponent },
-
-      { path: 'tecnicos', component: TecnicosComponent },
-      { path: 'articulos', component: ArticulosComponent },
-      { path: 'proveedores', component: ProveedoresComponent },
-
-      {path:'perfil',component: PerfilComponent},
-
+      { path: 'clientes'    , component: ClientesComponent },
+      { path: 'tecnicos'    , component: TecnicosComponent },
+      { path: 'articulos'   , component: ArticulosComponent },
+      { path: 'proveedores' , component: ProveedoresComponent },
+      { path: 'perfil'      ,component:  PerfilComponent},
       { path: '**', redirectTo: '' }
     ]
   }];
