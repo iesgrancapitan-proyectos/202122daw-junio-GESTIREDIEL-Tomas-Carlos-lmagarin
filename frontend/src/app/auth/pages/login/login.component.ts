@@ -38,10 +38,16 @@ export class LoginComponent implements OnInit {
       .subscribe(
         {
           next: (ok) => {
-            console.log(ok);
             if (ok === true && this.formLogin.valid) {
-              //comprobar el tipo de usuario
-              this.router.navigate(['/dashboard']);
+              this.authService.getRolByToken().subscribe((rol)=>{
+                if(rol === "admin"){
+                  this.router.navigate(['/dashboard']);
+                }else if(rol === "tecnico"){
+                  this.router.navigate(['/tecnico']);
+                }else{
+                  this.router.navigate(['/cliente']);
+                }
+              })
             } else {
               if (this.formLogin.controls['recaptcha'].errors) {
                 Swal.fire('Error','Es necesario completar el captcha', 'error')

@@ -197,6 +197,7 @@ const revalidarToken = async (req, res = response) => {
     uid,
     name: DBuser.username,
     email: DBuser.email,
+    rol: DBuser.rol,
     token
   })
 
@@ -369,8 +370,24 @@ const generateNewPassword = async (req, res = response) => {
       msg: 'Por favor hable con el administrador'
     })
   }
+}
 
+getRolByToken = async (req, res = response) => {
 
+  const {
+    token
+  } = req.params;
+
+  const userId = await jwt.verify(token, process.env.JWT_SECRET_SEED);
+  const user = await prisma.usuarios.findUnique({
+    where: {
+      id: userId.uid
+    }
+  });
+
+  return res.status(200).json({
+    rol: user.rol
+  })
 }
 
 
@@ -380,5 +397,6 @@ module.exports = {
   borrarUsuario,
   revalidarToken,
   forgotPassword,
-  generateNewPassword
+  generateNewPassword,
+  getRolByToken
 }
