@@ -26,6 +26,11 @@ import { EntradaArticuloFormComponent } from './components/entrada-articulo-form
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ProveedoresFormComponent } from './components/proveedores-form/proveedores-form.component';
 import { CreateClienteFormComponent } from './components/create-cliente-form/create-cliente-form.component';
+import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +46,8 @@ import { CreateClienteFormComponent } from './components/create-cliente-form/cre
     ArticuloFormComponent,
     EntradaArticuloFormComponent,
     ProveedoresFormComponent,
-    CreateClienteFormComponent
+    CreateClienteFormComponent,
+    ReparacionesComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +59,10 @@ import { CreateClienteFormComponent } from './components/create-cliente-form/cre
     MatProgressSpinnerModule,
     MatDialogModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatIconModule
   ]
 })
 export class AdminDashboardModule { }

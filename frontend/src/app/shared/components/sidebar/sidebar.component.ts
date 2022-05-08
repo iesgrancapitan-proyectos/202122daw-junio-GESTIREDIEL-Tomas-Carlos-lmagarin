@@ -11,26 +11,25 @@ import Swal from 'sweetalert2';
 export class SidebarComponent implements OnInit {
 
   Menu = [
-    { title: "Dashboard",icon:"bx-home-alt-2", src: "Chart_fill", path: "/dashboard" },
+    { title: "Inicio",icon:"bx-home-alt-2", src: "Chart_fill", path: "/dashboard" },
     {
-      title: "Gestión",icon:"bx-briefcase-alt",
+      title: "Personal",icon:"bx-user",
       items: [
         { title: "Clientes", path: "/dashboard/clientes" },
         { title: "Técnicos", path: "/dashboard/tecnicos" },
-        { title: "Informes", path: "/dashboard/informes" }
+        // { title: "Informes", path: "/dashboard/informes" }
       ]
     },
-    { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
-    { title: "Reparaciones",icon:"bx-folder-minus", path: "/dashboard/pedidos" },
-
     {
-      title: "Artículos",icon:"bx-package",
+      title: "Servicios",icon:"bx-briefcase",
       items: [
-        { title: "Proveedores", path: "/dashboard/proveedores" },
+        { title: "Reparaciones", path: "/dashboard/reparaciones" },
         { title: "Artículos", path: "/dashboard/articulos" },
       ]
     },
-
+    { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
+    { title: "Proveedores",icon:"bx-phone", path: "/dashboard/proveedores" },
+    // { title: "Chat",icon:"bx-chat", path: "/dashboard/chat" },
   ];
 
   open: boolean = true;
@@ -43,7 +42,7 @@ export class SidebarComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    
+
   }
 
   public arrowParent(e: HTMLElement) {
