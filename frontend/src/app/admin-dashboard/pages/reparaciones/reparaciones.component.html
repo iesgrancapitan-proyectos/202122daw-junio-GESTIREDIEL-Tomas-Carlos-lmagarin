@@ -1,0 +1,25 @@
+<h1 class="text-center">Reparaciones</h1>
+<div class="w-4/5 mx-auto animate__animated animate__fadeIn">
+  <mat-stepper orientation="horizontal">
+    <mat-step >
+      <ng-template matStepLabel>Cliente</ng-template>
+      <ng-template matStepContent>
+        <p>This content was rendered lazily</p>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Dispositivo</ng-template>
+      <ng-template matStepContent>
+        <p>This content was also rendered lazily</p>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </ng-template>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Precio final</ng-template>
+      <p>This content was rendered eagerly</p>
+      <button mat-button matStepperPrevious>Back</button>
+    </mat-step>
+  </mat-stepper>
+</div>
