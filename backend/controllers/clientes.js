@@ -10,13 +10,16 @@ const prisma = new PrismaClient()
 const {
   v4: uuidv4
 } = require('uuid');
+const {
+  generarJWT
+} = require('../helpers/jwt');
+const nodemailer = require('nodemailer');
 
 const crearCliente = async (req, res = response) => {
 
-  const {
+  let {
     username,
     email,
-    password,
     nif,
     nombre_fiscal,
     domicilio,
@@ -26,6 +29,8 @@ const crearCliente = async (req, res = response) => {
     persona_contacto
   } = req.body;
 
+  CP=CP.toString();
+
   try {
 
     //verificar email
@@ -34,20 +39,17 @@ const crearCliente = async (req, res = response) => {
         email: email
       }
     });
-
+    console.log(usuario)
     if (usuario) {
       return res.status(400).json({
         ok: false,
         msg: 'El usuario con ese email ya existe'
       })
     }
+    
 
     //generate uuid
     const id = uuidv4();
-
-    //hash password
-    const salt = bcrypt.genSaltSync();
-    const userPassword = bcrypt.hashSync(password, salt);
 
     //verificar email
     let cliente = await prisma.cliente.findUnique({
@@ -64,16 +66,17 @@ const crearCliente = async (req, res = response) => {
     }
 
     //crear usuario en la BD
-    await prisma.usuarios.create({
+    const user=await prisma.usuarios.create({
       data: {
         id,
         username,
         email,
-        password: userPassword,
+        password: "",
         rol: "cliente"
       }
     });
 
+    
     //crear cliente en la BD
     await prisma.cliente.create({
       data: {
@@ -87,6 +90,38 @@ const crearCliente = async (req, res = response) => {
         id_usuario: id
       }
     })
+
+     //Generar token
+     const token = await generarJWT(user.id,user.username);
+
+     //Enviar email con token
+     const transporter = nodemailer.createTransport({
+       service: 'gmail',
+       auth: {
+         user: process.env.EMAIL,
+         pass: process.env.PASSWORD
+       }
+     });
+ 
+     const mailOptions = {
+       from: '"Nueva contraseña"' + process.env.EMAIL,
+       to: email,
+       subject: 'Crea tu contraseña',
+       html: `
+         <h1>Crea tu contraseña</h1>
+         <p>Para crear su contraseña ingrese al siguiente link:</p>
+         <a href="${process.env.URL_CLIENT}/auth/new-password/${token}">Cambiar contraseña</a>
+       `
+     };
+ 
+     await transporter.sendMail(mailOptions, function (err, info) {
+       if (err) {
+         return res.status(500).json({
+           ok: false,
+           msg: 'Por favor hable con el administrador'
+         })
+       }
+     });
 
     //generar respuesta
     return res.status(200).json({
