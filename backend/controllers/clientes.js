@@ -20,6 +20,7 @@ const crearCliente = async (req, res = response) => {
   let {
     username,
     email,
+    telefono,
     nif,
     nombre_fiscal,
     domicilio,
@@ -39,7 +40,6 @@ const crearCliente = async (req, res = response) => {
         email: email
       }
     });
-    console.log(usuario)
     if (usuario) {
       return res.status(400).json({
         ok: false,
@@ -78,10 +78,11 @@ const crearCliente = async (req, res = response) => {
 
     
     //crear cliente en la BD
-    await prisma.cliente.create({
+    const cli=await prisma.cliente.create({
       data: {
         nif,
         nombre_fiscal,
+        telefono,
         domicilio,
         CP,
         poblacion,
@@ -144,7 +145,7 @@ const getallClientes = async (req, res = response) => {
   try {
 
     const clientes = await prisma.$queryRaw `
-      SELECT id_usuario,username,email,nif,nombre_fiscal,domicilio,CP,poblacion,provincia,persona_contacto,registered
+      SELECT id_usuario,username,email,nif,nombre_fiscal,domicilio,CP,telefono,poblacion,provincia,persona_contacto,registered
       FROM cliente, usuarios
       WHERE cliente.id_usuario = usuarios.id  
     `
@@ -203,6 +204,7 @@ const editarCliente = async (req, res = response) => {
     nombre_fiscal,
     domicilio,
     CP,
+    telefono,
     poblacion,
     provincia
   } = req.body;
@@ -242,6 +244,7 @@ const editarCliente = async (req, res = response) => {
         email,
       }
     });
+    
 
     const clienteUpdate = await prisma.cliente.findFirst({
       where: {
@@ -250,7 +253,7 @@ const editarCliente = async (req, res = response) => {
     });
 
     //crear cliente en la BD
-    await prisma.cliente.update({
+    const cli=await prisma.cliente.update({
       where: {
         id: clienteUpdate.id
       },
@@ -258,12 +261,13 @@ const editarCliente = async (req, res = response) => {
         nif,
         nombre_fiscal,
         domicilio,
+        telefono,
         CP,
         poblacion,
         provincia,
       }
     })
-
+    console.log(cli)
     //generar respuesta
     return res.status(200).json({
       ok: true,

@@ -48,6 +48,7 @@ model cliente {
   id               Int           @id @default(autoincrement())
   nif              String        @unique(map: "nif") @db.VarChar(50)
   nombre_fiscal    String        @db.VarChar(50)
+  telefono         Int
   domicilio        String        @db.VarChar(255)
   CP               String        @db.VarChar(10)
   poblacion        String        @db.VarChar(50)

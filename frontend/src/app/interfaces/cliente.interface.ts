@@ -12,4 +12,5 @@ export interface Cliente {
   provincia:        string;
   persona_contacto: string;
   registered:       Date;
+  telefono:         Number;
 }

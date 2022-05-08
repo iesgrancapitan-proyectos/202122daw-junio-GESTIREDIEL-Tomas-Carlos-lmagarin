@@ -21,6 +21,7 @@ export class ClientesComponent implements OnInit {
     'nif',
     'email',
     'domicilio',
+    'telefono',
     'poblacion',
     'provincia',
     'acciones',

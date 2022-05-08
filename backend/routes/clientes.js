@@ -6,6 +6,7 @@ const router = Router();
 
 router.post('/',[
   check('username', 'El nombre es obligatorio').not().isEmpty(),
+  check('telefono', 'El telefono es obligatorio').isLength({min: 9}),
   check('email', 'El email es obligatorio').isEmail(),
   check('nif','El nif es obligatorio').not().isEmpty(),
   check('nombre_fiscal','El nombre fiscal es obligatorio').not().isEmpty(),
@@ -20,6 +21,7 @@ router.post('/',[
 router.put('/:id',[
   check('email', 'El email es obligatorio').isEmail(),
   check('nif','El nif es obligatorio').not().isEmpty(),
+  check('telefono', 'El telefono es obligatorio').isLength({min: 9}),
   check('nombre_fiscal','El nombre fiscal es obligatorio').not().isEmpty(),
   check('domicilio','El domicilio es obligatorio').not().isEmpty(),
   check('CP','El codigo postal es obligatorio').not().isEmpty(),

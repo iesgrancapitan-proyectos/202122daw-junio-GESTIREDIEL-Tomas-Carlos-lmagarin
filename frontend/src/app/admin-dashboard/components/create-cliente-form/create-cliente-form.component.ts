@@ -28,7 +28,8 @@ export class CreateClienteFormComponent implements OnInit {
       CP: ["", [Validators.required, Validators.pattern('[0-9]{5}')]],
       poblacion: ["", [Validators.required]],
       provincia: ["", [Validators.required]],
-      persona_contacto: ["", [Validators.required]]
+      persona_contacto: ["", [Validators.required]],
+      telefono: ["", [Validators.required, Validators.pattern('[0-9]{9}')]],
     })
   }
 

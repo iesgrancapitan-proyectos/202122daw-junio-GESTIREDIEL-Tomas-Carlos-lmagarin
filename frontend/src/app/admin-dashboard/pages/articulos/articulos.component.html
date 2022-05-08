@@ -7,6 +7,7 @@
     <button
       class="duration-300 bg-primary-color hover:bg-blue-400 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       (click)="add()">
+      <i class='bx bx-plus'></i>
       Agregar artículo
     </button>
   </div>
@@ -47,7 +48,7 @@
       <th  mat-header-cell *matHeaderCellDef> </th>
       <td class="w-5" mat-cell *matCellDef="let element">
         <div class="flex gap-5">
-          
+
 
           <button (click)="edit(element)"
             class='bg-yellow-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>
@@ -60,7 +61,7 @@
             <i class="bx bx-plus"></i>
           </button>
 
-          <button 
+          <button
             *ngIf="element.stock == null"
             (click)="delete(element)"
             class='bg-red-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>

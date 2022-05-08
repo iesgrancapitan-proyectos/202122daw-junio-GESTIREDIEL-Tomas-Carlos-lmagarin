@@ -29,7 +29,8 @@ export class EditFormComponent implements OnInit {
       CP: [this.cliente.CP, [Validators.required, Validators.pattern('[0-9]{5}')]],
       poblacion: [this.cliente.poblacion, [Validators.required]],
       provincia: [this.cliente.provincia, [Validators.required]],
-      persona_contacto: [this.cliente.persona_contacto, [Validators.required]]
+      persona_contacto: [this.cliente.persona_contacto, [Validators.required]],
+      telefono: [this.cliente.telefono, [Validators.required, Validators.pattern('[0-9]{9}')]]
     })
   }
 
