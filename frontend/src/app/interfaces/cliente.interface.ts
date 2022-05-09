@@ -1,4 +1,5 @@
 export interface Cliente {
+  id?: string;
   id_usuario?:       string;
   password?:         string;
   rol?:              string;
