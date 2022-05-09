@@ -230,4 +230,12 @@ export class ArticuloFormComponent implements OnInit {
     this.form.controls['categoria'].setValue("");
   }
 
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
+  }
+
 }

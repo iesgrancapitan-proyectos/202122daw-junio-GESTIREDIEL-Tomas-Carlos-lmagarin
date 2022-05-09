@@ -2,6 +2,7 @@ import { Component, OnInit, Output } from '@angular/core';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-cliente-form',
@@ -39,7 +40,12 @@ export class CreateClienteFormComponent implements OnInit {
           this.dialogRef.close();
         },
         error: (err) => {
-          //TODO: mostrar error
+          Swal.fire({
+            title: 'Error',
+            text: err.error.msg,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
         }
       }
     )

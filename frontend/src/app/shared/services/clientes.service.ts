@@ -13,7 +13,7 @@ export class ClientesService {
   constructor(private http: HttpClient) { }
 
 
-  createCliente(cliente: any) {
+  createCliente(cliente: Cliente) {
     return this.http.post<Cliente>(`${environment.baseUrl}/clientes`, cliente);
   }
 
@@ -21,7 +21,7 @@ export class ClientesService {
     return this.http.get<Cliente[]>(`${environment.baseUrl}/clientes`);
   }
 
-  editarCliente(id: string, cliente: any) {
+  editarCliente(id: string, cliente: Cliente) {
     return this.http.put<Cliente>(`${environment.baseUrl}/clientes/${id}`, cliente);
   }
 
