@@ -41,7 +41,7 @@ export class EditFormComponent implements OnInit {
           this.dialogRef.close();
         },
         error: (err) => {
-          console.log(err);
+          //TODO: mostrar error
         }
       }
     )
@@ -49,5 +49,13 @@ export class EditFormComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
   }
 }

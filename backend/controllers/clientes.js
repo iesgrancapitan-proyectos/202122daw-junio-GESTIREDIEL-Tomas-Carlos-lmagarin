@@ -199,6 +199,7 @@ const editarCliente = async (req, res = response) => {
     id
   } = req.params;
   const {
+    username,
     email,
     nif,
     nombre_fiscal,
@@ -241,7 +242,8 @@ const editarCliente = async (req, res = response) => {
         id
       },
       data: {
-        email,
+        username,
+        email
       }
     });
     
@@ -267,7 +269,6 @@ const editarCliente = async (req, res = response) => {
         provincia,
       }
     })
-    console.log(cli)
     //generar respuesta
     return res.status(200).json({
       ok: true,

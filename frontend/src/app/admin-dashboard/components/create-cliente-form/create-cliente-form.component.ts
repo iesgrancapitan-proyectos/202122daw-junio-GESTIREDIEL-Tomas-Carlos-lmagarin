@@ -1,5 +1,4 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { Cliente } from '../../../interfaces/cliente.interface';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -40,7 +39,7 @@ export class CreateClienteFormComponent implements OnInit {
           this.dialogRef.close();
         },
         error: (err) => {
-          console.log(err);
+          //TODO: mostrar error
         }
       }
     )
@@ -48,5 +47,13 @@ export class CreateClienteFormComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
   }
 }

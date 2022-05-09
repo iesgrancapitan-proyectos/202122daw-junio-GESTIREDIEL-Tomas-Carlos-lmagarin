@@ -97,4 +97,11 @@ export class ProveedoresFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
+  }
 }

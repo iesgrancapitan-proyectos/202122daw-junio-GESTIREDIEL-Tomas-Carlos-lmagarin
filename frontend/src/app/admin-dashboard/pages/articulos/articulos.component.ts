@@ -44,7 +44,6 @@ export class ArticulosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getArticulos()
-    console.log(this.dataSource);
   }
 
   private getArticulos(): void {

@@ -33,7 +33,7 @@ export class ArticuloFormComponent implements OnInit {
   ngOnInit(): void {
     this.editForm = this.articulo != null;
 
-    this.categoriaService.getCategorias().subscribe({ next: (res) => { console.log(res); this.categorias = res } })
+    this.categoriaService.getCategorias().subscribe({ next: (res) => { this.categorias = res } })
 
 
     if (this.editForm) {
@@ -161,7 +161,7 @@ export class ArticuloFormComponent implements OnInit {
           })
         },
         error: (err) => {
-          console.log(err);
+          //TODO: mostrar error
         }
       }
     )

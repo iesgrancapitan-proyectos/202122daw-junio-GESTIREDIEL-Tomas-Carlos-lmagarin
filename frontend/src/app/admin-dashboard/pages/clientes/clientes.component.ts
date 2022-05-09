@@ -43,7 +43,6 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClientes();
-    console.log(this.dataSource);
   }
 
   private getClientes(): void {

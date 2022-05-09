@@ -10,12 +10,10 @@ table {
 }
 
 table .mat-header-row {
-
   background-color: #369FFF;
 }
 
 table th{
-  text-align: center;
   color: #fff;
 }
 table td{

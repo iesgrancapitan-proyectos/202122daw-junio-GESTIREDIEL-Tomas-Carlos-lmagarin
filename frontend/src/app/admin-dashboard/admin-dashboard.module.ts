@@ -30,6 +30,7 @@ import { ReparacionesComponent } from './pages/reparaciones/reparaciones.compone
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSortModule} from '@angular/material/sort';
 
 
 @NgModule({
@@ -62,7 +63,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatTooltipModule,
     MatStepperModule,
     MatFormFieldModule,
-    MatIconModule
+    MatIconModule,
+    MatSortModule
   ]
 })
 export class AdminDashboardModule { }
