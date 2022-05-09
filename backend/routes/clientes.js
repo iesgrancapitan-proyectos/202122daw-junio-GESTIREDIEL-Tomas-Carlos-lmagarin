@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {crearCliente, getallClientes, editarCliente, getClienteByToken} = require('../controllers/clientes');
+const {crearCliente, getallClientes, editarCliente, getClienteByToken,getDispositivos} = require('../controllers/clientes');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -29,6 +29,8 @@ router.put('/:id',[
   check('provincia','La provincia es obligatoria').not().isEmpty(),
   validarCampos
 ],editarCliente)
+
+router.get('/dispositivos/:id',getDispositivos)
 
 router.get('/user/:token',getClienteByToken)
 

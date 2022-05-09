@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.prod';
 import { Cliente } from 'src/app/interfaces/cliente.interface';
 import { Observable } from 'rxjs';
+import { Dispositivo } from 'src/app/interfaces/dispositivo.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,10 @@ export class ClientesService {
 
   getClient(token: string) {
     return this.http.get<Cliente>(`${environment.baseUrl}/clientes/user/${token}`);
+  }
+
+  getDispositivos(id: string):Observable<Dispositivo[]> {
+    return this.http.get<Dispositivo[]>(`${environment.baseUrl}/clientes/dispositivos/${id}`);
   }
 
 }

@@ -145,7 +145,7 @@ const getallClientes = async (req, res = response) => {
   try {
 
     const clientes = await prisma.$queryRaw `
-      SELECT id_usuario,username,email,nif,nombre_fiscal,domicilio,CP,telefono,poblacion,provincia,persona_contacto,registered
+      SELECT cliente.id,id_usuario,username,email,nif,nombre_fiscal,domicilio,CP,telefono,poblacion,provincia,persona_contacto,registered
       FROM cliente, usuarios
       WHERE cliente.id_usuario = usuarios.id  
     `
@@ -284,9 +284,34 @@ const editarCliente = async (req, res = response) => {
     })
   }
 }
+
+
+getDispositivos = async (req, res = response) => {
+  const {
+    id
+  } = req.params;
+  try {
+
+    const dispositivos = await prisma.dispositivo.findMany({
+      where: {
+        id_cliente: parseInt(id)
+      }
+    });
+
+    return res.status(200).json(dispositivos)
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 module.exports = {
   crearCliente,
   getallClientes,
   editarCliente,
-  getClienteByToken
+  getClienteByToken,
+  getDispositivos
 }
