@@ -1,18 +1,21 @@
 <h1 class="text-center">Reparaciones</h1>
-<div class="w-10/12 mx-auto">
+<div class="w-10/12 mx-auto animate__animated animate__fadeIn">
   <hr>
   <div class="flex justify-between items-center my-5">
     <div>
       <p>Prioridades:</p>
       <mat-chip-list>
-        <mat-chip color="prioridadAlta">
+        <mat-chip (click)="filtrar('Alta')" color="prioridadAlta">
           Alta
         </mat-chip>
-        <mat-chip color="prioridadMedia">
+        <mat-chip (click)="filtrar('Media')" color="prioridadMedia">
           Media
         </mat-chip>
-        <mat-chip  color="prioridadBaja">
+        <mat-chip (click)="filtrar('Baja')" color="prioridadBaja">
           Baja
+        </mat-chip>
+        <mat-chip (click)="filtrar('Todas')" color="azul">
+          Todas
         </mat-chip>
       </mat-chip-list>
     </div>
@@ -21,31 +24,75 @@
     </button>
   </div>
   <div class="flex flex-col gap-5">
-    <mat-expansion-panel class="bg-secondary-color" *ngFor="let reparacion of reparaciones">
+
+    <mat-expansion-panel class="bg-secondary-color animate__animated animate__fadeInLeft" *ngFor="let reparacion of reparacionesFiltradas">
       <mat-expansion-panel-header class="h-24 expension-header">
-        <mat-panel-title>
-          <i class='bx bx-mobile-alt text-white text-3xl bg-primary-color p-2 rounded-xl mr-5'></i>
-          8:00 AM - 10:00 AM
+        <mat-panel-title class="w-1/3">
+          <i [ngClass]="reparacion.dispositivo.tipo == 'movil' ? ' bx bx-mobile-alt ' : 
+          reparacion.dispositivo.tipo == 'pc' ? ' bx bx-desktop ' : ' bx bx-wrench '"
+            class='text-white text-3xl bg-primary-color p-2 rounded-xl mr-5'></i>
+          {{reparacion.fecha_compromiso | date:'medium'}}
         </mat-panel-title>
-        <mat-panel-description class="flex justify-end items-center gap-5 pr-5">
+        <mat-panel-description class="flex justify-between items-center gap-5 pr-5">
+          <!-- Dispositivo -->
+
+          <span class="text-xl">{{reparacion.dispositivo.marca + " "+ reparacion.dispositivo.modelo}}</span>
+
           <!-- avatar -->
-          <div class="flex justify-center items-center mr-5">
-            <img src="../../../../assets/tecnico_profile.png" alt="avatar" class="border-2 border-primary-color rounded-full w-12 h-12">
-            <p class="mb-0">{{reparacion.tecnico.nombre}}</p>
+          <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center gap-3 mr-5">
+              <img src="../../../../assets/tecnico_profile.png" alt="avatar"
+                class="border-2 border-primary-color rounded-full w-12 h-12">
+              <span class="w-16">{{reparacion.tecnico.nombre}}</span>
+            </div>
+            <div [ngClass]="colorPrioridad(reparacion.prioridad)"
+              class="rounded-full w-52 text-center px-3 py-1 text-white text-xl">{{reparacion.estado}}</div>
           </div>
-          <div [ngClass]="colorPrioridad(reparacion.prioridad)" class="rounded-full w-52 text-center px-3 py-1 text-white text-xl">{{reparacion.estado}}</div>
         </mat-panel-description>
       </mat-expansion-panel-header>
+      <div class="h-80 flex justify-between">
 
-      <mat-form-field appearance="fill">
-        <mat-label>First name</mat-label>
-        <input matInput />
-      </mat-form-field>
+        <!-- textarea -->
+        <div class="flex flex-col w-1/3 h-full">
+          <div class="flex flex-col text-">
+            <p class="text-xl">Averia: {{reparacion.averia}}</p>
+            <p class="text-xl">Accesorios: {{reparacion.accesorios}}</p>
+          </div>
+          <label for="observaciones" class="text-black text-base">Observaciones</label>
+          <textarea id="observaciones" placeholder="Descripción" rows="5" [value]="reparacion.observaciones"
+            class=" text-black rounded-xl border-0 resize-none"></textarea>
+        </div>
+        <div class="text-black text-base">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Age</mat-label>
-        <input matInput type="number" min="1" />
-      </mat-form-field>
+
+          <div class="text-2xl">Cliente</div>
+          <hr class="border-primary-color mb-3">
+          <div class="bg-primary-color text-white flex flex-col gap-3 p-5 rounded-xl">
+            <span class="text-xl">Nombre:
+              <small>{{reparacion.cliente.nombre_fiscal}}</small>
+            </span>
+            <span class="text-xl">Teléfono:
+              <small>{{reparacion.cliente.telefono}}</small>
+            </span>
+            <span class="text-xl">Email:
+              <small>{{reparacion.cliente.email}}</small>
+            </span>
+          </div>
+
+        </div>
+
+        <div class="mr-5 flex justify-end items-end">
+          <div class="flex justify-center gap-5 ">
+            <button mat-button (click)="enviarCorreo(reparacion)" color="azul">
+              <mat-icon>email</mat-icon> <span class="text-base">Enviar email</span>
+            </button>
+            <button mat-fab color="warn">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+      </div>
     </mat-expansion-panel>
   </div>
 </div>

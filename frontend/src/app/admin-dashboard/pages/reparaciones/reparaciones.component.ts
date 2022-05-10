@@ -12,105 +12,111 @@ export class ReparacionesComponent implements OnInit {
   reparaciones = [
     {
       id: 1,
-      nombre: 'Reparación 1',
-      descripcion: 'Reparación 1',
       estado: 'En reparación',
       prioridad: 'Alta',
-      fecha: '01/01/2020',
-      hora: '01:01',
-      cliente: 'Cliente 1',
-      telefono: '123456789',
-      email: '',
-      direccion: '',
-      observaciones: '',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 1,
+        nombre_fiscal: 'Cliente 1',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
       dispositivo: {
         id: 1,
-        nombre: 'Iphone X',
-        marca: 'Apple',
-        modelo: 'X'
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
       },
       tecnico: {
         id: 1,
-        nombre: 'Tecnico 1',
+        nombre: 'Carlos',
         email: 'tecnico@gmail.com'
       }
     },
     {
       id: 1,
-      nombre: 'Reparación 1',
-      descripcion: 'Reparación 1',
       estado: 'Pendiente',
       prioridad: 'Media',
-      fecha: '01/01/2020',
-      hora: '01:01',
-      cliente: 'Cliente 1',
-      telefono: '123456789',
-      email: '',
-      direccion: '',
-      observaciones: '',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 2,
+        nombre_fiscal: 'Cliente 2',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
       dispositivo: {
-        id: 1,
-        nombre: 'Iphone X',
-        marca: 'Apple',
-        modelo: 'X'
+        id: 2,
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
       },
       tecnico: {
-        id: 1,
-        nombre: 'Tecnico 1',
+        id: 2,
+        nombre: 'Tomas',
         email: 'tecnico@gmail.com'
       }
     },
     {
       id: 1,
-      nombre: 'Reparación 1',
-      descripcion: 'Reparación 1',
-      estado: 'Pieza pedida',
+      estado: 'Pieza pendiente',
       prioridad: 'Baja',
-      fecha: '01/01/2020',
-      hora: '01:01',
-      cliente: 'Cliente 1',
-      telefono: '123456789',
-      email: '',
-      direccion: '',
-      observaciones: '',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 3,
+        nombre_fiscal: 'Cliente 3',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
       dispositivo: {
-        id: 1,
-        nombre: 'Iphone X',
+        id: 3,
+        tipo: 'pc',
+        modelo: 'Airmac',
         marca: 'Apple',
-        modelo: 'X'
       },
       tecnico: {
-        id: 1,
-        nombre: 'Tecnico 1',
+        id: 3,
+        nombre: 'Oscar',
         email: 'tecnico@gmail.com'
       }
     },
     {
       id: 1,
-      nombre: 'Reparación 1',
-      descripcion: 'Reparación 1',
       estado: 'Pendiente',
-      prioridad: 'Alta',
-      fecha: '01/01/2020',
-      hora: '01:01',
-      cliente: 'Cliente 1',
-      telefono: '123456789',
-      email: '',
-      direccion: '',
-      observaciones: '',
+      prioridad: 'Media',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 4,
+        nombre_fiscal: 'Cliente 4',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
       dispositivo: {
-        id: 1,
-        nombre: 'Iphone X',
-        marca: 'Apple',
-        modelo: 'X'
+        id: 4,
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
       },
       tecnico: {
-        id: 1,
-        nombre: 'Tecnico 1',
+        id: 4,
+        nombre: 'Tomas',
         email: 'tecnico@gmail.com'
       }
     }
   ]
+
+  reparacionesFiltradas: any[] = [...this.reparaciones];
 
   constructor(public dialog: MatDialog) { }
 
@@ -137,6 +143,18 @@ export class ReparacionesComponent implements OnInit {
       default:
         return 'bg-primary-color';
     }
+  }
+
+  filtrar(prioridad: string) {
+    if (prioridad === 'Todas') {
+      this.reparacionesFiltradas = this.reparaciones
+    }else{
+      this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
+    }
+  }
+
+  enviarCorreo(reparacion: any) {
+    
   }
 
 }

@@ -9,7 +9,7 @@ h1{
 
 mat-expansion-panel{
   border-radius: 1rem;
-  color: #fff;
+  color: black;
 }
 
 .mat-expansion-panel-header.mat-expanded{
