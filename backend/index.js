@@ -15,7 +15,6 @@ app.use(cors());
 
 //lectura y parseo del body
 app.use(express.json());
-
 //rutas
 app.use('/api/auth',require('./routes/auth'));
 app.use('/api/clientes',require('./routes/clientes'));
@@ -23,6 +22,7 @@ app.use('/api/tecnicos',require('./routes/tecnicos'));
 app.use('/api/articulos',require('./routes/articulos'));
 app.use('/api/categorias',require('./routes/categorias'));
 app.use('/api/proveedores',require('./routes/proveedores'));
+app.use('/api/reparaciones',require('./routes/reparaciones'));
 
 
 //manegar rutas

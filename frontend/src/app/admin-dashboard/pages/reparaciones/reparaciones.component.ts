@@ -1,69 +1,160 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { ClientesService } from '../../../shared/services/clientes.service';
-import { Cliente } from '../../../interfaces/cliente.interface';
-import { map, Observable, startWith } from 'rxjs';
-import { Dispositivo } from '../../../interfaces/dispositivo.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateReparacionStepperComponent } from '../../components/create-reparacion-stepper/create-reparacion-stepper.component';
 
 @Component({
   selector: 'app-reparaciones',
   templateUrl: './reparaciones.component.html',
-  styleUrls: ['./reparaciones.component.css'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  styleUrls: ['./reparaciones.component.css']
 })
 export class ReparacionesComponent implements OnInit {
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
-  isOptional = false;
-  clientes!: Cliente[];
-  dispositivos!: Dispositivo[]
-  clienteCtrl = new FormControl("", {validators: Validators.required});
-  filteredClientes!: Observable<Cliente[]>;
-  clienteSelected!: Cliente;
-  dispositivoSelected!:Dispositivo;
 
-  constructor(private _formBuilder: FormBuilder,
-    private clientesService: ClientesService) {
+  reparaciones = [
+    {
+      id: 1,
+      estado: 'En reparación',
+      prioridad: 'Alta',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 1,
+        nombre_fiscal: 'Cliente 1',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
+      dispositivo: {
+        id: 1,
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
+      },
+      tecnico: {
+        id: 1,
+        nombre: 'Carlos',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      estado: 'Pendiente',
+      prioridad: 'Media',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 2,
+        nombre_fiscal: 'Cliente 2',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
+      dispositivo: {
+        id: 2,
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
+      },
+      tecnico: {
+        id: 2,
+        nombre: 'Tomas',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      estado: 'Pieza pendiente',
+      prioridad: 'Baja',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 3,
+        nombre_fiscal: 'Cliente 3',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
+      dispositivo: {
+        id: 3,
+        tipo: 'pc',
+        modelo: 'Airmac',
+        marca: 'Apple',
+      },
+      tecnico: {
+        id: 3,
+        nombre: 'Oscar',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      estado: 'Pendiente',
+      prioridad: 'Media',
+      fecha_compromiso: '2022-05-31 17:00:00',
+      observaciones: 'Este dispositivo no funciona sin una conexión a internet',
+      averia: 'Dispositivo no funciona',
+      accesorios: 'cargador, cable,',
+      cliente: {
+        id: 4,
+        nombre_fiscal: 'Cliente 4',
+        telefono: '123456789',
+        email: 'cliente@gmail.com',
+      },
+      dispositivo: {
+        id: 4,
+        tipo: 'movil',
+        modelo: 'Iphone X',
+        marca: 'Apple'
+      },
+      tecnico: {
+        id: 4,
+        nombre: 'Tomas',
+        email: 'tecnico@gmail.com'
+      }
+    }
+  ]
 
-    this.clientesService.getClientes().subscribe(clientes => {
-      this.clientes = clientes;
-    })
+  reparacionesFiltradas: any[] = [...this.reparaciones];
 
-    this.filteredClientes = this.clienteCtrl.valueChanges.pipe(
-      startWith(''),
-      map(cliente => (cliente ? this._filterClientes(cliente) : this.clientes)),
-    );
-  }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      clienteCtrl: this.clienteCtrl,
+  }
+
+  addNewReparacion() {
+    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "50%", height: "50%", disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //actualizar la tabla
+      }
     });
-    
-    this.secondFormGroup = this._formBuilder.group({
-      dispositivo: ['', Validators.required],
-    });
   }
 
-  private _filterClientes(value: string): Cliente[] {
-    const filterValue = value.toLowerCase();
-
-    return this.clientes.filter(cliente => cliente.nombre_fiscal.toLowerCase().includes(filterValue));
-  }
-
-  guardarSelecionCliente(cliente: Cliente) {
-    this.clienteSelected = cliente;
-  }
-
-  getDispositivos() {
-    if (this.firstFormGroup.valid) {
-      this.clientesService.getDispositivos(this.clienteSelected.id!).subscribe(dispositivos => {this.dispositivos = dispositivos})
+  colorPrioridad(prioridad: string) {
+    switch (prioridad) {
+      case 'Alta':
+        return 'bg-[#EB5757]';
+      case 'Media':
+        return 'bg-[#F2994A]';
+      case 'Baja':
+        return 'bg-[#27AE60]';
+      default:
+        return 'bg-primary-color';
     }
   }
+
+  filtrar(prioridad: string) {
+    if (prioridad === 'Todas') {
+      this.reparacionesFiltradas = this.reparaciones
+    }else{
+      this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
+    }
+  }
+
+  enviarCorreo(reparacion: any) {
+    
+  }
+
 }
