@@ -19,6 +19,7 @@ import { ProveedoresFormComponent } from './components/proveedores-form/proveedo
 import { CreateClienteFormComponent } from './components/create-cliente-form/create-cliente-form.component';
 import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
 import { MaterialModule } from '../material/material.module';
+import { CreateReparacionStepperComponent } from './components/create-reparacion-stepper/create-reparacion-stepper.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { MaterialModule } from '../material/material.module';
     EntradaArticuloFormComponent,
     ProveedoresFormComponent,
     CreateClienteFormComponent,
-    ReparacionesComponent
+    ReparacionesComponent,
+    CreateReparacionStepperComponent
   ],
   imports: [
     CommonModule,

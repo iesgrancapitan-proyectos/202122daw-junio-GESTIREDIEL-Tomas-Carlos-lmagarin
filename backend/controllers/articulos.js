@@ -174,6 +174,13 @@ const entradaArticulo = async (req, res = response) => {
 
   try {
 
+    if (cantidad <= 0) {
+      return res.status(400).json({
+        ok: true,
+        msg: 'La cantidad debe ser mayor a 0'
+      })
+    }
+
     const relacionExist = await prisma.$queryRaw `
       SELECT * FROM proveedor_articulo WHERE id_articulo = ${id_articulo} AND id_proveedor = ${id_proveedor}  
     `

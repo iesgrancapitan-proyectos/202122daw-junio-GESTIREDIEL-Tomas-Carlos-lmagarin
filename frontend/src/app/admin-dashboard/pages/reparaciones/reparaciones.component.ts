@@ -1,69 +1,142 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { ClientesService } from '../../../shared/services/clientes.service';
-import { Cliente } from '../../../interfaces/cliente.interface';
-import { map, Observable, startWith } from 'rxjs';
-import { Dispositivo } from '../../../interfaces/dispositivo.interface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreateReparacionStepperComponent } from '../../components/create-reparacion-stepper/create-reparacion-stepper.component';
 
 @Component({
   selector: 'app-reparaciones',
   templateUrl: './reparaciones.component.html',
-  styleUrls: ['./reparaciones.component.css'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { showError: true },
-    },
-  ],
+  styleUrls: ['./reparaciones.component.css']
 })
 export class ReparacionesComponent implements OnInit {
-  firstFormGroup!: FormGroup;
-  secondFormGroup!: FormGroup;
-  isOptional = false;
-  clientes!: Cliente[];
-  dispositivos!: Dispositivo[]
-  clienteCtrl = new FormControl("", {validators: Validators.required});
-  filteredClientes!: Observable<Cliente[]>;
-  clienteSelected!: Cliente;
-  dispositivoSelected!:Dispositivo;
 
-  constructor(private _formBuilder: FormBuilder,
-    private clientesService: ClientesService) {
+  reparaciones = [
+    {
+      id: 1,
+      nombre: 'Reparación 1',
+      descripcion: 'Reparación 1',
+      estado: 'En reparación',
+      prioridad: 'Alta',
+      fecha: '01/01/2020',
+      hora: '01:01',
+      cliente: 'Cliente 1',
+      telefono: '123456789',
+      email: '',
+      direccion: '',
+      observaciones: '',
+      dispositivo: {
+        id: 1,
+        nombre: 'Iphone X',
+        marca: 'Apple',
+        modelo: 'X'
+      },
+      tecnico: {
+        id: 1,
+        nombre: 'Tecnico 1',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      nombre: 'Reparación 1',
+      descripcion: 'Reparación 1',
+      estado: 'Pendiente',
+      prioridad: 'Media',
+      fecha: '01/01/2020',
+      hora: '01:01',
+      cliente: 'Cliente 1',
+      telefono: '123456789',
+      email: '',
+      direccion: '',
+      observaciones: '',
+      dispositivo: {
+        id: 1,
+        nombre: 'Iphone X',
+        marca: 'Apple',
+        modelo: 'X'
+      },
+      tecnico: {
+        id: 1,
+        nombre: 'Tecnico 1',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      nombre: 'Reparación 1',
+      descripcion: 'Reparación 1',
+      estado: 'Pieza pedida',
+      prioridad: 'Baja',
+      fecha: '01/01/2020',
+      hora: '01:01',
+      cliente: 'Cliente 1',
+      telefono: '123456789',
+      email: '',
+      direccion: '',
+      observaciones: '',
+      dispositivo: {
+        id: 1,
+        nombre: 'Iphone X',
+        marca: 'Apple',
+        modelo: 'X'
+      },
+      tecnico: {
+        id: 1,
+        nombre: 'Tecnico 1',
+        email: 'tecnico@gmail.com'
+      }
+    },
+    {
+      id: 1,
+      nombre: 'Reparación 1',
+      descripcion: 'Reparación 1',
+      estado: 'Pendiente',
+      prioridad: 'Alta',
+      fecha: '01/01/2020',
+      hora: '01:01',
+      cliente: 'Cliente 1',
+      telefono: '123456789',
+      email: '',
+      direccion: '',
+      observaciones: '',
+      dispositivo: {
+        id: 1,
+        nombre: 'Iphone X',
+        marca: 'Apple',
+        modelo: 'X'
+      },
+      tecnico: {
+        id: 1,
+        nombre: 'Tecnico 1',
+        email: 'tecnico@gmail.com'
+      }
+    }
+  ]
 
-    this.clientesService.getClientes().subscribe(clientes => {
-      this.clientes = clientes;
-    })
-
-    this.filteredClientes = this.clienteCtrl.valueChanges.pipe(
-      startWith(''),
-      map(cliente => (cliente ? this._filterClientes(cliente) : this.clientes)),
-    );
-  }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
-      clienteCtrl: this.clienteCtrl,
+  }
+
+  addNewReparacion() {
+    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "50%", height: "50%", disableClose: true });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        //actualizar la tabla
+      }
     });
-    
-    this.secondFormGroup = this._formBuilder.group({
-      dispositivo: ['', Validators.required],
-    });
   }
 
-  private _filterClientes(value: string): Cliente[] {
-    const filterValue = value.toLowerCase();
-
-    return this.clientes.filter(cliente => cliente.nombre_fiscal.toLowerCase().includes(filterValue));
-  }
-
-  guardarSelecionCliente(cliente: Cliente) {
-    this.clienteSelected = cliente;
-  }
-
-  getDispositivos() {
-    if (this.firstFormGroup.valid) {
-      this.clientesService.getDispositivos(this.clienteSelected.id!).subscribe(dispositivos => {this.dispositivos = dispositivos})
+  colorPrioridad(prioridad: string) {
+    switch (prioridad) {
+      case 'Alta':
+        return 'bg-[#EB5757]';
+      case 'Media':
+        return 'bg-[#F2994A]';
+      case 'Baja':
+        return 'bg-[#27AE60]';
+      default:
+        return 'bg-primary-color';
     }
   }
+
 }
