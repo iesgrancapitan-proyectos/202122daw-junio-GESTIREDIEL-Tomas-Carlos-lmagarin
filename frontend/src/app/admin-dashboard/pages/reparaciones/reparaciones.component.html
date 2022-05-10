@@ -1,25 +1,58 @@
-<h1 class="text-center">Reparaciones</h1>
-<div class="w-4/5 mx-auto animate__animated animate__fadeIn">
-  <mat-stepper orientation="horizontal">
-    <mat-step >
+<mat-stepper linear #stepper class="w-3/4 mx-auto bg-secondary-color rounded-2xl">
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>Cliente</ng-template>
-      <ng-template matStepContent>
-        <p>This content was rendered lazily</p>
-        <button mat-button matStepperNext>Next</button>
-      </ng-template>
-    </mat-step>
-    <mat-step>
+      <div class="flex items-center gap-5">
+        <mat-form-field class="w-full" appearance="fill">
+          <mat-label>Cliente</mat-label>
+          <input matInput aria-label="Cliente" [matAutocomplete]="auto" formControlName="clienteCtrl"
+            [formControl]="clienteCtrl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (click)="guardarSelecionCliente(cliente)" *ngFor="let cliente of filteredClientes | async"
+              [value]="cliente.email">
+              <span>{{cliente.nombre_fiscal}}</span> |
+              <small>NIF: {{cliente.nif}}</small>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <button mat-fab color="azul">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div>
+        <button (click)="getDispositivos()" mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
+    <form [formGroup]="secondFormGroup">
       <ng-template matStepLabel>Dispositivo</ng-template>
-      <ng-template matStepContent>
-        <p>This content was also rendered lazily</p>
+      <div class="w-full mt-5 mx-auto">
+        <mat-radio-group class="flex flex-col gap-5" formControlName="dispositivo">
+          <mat-radio-button *ngFor="let dispositivo of dispositivos" [value]="dispositivo">
+            <div class="flex justify-center items-center text-xl">
+              <div>{{dispositivo.marca + " - " + dispositivo.modelo}}</div>
+              <div *ngIf="dispositivo.tipo == 'movil'">
+                <i class='bx bx-mobile-alt text-3xl'></i>
+              </div>
+              <div *ngIf="dispositivo.tipo == 'pc'">
+                <i class='bx bx-laptop text-3xl'></i>
+              </div>
+            </div>
+          </mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div>
         <button mat-button matStepperPrevious>Back</button>
         <button mat-button matStepperNext>Next</button>
-      </ng-template>
-    </mat-step>
-    <mat-step>
-      <ng-template matStepLabel>Precio final</ng-template>
-      <p>This content was rendered eagerly</p>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Precio/Final</ng-template>
+    <p>You are now done.</p>
+    <div>
       <button mat-button matStepperPrevious>Back</button>
-    </mat-step>
-  </mat-stepper>
-</div>
+    </div>
+  </mat-step>
+</mat-stepper>
