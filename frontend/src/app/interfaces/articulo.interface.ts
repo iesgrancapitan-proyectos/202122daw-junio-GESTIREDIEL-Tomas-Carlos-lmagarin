@@ -1,3 +1,4 @@
+import { Proveedor } from './proveedor.interface';
 export interface Articulo {
   id?:           number;
   descripcion:  string;
@@ -7,5 +8,5 @@ export interface Articulo {
   id_categoria: number;
   categoria?:    string;
   stock?:        number;
-  id_proveedor?: number;
+  proveedores?:  Proveedor[];
 }
