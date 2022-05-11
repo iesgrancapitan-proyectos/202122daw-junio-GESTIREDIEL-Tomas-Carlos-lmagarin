@@ -1,8 +1,12 @@
 <header class="bg-white">
   <div>
-    <div class="user cursor-pointer hover:text-primary-color" routerLink="/dashboard/perfil">
+    <div *ngIf="isNotAdmin()" class="user cursor-pointer hover:text-primary-color" routerLink="/dashboard/perfil">
       <i class='bx bx-user '></i>
       <span>{{username}}</span>
+    </div>
+    <div *ngIf="!isNotAdmin()" class="user cursor-pointer hover:text-primary-color">
+      <i class='bx bx-user '></i>
+      <span>Administrador</span>
     </div>
     <i (click)="logout()" class=' hover:text-primary-color bx bx-log-out'></i>
   </div>

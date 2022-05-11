@@ -135,7 +135,7 @@ const getAllReparaciones = async (req, res = response) => {
   let data = [];
 
   reparaciones.forEach((reparacion, i) => {
-    arrayDatos[i] = {
+    data[i] = {
       id: reparacion.id,
       estado: reparacion.estado,
       accesorios: reparacion.accesorios,
