@@ -256,7 +256,7 @@ const getArticulosByIdProveedor = async (req, res = response) => {
 
   try { 
     const articulos = await prisma.$queryRaw `
-    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria,
+    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria,stock,
     (SELECT nombre FROM categoria WHERE a.id_categoria = categoria.id) AS categoria
     FROM articulo as a , proveedor_articulo as pa
     WHERE a.id = pa.id_articulo AND pa.id_proveedor = ${id_proveedor}
