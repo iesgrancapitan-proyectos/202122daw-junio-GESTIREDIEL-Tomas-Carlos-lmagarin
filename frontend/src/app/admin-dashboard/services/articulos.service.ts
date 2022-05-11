@@ -11,10 +11,7 @@ import { EntradaArticulo } from '../../interfaces/entradaArticulo.interface';
 })
 export class ArticulosService {
   
-
-
   constructor(private http:HttpClient) { }
-
 
   getArticulos():Observable<Articulo[]>{
     return this.http.get<Articulo[]>(`${environment.baseUrl}/articulos`);
@@ -38,5 +35,9 @@ export class ArticulosService {
 
   borrarArticulo(id: number):Observable<ApiResponse>{
     return this.http.delete<ApiResponse>(`${environment.baseUrl}/articulos/${id}`);
+  }
+
+  getArticulosByProveedor(id: number):Observable<Articulo[]>{
+    return this.http.get<Articulo[]>(`${environment.baseUrl}/articulos/byProveedor/${id}`);
   }
 }

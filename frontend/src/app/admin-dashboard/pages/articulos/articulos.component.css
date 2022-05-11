@@ -9,6 +9,10 @@ table {
   overflow:hidden !important;
 }
 
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+}
+
 table .mat-header-row {
   background-color: #369FFF;
 }

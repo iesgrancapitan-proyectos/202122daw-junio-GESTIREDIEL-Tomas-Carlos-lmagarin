@@ -65,65 +65,14 @@ const crearArticulo = async (req, res = response) => {
 const getAllArticulo = async (req, res = response) => {
   try {
 
-    // const tecnicos = await prisma.$queryRaw `
-    //   SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria, 
-    //   (SELECT nombre FROM categoria WHERE articulo.id_categoria = categoria.id) AS categoria,
-    //   (SELECT SUM(stock) FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id) AS stock,
-    //   (SELECT * from proveedor WHERE proveedor.id IN 
-    //   (SELECT id_proveedor FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id)) AS proveedores
-    //   FROM articulo
-    // `
-
     const articulos = await prisma.$queryRaw `
-    SELECT DISTINCT a.id,a.descripcion,a.referencia,a.precio_coste,a.precio_venta,a.id_categoria
-    FROM articulo as a 
-    INNER JOIN proveedor_articulo as pa ON a.id=pa.id_articulo
-    INNER JOIN categoria as c ON c.id=a.id_categoria 
-    INNER JOIN proveedor p ON p.id=pa.id_proveedor
+    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria, 
+    (SELECT nombre FROM categoria WHERE articulo.id_categoria = categoria.id) AS categoria,
+    (SELECT SUM(stock) FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id) AS stock
+    FROM articulo
     `
 
-    const respuesta = []
-
-    // articulos = articulos.filter(()=>{}) 
-    articulos.forEach(articulo => {
-      if (!respuesta.includes(articulo.id_articulo)) {
-
-        const proveedores = []
-        let stock = 0
-
-        articulos.filter(articuloRes => articuloRes.id_articulo === articulo.id_articulo).forEach(articuloRes => {
-          console.log(articuloRes);
-          proveedores.push({
-            id: articuloRes.id_proveedor,
-            nombre_fiscal: articuloRes.nombre_fiscal,
-            nombre_comercial: articuloRes.nombre_comercial,
-          })
-          stock += articuloRes.stock
-        })
-
-        const item = {
-          id: articulo.id_articulo,
-          descripcion: articulo.descripcion,
-          referencia: articulo.referencia,
-          precio_coste: articulo.precio_coste,
-          precio_venta: articulo.precio_venta,
-          stock: stock,
-          categoria: {
-            id: articulo.id_categoria,
-            nombre: articulo.nombre
-          },
-          proveedores: proveedores
-        }
-
-        respuesta.push(item)
-      }
-
-    })
-
-    //generar respuesta
-
-
-    return res.status(200).json(respuesta)
+    return res.status(200).json(articulos)
 
   } catch (error) {
     console.log(error);
@@ -300,11 +249,35 @@ const articuloExist = async (req, res = response) => {
   }
 }
 
+const getArticulosByIdProveedor = async (req, res = response) => {
+  const {
+    id_proveedor
+  } = req.params;
+
+  try { 
+    const articulos = await prisma.$queryRaw `
+    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria,
+    (SELECT nombre FROM categoria WHERE a.id_categoria = categoria.id) AS categoria
+    FROM articulo as a , proveedor_articulo as pa
+    WHERE a.id = pa.id_articulo AND pa.id_proveedor = ${id_proveedor}
+    `
+
+    return res.status(200).json(articulos)
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 module.exports = {
   crearArticulo,
   editarArticulo,
   borrarArticulo,
   getAllArticulo,
   entradaArticulo,
-  articuloExist
+  articuloExist,
+  getArticulosByIdProveedor
 }

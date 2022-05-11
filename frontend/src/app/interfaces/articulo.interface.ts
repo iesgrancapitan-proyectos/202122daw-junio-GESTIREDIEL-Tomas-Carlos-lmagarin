@@ -8,5 +8,5 @@ export interface Articulo {
   id_categoria: number;
   categoria?:    string;
   stock?:        number;
-  proveedores?:  Proveedor[];
+  id_proveedor?:  number;
 }
