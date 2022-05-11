@@ -35,6 +35,13 @@ const crearArticulo = async (req, res = response) => {
       }
     }
 
+    if (precio_coste >= precio_venta) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El precio de venta debe ser mayor que el precio de coste'
+      })
+    }
+
 
     //crear articulo en la BD
     await prisma.articulo.create({

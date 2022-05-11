@@ -161,7 +161,13 @@ export class ArticuloFormComponent implements OnInit {
           })
         },
         error: (err) => {
-          //TODO: mostrar error
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: err.error.msg,
+            showConfirmButton: false,
+            timer: 2000
+          })
         }
       }
     )
