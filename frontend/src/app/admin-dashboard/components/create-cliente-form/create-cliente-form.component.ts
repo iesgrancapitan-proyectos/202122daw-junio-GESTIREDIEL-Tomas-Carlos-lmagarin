@@ -37,6 +37,12 @@ export class CreateClienteFormComponent implements OnInit {
     this.clientesService.createCliente(this.form.value).subscribe(
       {
         next: (res) => {
+          Swal.fire({
+            title: 'Cliente creado',
+            text: 'El cliente ha sido creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          });
           this.dialogRef.close();
         },
         error: (err) => {

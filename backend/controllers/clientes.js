@@ -31,9 +31,9 @@ const crearCliente = async (req, res = response) => {
   } = req.body;
 
   CP=CP.toString();
+  telefono=Number(telefono);
 
   try {
-
     //verificar email
     let usuario = await prisma.usuarios.findUnique({
       where: {
@@ -91,6 +91,7 @@ const crearCliente = async (req, res = response) => {
         id_usuario: id
       }
     })
+    console.log(cli)
 
      //Generar token
      const token = await generarJWT(user.id,user.username);
