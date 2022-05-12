@@ -15,6 +15,11 @@ const {
 } = require('../helpers/jwt');
 const nodemailer = require('nodemailer');
 
+const {
+  ValidateSpanishID
+} = require('../helpers/validarNIF')
+
+
 const crearCliente = async (req, res = response) => {
 
   let {
@@ -34,6 +39,16 @@ const crearCliente = async (req, res = response) => {
   telefono=Number(telefono);
 
   try {
+
+    const validNIF = ValidateSpanishID(nif)
+    console.log(validNIF);
+    if (!validNIF.valid || (validNIF.type !== 'dni' && validNIF.type !== 'nie')) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El nif no es valido'
+      })
+    }
+
     //verificar email
     let usuario = await prisma.usuarios.findUnique({
       where: {
@@ -78,11 +93,11 @@ const crearCliente = async (req, res = response) => {
 
     
     //crear cliente en la BD
-    const cli=await prisma.cliente.create({
+    await prisma.cliente.create({
       data: {
         nif,
         nombre_fiscal,
-        telefono,
+        telefono: telefono.toString(),
         domicilio,
         CP,
         poblacion,
@@ -91,7 +106,6 @@ const crearCliente = async (req, res = response) => {
         id_usuario: id
       }
     })
-    console.log(cli)
 
      //Generar token
      const token = await generarJWT(user.id,user.username);

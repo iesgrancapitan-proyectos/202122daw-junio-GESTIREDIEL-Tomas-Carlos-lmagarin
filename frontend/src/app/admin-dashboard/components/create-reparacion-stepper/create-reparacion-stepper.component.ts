@@ -35,12 +35,11 @@ export class CreateReparacionStepperComponent implements OnInit {
 
     this.clientesService.getClientes().subscribe(clientes => {
       this.clientes = clientes;
+      this.filteredClientes = this.clienteCtrl.valueChanges.pipe(
+        startWith(''),
+        map(cliente => (cliente ? this._filterClientes(cliente) : this.clientes)),
+      );
     })
-
-    this.filteredClientes = this.clienteCtrl.valueChanges.pipe(
-      startWith(''),
-      map(cliente => (cliente ? this._filterClientes(cliente) : this.clientes)),
-    );
   }
 
   ngOnInit() {

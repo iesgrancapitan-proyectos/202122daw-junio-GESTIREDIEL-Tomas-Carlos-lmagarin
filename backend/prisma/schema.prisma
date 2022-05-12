@@ -90,6 +90,11 @@ model proveedor {
   id                 Int                  @id @default(autoincrement())
   nombre_fiscal      String               @unique(map: "nombre_fiscal") @db.VarChar(50)
   nombre_comercial   String               @db.VarChar(50)
+  cif                String               @unique(map: "cif") @db.VarChar(20)
+  cp                 String               @db.VarChar(10)
+  direccion          String               @db.VarChar(255)
+  telefono           String               @db.VarChar(20)
+  email              String               @db.VarChar(255)
   proveedor_articulo proveedor_articulo[] @ignore
 }
 

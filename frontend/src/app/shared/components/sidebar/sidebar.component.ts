@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
         { title: "Artículos", path: "/dashboard/articulos" },
       ]
     },
-    { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
+    // { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
     { title: "Proveedores",icon:"bx-phone", path: "/dashboard/proveedores" },
     // { title: "Chat",icon:"bx-chat", path: "/dashboard/chat" },
   ];

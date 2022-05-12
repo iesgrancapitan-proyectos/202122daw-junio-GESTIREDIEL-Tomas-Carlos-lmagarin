@@ -20,6 +20,9 @@ export class ProveedoresComponent implements OnInit {
   displayedColumns: string[] = [
     'nombre_comercial',
     'nombre_fiscal',
+    'cif',
+    'telefono',
+    'email',
     'acciones'
   ];
   dataSource!: MatTableDataSource<Proveedor>;
@@ -59,7 +62,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   edit(proveedor: Proveedor): void {
-    const dialogRef = this.dialog.open(ProveedoresFormComponent, { height:'400px',width:'500px',  disableClose: true });
+    const dialogRef = this.dialog.open(ProveedoresFormComponent, { height:'600px',width:'500px',  disableClose: true });
     dialogRef.componentInstance.proveedor = proveedor;
     dialogRef.afterClosed().subscribe(result => {
       this.getArticulos()
@@ -67,7 +70,7 @@ export class ProveedoresComponent implements OnInit {
   }
 
   add() {
-    const dialogRef = this.dialog.open(ProveedoresFormComponent, { height:'400px',width:'500px', disableClose: true });
+    const dialogRef = this.dialog.open(ProveedoresFormComponent, { height:'600px',width:'500px', disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       this.getArticulos()
     });
