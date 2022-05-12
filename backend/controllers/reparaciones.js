@@ -4,7 +4,7 @@ const {
 const {
   PrismaClient
 } = require('@prisma/client')
-
+const nodemailer = require('nodemailer');
 const prisma = new PrismaClient()
 
 const crearReparacion = async (req, res = response) => {
@@ -183,8 +183,47 @@ const getAllReparaciones = async (req, res = response) => {
   })
 }
 
+const enviarMail = async (req, res = response) => {
+
+  const {email,mensaje} = req.body;
+  
+  //Enviar email con token
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+    }
+  });
+
+  const mailOptions = {
+    from: '"GESTIREDIEL"' + process.env.EMAIL,
+    to: email,
+    subject: 'Mensaje de GESTIREDIEL',
+    html: `
+      ${mensaje}
+    `
+  };
+
+  await transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      return res.status(500).json({
+        ok: false,
+        msg: 'Por favor hable con el administrador'
+      })
+    }
+  });
+
+  return res.status(200).json({
+    ok: true,
+    msg: 'Mail enviado correctamente'
+  })
+
+}
+
 module.exports = {
   getAllReparaciones,
   removeReparacion,
-  crearReparacion
+  crearReparacion,
+  enviarMail
 }

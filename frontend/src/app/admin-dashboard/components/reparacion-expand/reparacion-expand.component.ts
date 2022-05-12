@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
+import { ReparacionesService } from '../../services/reparaciones.service';
 
 @Component({
   selector: 'app-reparacion-expand',
@@ -10,7 +11,7 @@ export class ReparacionExpandComponent implements OnInit {
 
   @Input() reparacion: any;
 
-  constructor() { }
+  constructor(private serviceReparacion:ReparacionesService ) { }
 
   ngOnInit(): void {
   }
@@ -33,13 +34,6 @@ export class ReparacionExpandComponent implements OnInit {
       input: 'textarea',
       inputLabel: `Enviar email a ${this.reparacion.cliente.nombre_fiscal}`,
       inputPlaceholder: 'Escribe tu mensaje aquí...',
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          if (!value) {
-            resolve('Escribe un mensaje')
-          }
-        })
-      },
       inputAttributes: {
         'aria-label': 'Escribe tu mensaje aquí'
       },
@@ -48,18 +42,24 @@ export class ReparacionExpandComponent implements OnInit {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Enviar',
       cancelButtonText: 'Cancelar'
-      
-    })
+    });
     if (mensaje) {
-      //TODO: enviar correo
+      //Enviar correo
+      this.serviceReparacion.sendMail(this.reparacion.cliente.email,mensaje).subscribe(
+        (data) => {
+          console.log(data);
+          Swal.fire('Enviado', 'El correo ha sido enviado', 'success');
+        }
+      )
+
       Swal.fire({
         title: 'Enviado',
         text: 'Mensaje enviado correctamente',
         icon: 'success'
       })
     }
-    
-   
+
+
   }
 
   borrar() {
@@ -76,6 +76,8 @@ export class ReparacionExpandComponent implements OnInit {
       if (result.value) {
         //TODO: borrar reparacion
         //TODO: actualizar la tabla (esto es con un Output si no sabes te lo explico :) )
+
+
 
         Swal.fire({
           title: 'Eliminada',

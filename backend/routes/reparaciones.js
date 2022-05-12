@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {getAllReparaciones, removeReparacion,crearReparacion} = require('../controllers/reparaciones');
+const {getAllReparaciones, removeReparacion,crearReparacion,enviarMail} = require('../controllers/reparaciones');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -22,5 +22,8 @@ router.post('/',[
 
 //Obtener todas reparaciones
 router.get('/',getAllReparaciones)
+
+//Enviar mail
+router.post('/mail',enviarMail);
 
 module.exports = router;
