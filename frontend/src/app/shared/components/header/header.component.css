@@ -18,7 +18,7 @@ header div{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: fit-content;
 }
 header div i {
   font-size: 30px;
@@ -28,4 +28,5 @@ header div .bx-log-out {
 }
 header div .user{
   justify-content: flex-start;
+  gap: 10px;
 }

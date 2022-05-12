@@ -1,31 +1,29 @@
 <div class="w-full flex flex-col justify-between bg-secondary-color rounded-2xl">
 
   <mat-stepper linear #stepper class="bg-secondary-color rounded-2xl ">
-    <mat-step [stepControl]="firstFormGroup">
-
+    <mat-step>
       <ng-template matStepLabel>Cliente</ng-template>
-      <form [formGroup]="firstFormGroup"*ngIf="buscarCliente else crearCliente">
-        <div class="flex items-center  justify-between gap-5" *ngIf="buscarCliente else crearCliente">
-          <mat-form-field class="w-full mr-5" appearance="fill">
-            <mat-label>Cliente</mat-label>
-            <input matInput aria-label="Cliente" [matAutocomplete]="auto" formControlName="clienteCtrl"
-              [formControl]="clienteCtrl">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (onSelectionChange)="saveClienteSelected(cliente)"
-                *ngFor="let cliente of filteredClientes | async" [value]="cliente.nombre_fiscal+' - '+cliente.nif">
-                <span>{{cliente.nombre_fiscal}}</span> |
-                <small>NIF: {{cliente.nif}}</small>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-        </div>
-        <div>
-          <button (click)="getDispositivos()" mat-button matStepperNext>Siguiente</button>
-        </div>
-      </form>
-      <button (click)="buscarCliente=!buscarCliente" mat-fab color="azul">
-        <mat-icon>{{buscarCliente ? 'add' : 'search'}} </mat-icon>
-      </button>
+      <div class="flex justify-center items-start gap-5">
+          <div class="flex items-center  justify-between w-full gap-5" *ngIf="buscarCliente else crearCliente">
+            <mat-form-field class="w-full" appearance="fill">
+              <mat-label>Cliente</mat-label>
+              <form [formGroup]="form">
+              <input matInput aria-label="Cliente" [matAutocomplete]="auto" formControlName="clienteCtrl"
+                [formControl]="clienteCtrl">
+              </form>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="saveClienteSelected(cliente,stepper)"
+                  *ngFor="let cliente of filteredClientes | async" [value]="cliente.nombre_fiscal+' - '+cliente.nif">
+                  <span>{{cliente.nombre_fiscal}}</span> |
+                  <small>NIF: {{cliente.nif}}</small>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        <button (click)="buscarCliente=!buscarCliente" mat-fab color="azul">
+          <mat-icon>{{buscarCliente ? 'add' : 'search'}} </mat-icon>
+        </button>
+      </div>
     </mat-step>
     <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
       <form [formGroup]="secondFormGroup">
@@ -68,6 +66,6 @@
 
 <ng-template #crearCliente>
   <div class="flex justify-center items-center">
-    <app-create-cliente-form [inReparacion]="true" ></app-create-cliente-form>
+    <app-create-cliente-form [inReparacion]="true" (newClienteOnReparacion)="saveClienteSelected($event,stepper)"></app-create-cliente-form>
   </div>
 </ng-template>

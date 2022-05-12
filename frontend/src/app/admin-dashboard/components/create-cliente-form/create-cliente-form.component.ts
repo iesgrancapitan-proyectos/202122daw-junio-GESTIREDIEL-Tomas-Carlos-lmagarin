@@ -75,6 +75,7 @@ export class CreateClienteFormComponent implements OnInit {
   }
 
   enviarClienteAReparacion() {
-    this.newClienteOnReparacion.emit(this.form.value);
+    const cliente = this.form.value;
+    this.newClienteOnReparacion.emit(cliente);
   }
 }

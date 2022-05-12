@@ -36,3 +36,7 @@
 ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
   border-color:#369FFF!important; /*outer ring color change*/
 }
+
+.mat-option.mat-active {
+  background: red !important;
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ClientesService } from '../../../shared/services/clientes.service';
@@ -19,7 +19,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   ],
 })
 export class CreateReparacionStepperComponent implements OnInit {
-  firstFormGroup!: FormGroup;
+  form!: FormGroup;
   secondFormGroup!: FormGroup;
   isOptional = false;
   clientes!: Cliente[];
@@ -45,10 +45,10 @@ export class CreateReparacionStepperComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
+    this.form = this._formBuilder.group({
       clienteCtrl: this.clienteCtrl,
     });
-    
+
     this.secondFormGroup = this._formBuilder.group({
       dispositivo: ['', Validators.required],
     });
@@ -60,15 +60,15 @@ export class CreateReparacionStepperComponent implements OnInit {
     return this.clientes.filter(cliente => cliente.nombre_fiscal.toLowerCase().includes(filterValue));
   }
 
-  saveClienteSelected(cliente: Cliente) {
+  saveClienteSelected(cliente: Cliente,stepper:any) {
     this.clienteSelected = cliente;
-    console.log(cliente);
+    this.getDispositivos()
+    
+    stepper.next();
   }
 
   getDispositivos() {
-    if (this.firstFormGroup.valid) {
       this.clientesService.getDispositivos(this.clienteSelected.id!).subscribe(dispositivos => {this.dispositivos = dispositivos})
-    }
   }
 
   closeDialog(): void {
