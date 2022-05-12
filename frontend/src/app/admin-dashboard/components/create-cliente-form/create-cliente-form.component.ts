@@ -1,8 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import Swal from 'sweetalert2';
+import { Cliente } from '../../../interfaces/cliente.interface';
 
 @Component({
   selector: 'app-create-cliente-form',
@@ -13,6 +14,10 @@ export class CreateClienteFormComponent implements OnInit {
 
 
   public form!: FormGroup;
+  @Input()
+  inReparacion:boolean = false;
+  @Output()
+  newClienteOnReparacion = new EventEmitter<Cliente>();
 
   constructor(private clientesService: ClientesService,
     private fb: FormBuilder,
@@ -67,5 +72,9 @@ export class CreateClienteFormComponent implements OnInit {
     } else {
       return "hidden";
     }
+  }
+
+  enviarClienteAReparacion() {
+    this.newClienteOnReparacion.emit(this.form.value);
   }
 }

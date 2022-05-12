@@ -1,7 +1,14 @@
+mat-expansion-panel{
+  border-radius: 1rem;
+  color: black;
+}
 
+.mat-expansion-panel-header.mat-expanded{
+  height: 6rem;
+}
 
-h1{
-  font-family: Montserrat, sans-serif;
+::ng-deep .expension-header > .mat-expansion-indicator:after {
+  border-color: black;
 }
 
 .mat-prioridadAlta {

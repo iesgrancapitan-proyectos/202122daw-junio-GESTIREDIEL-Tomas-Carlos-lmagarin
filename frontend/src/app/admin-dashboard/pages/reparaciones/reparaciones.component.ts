@@ -124,37 +124,20 @@ export class ReparacionesComponent implements OnInit {
   }
 
   addNewReparacion() {
-    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "50%", height: "50%", disableClose: true });
+    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "50%", height: "70%", disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        //actualizar la tabla
+        //TODO: actualizar la tabla
       }
     });
-  }
-
-  colorPrioridad(prioridad: string) {
-    switch (prioridad) {
-      case 'Alta':
-        return 'bg-[#EB5757]';
-      case 'Media':
-        return 'bg-[#F2994A]';
-      case 'Baja':
-        return 'bg-[#27AE60]';
-      default:
-        return 'bg-primary-color';
-    }
   }
 
   filtrar(prioridad: string) {
     if (prioridad === 'Todas') {
       this.reparacionesFiltradas = this.reparaciones
-    }else{
+    } else {
       this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
     }
-  }
-
-  enviarCorreo(reparacion: any) {
-    
   }
 
 }

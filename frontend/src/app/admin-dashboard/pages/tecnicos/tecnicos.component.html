@@ -1,6 +1,6 @@
 <h1 class="text-center">Técnicos</h1>
 
-<div class="mx-auto w-4/5 animate__animated animate__fadeIn">
+<div class="mx-auto w-4/5 animate__animated animate__fadeIn" *ngIf="tecnicos else loading">
   <div class="flex justify-end">
     <button (click)="agregarDialog()" class="duration-300 text-center bg-primary-color hover:bg-blue-400 text-white font-bold py-3 px-4 rounded focus:outline-none focus:shadow-outline"><i class='bx bx-plus'></i> Nuevo tecnico</button>
   </div>
@@ -8,3 +8,9 @@
     <app-tecnico-card (aztualizarTecnicos)="aztualizarTecnicos()" [tecnico]="tecnico" *ngFor="let tecnico of tecnicos"></app-tecnico-card>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="flex justify-center w-full">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

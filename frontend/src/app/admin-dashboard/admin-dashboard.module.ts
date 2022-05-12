@@ -20,6 +20,7 @@ import { CreateClienteFormComponent } from './components/create-cliente-form/cre
 import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
 import { MaterialModule } from '../material/material.module';
 import { CreateReparacionStepperComponent } from './components/create-reparacion-stepper/create-reparacion-stepper.component';
+import { ReparacionExpandComponent } from './components/reparacion-expand/reparacion-expand.component';
 
 
 @NgModule({
@@ -38,7 +39,8 @@ import { CreateReparacionStepperComponent } from './components/create-reparacion
     ProveedoresFormComponent,
     CreateClienteFormComponent,
     ReparacionesComponent,
-    CreateReparacionStepperComponent
+    CreateReparacionStepperComponent,
+    ReparacionExpandComponent
   ],
   imports: [
     CommonModule,

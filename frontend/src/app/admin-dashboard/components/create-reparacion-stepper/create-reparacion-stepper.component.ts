@@ -5,7 +5,7 @@ import { ClientesService } from '../../../shared/services/clientes.service';
 import { Cliente } from '../../../interfaces/cliente.interface';
 import { map, Observable, startWith } from 'rxjs';
 import { Dispositivo } from '../../../interfaces/dispositivo.interface';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-reparacion-stepper',
@@ -28,10 +28,12 @@ export class CreateReparacionStepperComponent implements OnInit {
   filteredClientes!: Observable<Cliente[]>;
   clienteSelected!: Cliente;
   dispositivoSelected!:Dispositivo;
+  buscarCliente:boolean = true;
 
   constructor(private _formBuilder: FormBuilder,
     private clientesService: ClientesService,
-    public dialogRef: MatDialogRef<CreateReparacionStepperComponent>) {
+    public dialogRef: MatDialogRef<CreateReparacionStepperComponent>,
+    public dialog: MatDialog) {
 
     this.clientesService.getClientes().subscribe(clientes => {
       this.clientes = clientes;
@@ -58,8 +60,9 @@ export class CreateReparacionStepperComponent implements OnInit {
     return this.clientes.filter(cliente => cliente.nombre_fiscal.toLowerCase().includes(filterValue));
   }
 
-  guardarSelecionCliente(cliente: Cliente) {
+  saveClienteSelected(cliente: Cliente) {
     this.clienteSelected = cliente;
+    console.log(cliente);
   }
 
   getDispositivos() {
@@ -71,4 +74,5 @@ export class CreateReparacionStepperComponent implements OnInit {
   closeDialog(): void {
     this.dialogRef.close();
   }
+
 }

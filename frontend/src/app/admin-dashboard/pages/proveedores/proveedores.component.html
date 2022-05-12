@@ -1,5 +1,5 @@
 <h1 class="text-center">Proveedores</h1>
-<div class="w-4/5 mx-auto animate__animated animate__fadeIn">
+<div class="w-4/5 mx-auto animate__animated animate__fadeIn" *ngIf="dataSource else loading">
   <div class="flex justify-between">
     <input
       class="appearance-none block  bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -71,3 +71,9 @@
   <mat-paginator [pageSizeOptions]="[10, 25, 100]" aria-label="Select page of users"></mat-paginator>
 
 </div>
+
+<ng-template #loading>
+  <div class="flex justify-center w-full">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

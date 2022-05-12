@@ -2,29 +2,30 @@
 
   <mat-stepper linear #stepper class="bg-secondary-color rounded-2xl ">
     <mat-step [stepControl]="firstFormGroup">
-      <form [formGroup]="firstFormGroup">
-        <ng-template matStepLabel>Cliente</ng-template>
-        <div class="flex items-center  justify-between gap-5">
+
+      <ng-template matStepLabel>Cliente</ng-template>
+      <form [formGroup]="firstFormGroup"*ngIf="buscarCliente else crearCliente">
+        <div class="flex items-center  justify-between gap-5" *ngIf="buscarCliente else crearCliente">
           <mat-form-field class="w-full mr-5" appearance="fill">
             <mat-label>Cliente</mat-label>
             <input matInput aria-label="Cliente" [matAutocomplete]="auto" formControlName="clienteCtrl"
               [formControl]="clienteCtrl">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (click)="guardarSelecionCliente(cliente)" *ngFor="let cliente of filteredClientes | async"
-                [value]="cliente.email">
+              <mat-option (onSelectionChange)="saveClienteSelected(cliente)"
+                *ngFor="let cliente of filteredClientes | async" [value]="cliente.nombre_fiscal+' - '+cliente.nif">
                 <span>{{cliente.nombre_fiscal}}</span> |
                 <small>NIF: {{cliente.nif}}</small>
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-          <button mat-fab color="azul">
-            <mat-icon>add</mat-icon>
-          </button>
         </div>
         <div>
-          <button (click)="getDispositivos()" mat-button matStepperNext>Next</button>
+          <button (click)="getDispositivos()" mat-button matStepperNext>Siguiente</button>
         </div>
       </form>
+      <button (click)="buscarCliente=!buscarCliente" mat-fab color="azul">
+        <mat-icon>{{buscarCliente ? 'add' : 'search'}} </mat-icon>
+      </button>
     </mat-step>
     <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
       <form [formGroup]="secondFormGroup">
@@ -33,20 +34,20 @@
           <mat-radio-group class="flex flex-col gap-5" formControlName="dispositivo">
             <mat-radio-button *ngFor="let dispositivo of dispositivos" [value]="dispositivo">
               <div class="flex justify-center items-center text-xl">
-                <div>{{dispositivo.marca + " - " + dispositivo.modelo}}</div>
                 <div *ngIf="dispositivo.tipo == 'movil'">
                   <i class='bx bx-mobile-alt text-3xl'></i>
                 </div>
                 <div *ngIf="dispositivo.tipo == 'pc'">
                   <i class='bx bx-laptop text-3xl'></i>
                 </div>
+                <div>{{dispositivo.marca + " - " + dispositivo.modelo}}</div>
               </div>
             </mat-radio-button>
           </mat-radio-group>
         </div>
         <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Atras</button>
+          <button mat-button matStepperNext>Siguiente</button>
         </div>
       </form>
     </mat-step>
@@ -54,7 +55,7 @@
       <ng-template matStepLabel>Precio/Final</ng-template>
       <p>You are now done.</p>
       <div>
-        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperPrevious>Atras</button>
       </div>
     </mat-step>
   </mat-stepper>
@@ -64,3 +65,9 @@
     </button>
   </div>
 </div>
+
+<ng-template #crearCliente>
+  <div class="flex justify-center items-center">
+    <app-create-cliente-form [inReparacion]="true" ></app-create-cliente-form>
+  </div>
+</ng-template>
