@@ -3,6 +3,7 @@ import { Cliente } from '../../../interfaces/cliente.interface';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-form',
@@ -38,10 +39,20 @@ export class EditFormComponent implements OnInit {
     this.clientesService.editarCliente(this.cliente.id_usuario!, this.form.value).subscribe(
       {
         next: (res) => {
+          Swal.fire({
+            title: 'Cliente editado',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
           this.dialogRef.close();
         },
         error: (err) => {
-          //TODO: mostrar error
+          Swal.fire({
+            title: 'Error',
+            text: err.error.message,
+            icon: 'error'
+          })
+
         }
       }
     )
