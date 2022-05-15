@@ -68,7 +68,7 @@ model dispositivo {
   marca             String       @db.VarChar(50)
   modelo            String       @db.VarChar(50)
   id_cliente        Int
-  codigo_desbloqueo Int?
+  codigo_desbloqueo String?      @db.VarChar(255)
   pin_sim           Int?
   cliente           cliente      @relation(fields: [id_cliente], references: [id], onDelete: Cascade, map: "fk_cliente")
   reparacion        reparacion[]

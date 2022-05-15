@@ -78,6 +78,7 @@ const getAllProveedor = async (req, res = response) => {
 
     const proveedores = await prisma.proveedor.findMany()
 
+
     return res.status(200).json(proveedores)
 
   } catch (error) {
