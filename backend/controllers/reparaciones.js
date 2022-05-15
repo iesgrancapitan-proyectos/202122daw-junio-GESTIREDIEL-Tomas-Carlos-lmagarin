@@ -4,10 +4,13 @@ const {
 const {
   PrismaClient
 } = require('@prisma/client')
-
+const nodemailer = require('nodemailer');
 const prisma = new PrismaClient()
 
-const crearReparacion = async (req, res = response) => {
+const actualizarReparacion=async(req,res=response)=>{
+
+  const {id}=req.params;
+  id=Number(id);
 
   const {
     id_dispositivo,
@@ -19,8 +22,7 @@ const crearReparacion = async (req, res = response) => {
     estado,
   } = req.body;
 
-
-  try {
+  try{
 
     const tecnico = await prisma.tecnico.findUnique({
       where: {
@@ -47,7 +49,79 @@ const crearReparacion = async (req, res = response) => {
         msg: 'El dispositivo no existe'
       })
     }
+    
+    const reparacion = await prisma.reparacion.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        id_dispositivo,
+        id_tecnico,
+        estado,
+        accesorios,
+        fecha_compromiso: fecha_reparacion,
+        averia,
+        observaciones
+      }
+    })
 
+    return res.status(200).json({
+      ok: true,
+      msg: 'Reparacion actualizada correctamente',
+      reparacion
+    })
+
+
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
+const crearReparacion = async (req, res = response) => {
+
+  const {
+    id_dispositivo,
+    id_tecnico,
+    fecha_reparacion,
+    averia,
+    accesorios,
+    observaciones,
+    estado,
+  } = req.body;
+
+
+  try {
+
+    const tecnico= await prisma.tecnico.findUnique({
+      where: {
+        id: Number(id_tecnico)
+      }
+    });
+
+    if(!tecnico){
+      return res.status(400).json({
+        ok: false,
+        msg: 'El tecnico no existe'
+      })
+    }
+
+
+    const dispositivo= await prisma.dispositivo.findUnique({
+      where: {
+        id: Number(id_dispositivo)
+      }
+    });
+
+    if(!dispositivo){
+      return res.status(400).json({
+        ok: false,
+        msg: 'El dispositivo no existe'
+      })
+    }
     await prisma.reparacion.create({
       data: {
         id_dispositivo,
@@ -64,8 +138,6 @@ const crearReparacion = async (req, res = response) => {
       ok: true,
       msg: 'Reparacion creada correctamente',
     })
-
-
 
   } catch (error) {
     console.log(error);
@@ -108,7 +180,7 @@ const removeReparacion = async (req, res = response) => {
 const getAllReparaciones = async (req, res = response) => {
 
   const reparaciones = await prisma.$queryRaw `
-    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id inner join usuarios u on c.id_usuario=u.id
+    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id
   `
 
   if (reparaciones.length < 0) {
@@ -136,19 +208,19 @@ const getAllReparaciones = async (req, res = response) => {
         modelo: reparacion.modelo,
         codigo_desbloqueo: reparacion.codigo_desbloqueo,
         pin_sim: reparacion.pin_sim,
-      },
-      cliente: {
-        id: reparacion.id_cliente,
-        email: reparacion.email,
-        nif: reparacion.nif,
-        nombre_fiscal: reparacion.nombre_fiscal,
-        telefono: reparacion.telefono,
-        domicilio: reparacion.domicilio,
-        cp: reparacion.CP,
-        poblacion: reparacion.poblacion,
-        provincia: reparacion.provincia,
-        persona_contacto: reparacion.persona_contacto,
-        id_usuario: reparacion.id_usuario
+        cliente: {
+          id: reparacion.id_cliente,
+          email: reparacion.email,
+          nif: reparacion.nif,
+          nombre_fiscal: reparacion.nombre_fiscal,
+          telefono: reparacion.telefono,
+          domicilio: reparacion.domicilio,
+          cp: reparacion.CP,
+          poblacion: reparacion.poblacion,
+          provincia: reparacion.provincia,
+          persona_contacto: reparacion.persona_contacto,
+          id_usuario: reparacion.id_usuario
+        }
       },
       tecnico: {
         id: reparacion.id_tecnico,
@@ -162,8 +234,48 @@ const getAllReparaciones = async (req, res = response) => {
   return res.status(200).json(data)
 }
 
+const enviarMail = async (req, res = response) => {
+
+  const {email,mensaje} = req.body;
+  
+  //Enviar email con token
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+    }
+  });
+
+  const mailOptions = {
+    from: '"GESTIREDIEL"' + process.env.EMAIL,
+    to: email,
+    subject: 'Mensaje de GESTIREDIEL',
+    html: `
+      ${mensaje}
+    `
+  };
+
+  await transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      return res.status(500).json({
+        ok: false,
+        msg: 'Por favor hable con el administrador'
+      })
+    }
+  });
+
+  return res.status(200).json({
+    ok: true,
+    msg: 'Mail enviado correctamente'
+  })
+
+}
+
 module.exports = {
   getAllReparaciones,
   removeReparacion,
-  crearReparacion
+  crearReparacion,
+  actualizarReparacion,
+  enviarMail
 }

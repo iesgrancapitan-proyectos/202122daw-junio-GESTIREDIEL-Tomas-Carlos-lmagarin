@@ -237,6 +237,18 @@ const editarCliente = async (req, res = response) => {
       SELECT * FROM usuarios WHERE email = ${email} AND id != ${id}
     `
 
+
+    //Actualizar usuario
+    await prisma.usuarios.update({
+      where: {
+        id
+      },
+      data: {
+        username,
+        email
+      }
+    });
+
     if (usuario.length > 0) {
       return res.status(400).json({
         ok: false,
