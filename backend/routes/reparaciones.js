@@ -10,7 +10,6 @@ router.delete('/:id',removeReparacion);
 //Crear reparacion
 router.post('/',[
     check('id_dispositivo', 'El id del dispositivo es obligatorio').not().isEmpty(),
-    check('id_articulo', 'El id del articulo es obligatorio').not().isEmpty(),
     check('id_tecnico', 'El id del tecnico es obligatorio').not().isEmpty(),
     check('fecha_reparacion', 'La fecha de la reparacion es obligatoria').not().isEmpty().toDate(),
     check('averia', 'La averia es obligatoria').not().isEmpty(),
