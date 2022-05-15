@@ -225,8 +225,8 @@ const editarCliente = async (req, res = response) => {
     provincia
   } = req.body;
 
-  telefono=Number(telefono);
-  CP=CP.toString();
+  telefono = telefono.toString();
+  CP = CP.toString();
 
   try {
 
@@ -235,10 +235,10 @@ const editarCliente = async (req, res = response) => {
       SELECT * FROM usuarios WHERE email = ${email} AND id != ${id}
     `
 
-    if (usuario.length < 0) {
+    if (usuario.length > 0) {
       return res.status(400).json({
         ok: false,
-        msg: 'El usuario con ese email no existe'
+        msg: 'El usuario con ese email ya existe'
       })
     }
 
@@ -247,10 +247,10 @@ const editarCliente = async (req, res = response) => {
       SELECT * FROM cliente WHERE nif = ${nif} AND id_usuario != ${id}
     `
 
-    if (cliente.length < 0) {
+    if (cliente.length > 0) {
       return res.status(400).json({
         ok: false,
-        msg: 'El cliente con ese nif no existe'
+        msg: 'El cliente con ese nif ya existe'
       })
     }  
 
@@ -260,11 +260,22 @@ const editarCliente = async (req, res = response) => {
       }
     });
 
-    const cli=await prisma.cliente.update({
+    await prisma.usuarios.update({
+      where: {
+        id: id
+      },
+      data: {
+        username,
+        email
+      }
+    });
+
+    await prisma.cliente.update({
       where: {
         id: clienteUpdate.id
       },
       data: {
+        nif,
         nombre_fiscal,
         domicilio,
         telefono,
@@ -273,6 +284,7 @@ const editarCliente = async (req, res = response) => {
         provincia,
       }
     })
+
     //generar respuesta
     return res.status(200).json({
       ok: true,
