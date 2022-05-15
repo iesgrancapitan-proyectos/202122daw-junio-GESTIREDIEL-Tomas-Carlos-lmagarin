@@ -24,26 +24,26 @@ const actualizarReparacion=async(req,res=response)=>{
 
   try{
 
-    const tecnico= await prisma.tecnico.findUnique({
+    const tecnico = await prisma.tecnico.findUnique({
       where: {
         id: Number(id_tecnico)
       }
     });
 
-    if(!tecnico){
+    if (!tecnico) {
       return res.status(400).json({
         ok: false,
         msg: 'El tecnico no existe'
       })
     }
 
-    const dispositivo= await prisma.dispositivo.findUnique({
+    const dispositivo = await prisma.dispositivo.findUnique({
       where: {
         id: Number(id_dispositivo)
       }
     });
 
-    if(!dispositivo){
+    if (!dispositivo) {
       return res.status(400).json({
         ok: false,
         msg: 'El dispositivo no existe'
@@ -109,6 +109,7 @@ const crearReparacion = async (req, res = response) => {
       })
     }
 
+
     const dispositivo= await prisma.dispositivo.findUnique({
       where: {
         id: Number(id_dispositivo)
@@ -121,8 +122,7 @@ const crearReparacion = async (req, res = response) => {
         msg: 'El dispositivo no existe'
       })
     }
-
-    const nuevaReparacion = await prisma.reparacion.create({
+    await prisma.reparacion.create({
       data: {
         id_dispositivo,
         id_tecnico,
@@ -185,13 +185,15 @@ const getAllReparaciones = async (req, res = response) => {
 
   if (reparaciones.length < 0) {
     return res.status(404).json({
-      ok: false
+      ok: false,
+      msg: 'No hay reparaciones'
     })
   }
 
   let data = [];
 
-  reparaciones.forEach((reparacion, i) => {
+   reparaciones.forEach( (reparacion, i) => {
+
     data[i] = {
       id: reparacion.id,
       estado: reparacion.estado,
@@ -208,6 +210,7 @@ const getAllReparaciones = async (req, res = response) => {
         pin_sim: reparacion.pin_sim,
         cliente: {
           id: reparacion.id_cliente,
+          email: reparacion.email,
           nif: reparacion.nif,
           nombre_fiscal: reparacion.nombre_fiscal,
           telefono: reparacion.telefono,
@@ -224,12 +227,11 @@ const getAllReparaciones = async (req, res = response) => {
         nombre: reparacion.nombre,
       }
     }
+
+    
   });
 
-  return res.status(200).json({
-    ok: true,
-    data
-  })
+  return res.status(200).json(data)
 }
 
 const enviarMail = async (req, res = response) => {

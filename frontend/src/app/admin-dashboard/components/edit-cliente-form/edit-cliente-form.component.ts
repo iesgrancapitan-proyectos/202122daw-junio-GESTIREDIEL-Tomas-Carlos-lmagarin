@@ -49,7 +49,7 @@ export class EditFormComponent implements OnInit {
         error: (err) => {
           Swal.fire({
             title: 'Error',
-            text: err.error.message,
+            text: err.error.msg,
             icon: 'error'
           })
 

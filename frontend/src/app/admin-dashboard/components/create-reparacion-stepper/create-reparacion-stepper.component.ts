@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ClientesService } from '../../../shared/services/clientes.service';
@@ -73,6 +73,13 @@ export class CreateReparacionStepperComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  actualizarLista(dispositivo: Dispositivo, stepper:any) {
+    this.dispositivoSelected = dispositivo;
+    this.dispositivos.unshift(dispositivo);
+    this.secondFormGroup.get('dispositivo')!.setValue(dispositivo);
+    stepper.next();
   }
 
 }
