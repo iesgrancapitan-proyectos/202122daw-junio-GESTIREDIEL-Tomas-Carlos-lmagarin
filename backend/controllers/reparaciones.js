@@ -7,11 +7,84 @@ const {
 const nodemailer = require('nodemailer');
 const prisma = new PrismaClient()
 
+const actualizarReparacion=async(req,res=response)=>{
+
+  const {id}=req.params;
+  id=Number(id);
+
+  const {
+    id_dispositivo,
+    id_tecnico,
+    fecha_reparacion,
+    averia,
+    accesorios,
+    observaciones,
+    estado,
+  } = req.body;
+
+  try{
+
+    const tecnico= await prisma.tecnico.findUnique({
+      where: {
+        id: Number(id_tecnico)
+      }
+    });
+
+    if(!tecnico){
+      return res.status(400).json({
+        ok: false,
+        msg: 'El tecnico no existe'
+      })
+    }
+
+    const dispositivo= await prisma.dispositivo.findUnique({
+      where: {
+        id: Number(id_dispositivo)
+      }
+    });
+
+    if(!dispositivo){
+      return res.status(400).json({
+        ok: false,
+        msg: 'El dispositivo no existe'
+      })
+    }
+    
+    const reparacion = await prisma.reparacion.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        id_dispositivo,
+        id_tecnico,
+        estado,
+        accesorios,
+        fecha_compromiso: fecha_reparacion,
+        averia,
+        observaciones
+      }
+    })
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Reparacion actualizada correctamente',
+      reparacion
+    })
+
+
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 const crearReparacion = async (req, res = response) => {
 
   const {
     id_dispositivo,
-    id_articulo,
     id_tecnico,
     fecha_reparacion,
     averia,
@@ -49,24 +122,10 @@ const crearReparacion = async (req, res = response) => {
       })
     }
 
-    const articulo= await prisma.articulo.findUnique({
-      where: {
-        id: Number(id_articulo)
-      }
-    });
-
-    if(!articulo){
-      return res.status(400).json({
-        ok: false,
-        msg: 'El articulo no existe'
-      })
-    }
-
     const nuevaReparacion = await prisma.reparacion.create({
       data: {
         id_dispositivo,
         id_tecnico,
-        id_articulo,
         estado,
         accesorios,
         fecha_compromiso: fecha_reparacion,
@@ -79,8 +138,6 @@ const crearReparacion = async (req, res = response) => {
       ok: true,
       msg: 'Reparacion creada correctamente',
     })
-
-
 
   } catch (error) {
     console.log(error);
@@ -123,7 +180,7 @@ const removeReparacion = async (req, res = response) => {
 const getAllReparaciones = async (req, res = response) => {
 
   const reparaciones = await prisma.$queryRaw `
-    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join articulo a on r.id_articulo=a.id inner join cliente c on d.id_cliente=c.id
+    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id
   `
 
   if (reparaciones.length < 0) {
@@ -161,14 +218,6 @@ const getAllReparaciones = async (req, res = response) => {
           persona_contacto: reparacion.persona_contacto,
           id_usuario: reparacion.id_usuario
         }
-      },
-      articulo: {
-        id: reparacion.id_articulo,
-        descripcion: reparacion.descripcion,
-        referencia: reparacion.referencia,
-        precio_coste: reparacion.precio_coste,
-        precio_venta: reparacion.precio_venta,
-        id_categoria: reparacion.id_categoria,
       },
       tecnico: {
         id: reparacion.id_tecnico,
@@ -225,5 +274,6 @@ module.exports = {
   getAllReparaciones,
   removeReparacion,
   crearReparacion,
+  actualizarReparacion,
   enviarMail
 }
