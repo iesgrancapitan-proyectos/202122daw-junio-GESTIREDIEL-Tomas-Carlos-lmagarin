@@ -34,4 +34,8 @@ export class ClientesService {
     return this.http.get<Dispositivo[]>(`${environment.baseUrl}/clientes/dispositivos/${id}`);
   }
 
+  createDispositivo(idCliente:string,dispositivo: Dispositivo) {
+    return this.http.post<Dispositivo>(`${environment.baseUrl}/clientes/dispositivos/${idCliente}`, dispositivo);
+  }
+
 }

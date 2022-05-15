@@ -28,24 +28,27 @@
     <mat-step [stepControl]="secondFormGroup" [optional]="isOptional">
       <form [formGroup]="secondFormGroup">
         <ng-template matStepLabel>Dispositivo</ng-template>
-        <div class="w-full mt-5 mx-auto">
-          <mat-radio-group class="flex flex-col gap-5" formControlName="dispositivo">
-            <mat-radio-button *ngFor="let dispositivo of dispositivos" [value]="dispositivo">
-              <div class="flex justify-center items-center text-xl">
-                <div *ngIf="dispositivo.tipo == 'movil'">
-                  <i class='bx bx-mobile-alt text-3xl'></i>
+        <div class="flex gap-5">
+          <div class="w-full mt-5 mx-auto flex-1">
+            <mat-radio-group class="flex flex-col gap-5 overflow-y-scroll h-64 pl-5 " formControlName="dispositivo">
+              <mat-radio-button *ngFor="let dispositivo of dispositivos" [value]="dispositivo">
+                <div class="flex justify-center items-center text-xl">
+                  <div *ngIf="dispositivo.tipo == 'movil'">
+                    <i class='bx bx-mobile-alt text-3xl'></i>
+                  </div>
+                  <div *ngIf="dispositivo.tipo == 'pc'">
+                    <i class='bx bx-laptop text-3xl'></i>
+                  </div>
+                  <div>{{dispositivo.marca + " - " + dispositivo.modelo +" - "+ dispositivo.numero_serie}}</div>
                 </div>
-                <div *ngIf="dispositivo.tipo == 'pc'">
-                  <i class='bx bx-laptop text-3xl'></i>
-                </div>
-                <div>{{dispositivo.marca + " - " + dispositivo.modelo}}</div>
-              </div>
-            </mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <div>
-          <button mat-button matStepperPrevious>Atras</button>
-          <button mat-button matStepperNext>Siguiente</button>
+              </mat-radio-button>
+            </mat-radio-group>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext>Siguiente</button>
+          </div>
+          <div class="flex-1">
+            <app-create-dispositivo-form [cliente]="clienteSelected"  (actualizarLista)="actualizarLista($event,stepper)"></app-create-dispositivo-form>
+          </div>
         </div>
       </form>
     </mat-step>
@@ -57,7 +60,7 @@
       </div>
     </mat-step>
   </mat-stepper>
-  <div class="m-10">
+  <div class="m-10 mt-0">
     <button (click)="closeDialog()" mat-fab color="warn">
       <mat-icon>close</mat-icon>
     </button>

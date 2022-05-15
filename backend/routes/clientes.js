@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {crearCliente, getallClientes, editarCliente, getClienteByToken,getDispositivos} = require('../controllers/clientes');
+const {crearCliente, getallClientes, editarCliente, getClienteByToken,getDispositivos,createDispositivo} = require('../controllers/clientes');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -32,7 +32,18 @@ router.put('/:id',[
 
 router.get('/dispositivos/:id',getDispositivos)
 
+router.post('/dispositivos/:id',[
+  check('tipo', 'El tipo es obligatorio').not().isEmpty(),
+  check('marca', 'La marca es obligatoria').not().isEmpty(),
+  check('modelo', 'El modelo es obligatorio').not().isEmpty(),
+  check('codigo_desbloqueo', 'El codigo de desbloqueo es obligatorio').optional(),
+  check('pin_sim', 'El pin de sim es obligatorio').optional(),
+  check('numero_serie', 'El numero de serie es obligatorio').not().isEmpty(),
+  validarCampos
+],createDispositivo)
+
 router.get('/user/:token',getClienteByToken)
+
 
 router.get('/',getallClientes)
 

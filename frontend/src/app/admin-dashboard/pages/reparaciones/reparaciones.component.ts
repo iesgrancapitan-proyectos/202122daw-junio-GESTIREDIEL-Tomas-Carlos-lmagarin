@@ -124,7 +124,7 @@ export class ReparacionesComponent implements OnInit {
   }
 
   addNewReparacion() {
-    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "50%", height: "70%", disableClose: true });
+    const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "70%", height: "70%", disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         //TODO: actualizar la tabla
