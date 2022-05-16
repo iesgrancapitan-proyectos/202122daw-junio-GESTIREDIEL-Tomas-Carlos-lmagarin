@@ -14,4 +14,8 @@ export class ReparacionesService {
   getAllReparaciones() {
     return this.http.get<Reparacion[]>(`${environment.baseUrl}/reparaciones`);
   }
+
+  createReparacion(reparacion: Reparacion){
+    return this.http.post(`${environment.baseUrl}/reparaciones`,reparacion);
+  }
 }

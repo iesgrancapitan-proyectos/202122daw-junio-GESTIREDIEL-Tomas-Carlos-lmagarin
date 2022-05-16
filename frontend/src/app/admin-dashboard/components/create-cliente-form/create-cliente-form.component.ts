@@ -48,7 +48,10 @@ export class CreateClienteFormComponent implements OnInit {
             icon: 'success',
             confirmButtonText: 'Ok'
           });
-          this.dialogRef.close();
+          this.newClienteOnReparacion.emit(res.cliente);
+          if(!this.inReparacion){
+            this.dialogRef.close();
+          }
         },
         error: (err) => {
           Swal.fire({
@@ -74,8 +77,4 @@ export class CreateClienteFormComponent implements OnInit {
     }
   }
 
-  enviarClienteAReparacion() {
-    const cliente = this.form.value;
-    this.newClienteOnReparacion.emit(cliente);
-  }
 }

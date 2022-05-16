@@ -8,16 +8,16 @@ datasource db {
 }
 
 model articulo {
-  id                 Int                  @id @default(autoincrement())
-  descripcion        String               @db.VarChar(50)
-  referencia         String?              @unique(map: "referencia") @db.VarChar(50)
-  precio_coste       Int
-  precio_venta       Int
-  id_categoria       Int
-  categoria          categoria            @relation(fields: [id_categoria], references: [id], onDelete: Cascade, map: "fk_categoria")
-  articulo_factura   articulo_factura[]   @ignore
-  proveedor_articulo proveedor_articulo[] @ignore
-  reparacion         reparacion[]
+  id                  Int                   @id @default(autoincrement())
+  descripcion         String                @db.VarChar(50)
+  referencia          String?               @unique(map: "referencia") @db.VarChar(50)
+  precio_coste        Int
+  precio_venta        Int
+  id_categoria        Int
+  categoria           categoria             @relation(fields: [id_categoria], references: [id], onDelete: Cascade, map: "fk_categoria")
+  articulo_factura    articulo_factura[]    @ignore
+  articulo_reparacion articulo_reparacion[]
+  proveedor_articulo  proveedor_articulo[]  @ignore
 
   @@index([id_categoria], map: "fk_categoria")
 }
@@ -113,20 +113,18 @@ model proveedor_articulo {
 }
 
 model reparacion {
-  id               Int         @id @default(autoincrement())
-  id_dispositivo   Int
-  id_tecnico       Int
-  id_articulo      Int
-  estado           String      @db.VarChar(50)
-  accesorios       String      @db.VarChar(500)
-  fecha_compromiso DateTime    @db.DateTime(0)
-  averia           String      @db.VarChar(50)
-  observaciones    String      @db.VarChar(255)
-  articulo         articulo    @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo_reparacion")
-  dispositivo      dispositivo @relation(fields: [id_dispositivo], references: [id], onDelete: Cascade, map: "fk_id_dispositivo")
-  tecnico          tecnico     @relation(fields: [id_tecnico], references: [id], onDelete: Cascade, map: "fk_id_tecnico")
+  id                  Int                   @id @default(autoincrement())
+  id_dispositivo      Int
+  id_tecnico          Int
+  estado              String                @db.VarChar(50)
+  accesorios          String                @db.VarChar(500)
+  fecha_compromiso    DateTime              @db.DateTime(0)
+  averia              String                @db.VarChar(50)
+  observaciones       String                @db.VarChar(255)
+  dispositivo         dispositivo           @relation(fields: [id_dispositivo], references: [id], onDelete: Cascade, map: "fk_id_dispositivo")
+  tecnico             tecnico               @relation(fields: [id_tecnico], references: [id], onDelete: Cascade, map: "fk_id_tecnico")
+  articulo_reparacion articulo_reparacion[]
 
-  @@index([id_articulo], map: "fk_id_articulo_reparacion")
   @@index([id_dispositivo], map: "fk_id_dispositivo")
   @@index([id_tecnico], map: "fk_id_tecnico")
 }
@@ -155,4 +153,14 @@ model usuarios {
   email      String    @unique(map: "email") @db.VarChar(100)
   cliente    cliente?
   tecnico    tecnico[]
+}
+
+model articulo_reparacion {
+  id_reparacion Int
+  id_articulo   Int
+  articulo      articulo   @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo1")
+  reparacion    reparacion @relation(fields: [id_reparacion], references: [id], onDelete: Cascade, map: "fk_idreparacion")
+
+  @@unique([id_reparacion, id_articulo], map: "id_reparacion")
+  @@index([id_articulo], map: "fk_id_articulo1")
 }

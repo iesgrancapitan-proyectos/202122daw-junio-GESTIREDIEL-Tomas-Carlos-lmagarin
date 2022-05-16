@@ -41,7 +41,6 @@ const crearCliente = async (req, res = response) => {
   try {
 
     const validNIF = ValidateSpanishID(nif)
-    console.log(validNIF);
     if (!validNIF.valid || (validNIF.type !== 'dni' && validNIF.type !== 'nie')) {
       return res.status(400).json({
         ok: false,
@@ -93,7 +92,7 @@ const crearCliente = async (req, res = response) => {
 
 
     //crear cliente en la BD
-    await prisma.cliente.create({
+    const newCliente = await prisma.cliente.create({
       data: {
         nif,
         nombre_fiscal,
@@ -142,9 +141,7 @@ const crearCliente = async (req, res = response) => {
     //generar respuesta
     return res.status(200).json({
       ok: true,
-      uid: id,
-      username,
-      email
+      cliente:newCliente
     })
 
   } catch (error) {

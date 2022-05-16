@@ -41,6 +41,7 @@ export class CreateDispositivoFormComponent implements OnInit {
             text: 'El dispositivo se ha creado correctamente',
             icon: 'success'
           })
+          this.form.reset();
           this.actualizarLista.emit(res);
         },
         error: (err) => {

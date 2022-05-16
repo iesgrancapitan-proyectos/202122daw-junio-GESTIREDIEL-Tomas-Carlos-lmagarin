@@ -82,4 +82,10 @@ export class CreateReparacionStepperComponent implements OnInit {
     stepper.next();
   }
 
+  toogleBuscarCliente() {
+    this.buscarCliente = !this.buscarCliente;
+    this.clienteCtrl.setValue('');
+    this.clienteSelected = {} as Cliente;
+  }
+
 }
