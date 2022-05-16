@@ -83,7 +83,7 @@ const getallTecnicos = async (req, res = response) => {
   try {
 
     const tecnicos = await prisma.$queryRaw `
-      SELECT id_usuario,username,email,nombre,registered,last_login, (SELECT COUNT(*) FROM reparacion WHERE tecnico.id = reparacion.id_tecnico) AS reparaciones
+      SELECT tecnico.id as id,id_usuario,username,email,nombre,registered,last_login, (SELECT COUNT(*) FROM reparacion WHERE tecnico.id = reparacion.id_tecnico) AS reparaciones
       FROM tecnico, usuarios
       WHERE tecnico.id_usuario = usuarios.id  
     `

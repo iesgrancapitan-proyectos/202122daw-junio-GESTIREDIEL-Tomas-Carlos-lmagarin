@@ -1,10 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ReparacionesService } from '../../../shared/services/reparaciones.service';
 import { TecnicosService } from '../../../shared/services/tecnicos.service';
 import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { Dispositivo } from '../../../interfaces/dispositivo.interface';
+import { CreateReparacionStepperComponent } from '../create-reparacion-stepper/create-reparacion-stepper.component';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-reparacion-form',
@@ -21,11 +23,11 @@ export class CreateReparacionFormComponent implements OnInit {
   constructor(
       private fb: FormBuilder,
       private reparacionesService:ReparacionesService,
-      private tecnicosService: TecnicosService
+      private tecnicosService: TecnicosService,
+      public dialogRef: MatDialogRef<CreateReparacionStepperComponent>
   ) { }
 
   ngOnInit(): void {
-    console.log(this.dispositivo);
     this.tecnicosService.getTecnicos().subscribe({
       next: (res) => {
         this.tecnicos = res;
@@ -41,28 +43,33 @@ export class CreateReparacionFormComponent implements OnInit {
   }
 
   crear(){
+    let fecha_formated = this.form.controls['fecha_compromiso'].value.replace("T", ' ');
+    fecha_formated = fecha_formated + " UTC";
 
     const reparacion = {
       accesorios: this.form.controls['accesorios'].value,
-      fecha_compromiso: this.form.controls['fecha_compromiso'].value,
+      fecha_compromiso: fecha_formated,
       averia: this.form.controls['averia'].value,
       observaciones: this.form.controls['observaciones'].value,
-      id_tecnico: this.form.value.tecnico.id,
+      id_tecnico: parseInt(this.form.controls['tecnico'].value),
       id_dispositivo: this.dispositivo.id,
       estado: 'pendiente'
     };
+
     this.reparacionesService.createReparacion(reparacion).subscribe({
       next: () => {
         Swal.fire({
-          title: 'Reparacion creada',
-          text: 'La reparacion se ha creado correctamente',
+          title: 'Reparación creada',
+          text: 'La reparación se ha creado correctamente',
           icon: 'success'
+        }).then(() => {
+          this.dialogRef.close(true);
         })
       },
       error: (err) => {
         Swal.fire({
           title: 'Error',
-          text: 'Ha ocurrido un error al crear la reparacion',
+          text: 'Ha ocurrido un error al crear la reparación',
           icon: 'error'
         })
       }

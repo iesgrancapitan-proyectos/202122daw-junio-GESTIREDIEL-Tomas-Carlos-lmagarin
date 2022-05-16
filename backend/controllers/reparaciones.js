@@ -86,7 +86,7 @@ const crearReparacion = async (req, res = response) => {
   const {
     id_dispositivo,
     id_tecnico,
-    fecha_reparacion,
+    fecha_compromiso,
     averia,
     accesorios,
     observaciones,
@@ -96,7 +96,7 @@ const crearReparacion = async (req, res = response) => {
 
   try {
 
-    const tecnico= await prisma.tecnico.findUnique({
+    const tecnico = await prisma.tecnico.findUnique({
       where: {
         id: Number(id_tecnico)
       }
@@ -122,13 +122,14 @@ const crearReparacion = async (req, res = response) => {
         msg: 'El dispositivo no existe'
       })
     }
+    
     await prisma.reparacion.create({
       data: {
         id_dispositivo,
         id_tecnico,
         estado,
         accesorios,
-        fecha_compromiso: fecha_reparacion,
+        fecha_compromiso,
         averia,
         observaciones
       }

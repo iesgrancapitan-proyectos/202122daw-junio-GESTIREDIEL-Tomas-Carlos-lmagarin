@@ -1,4 +1,5 @@
 export interface Tecnico {
+  id?: number;
   password?: string;
   id_usuario:   string;
   username:     string;

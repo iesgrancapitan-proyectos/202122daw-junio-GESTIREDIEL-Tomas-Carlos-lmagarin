@@ -31,7 +31,7 @@
         <div class="flex gap-5">
           <div class="w-full mt-5 mx-auto flex-1">
             <mat-radio-group class="flex flex-col gap-5 overflow-y-scroll h-64 pl-5 "  formControlName="dispositivo">
-              <mat-radio-button *ngFor="let dispositivo of dispositivos" (click)="actualizarLista(dispositivo,stepper)" [value]="dispositivo">
+              <mat-radio-button *ngFor="let dispositivo of dispositivos" (click)="seleccionarDispositivo(dispositivo,stepper)" [value]="dispositivo">
                 <div class="flex justify-center items-center text-xl">
                   <div *ngIf="dispositivo.tipo == 'movil'">
                     <i class='bx bx-mobile-alt text-3xl'></i>
@@ -54,7 +54,7 @@
     </mat-step>
     <mat-step>
       <ng-template matStepLabel>Precio/Final</ng-template>
-      <app-create-reparacion-form [dispositivo]="dispositivoSelected"></app-create-reparacion-form>
+      <app-create-reparacion-form [dispositivo]="dispositivoSelected" ></app-create-reparacion-form>
       <div>
         <button mat-button matStepperPrevious>Atras</button>
       </div>
