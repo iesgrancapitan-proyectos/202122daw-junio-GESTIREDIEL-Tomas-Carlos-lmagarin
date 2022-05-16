@@ -74,9 +74,14 @@ export class ReparacionExpandComponent implements OnInit {
       cancelButtonText: 'No, cancelar'
     }).then((result) => {
       if (result.value) {
-        //TODO: borrar reparacion
-        //TODO: actualizar la tabla (esto es con un Output si no sabes te lo explico :) )
+        //TODO: borra pero no actualiza automaticamente la tabla
 
+        this.serviceReparacion.borrarReparacion(this.reparacion.id).subscribe(
+          (data) => {
+            console.log(data);
+            Swal.fire('Eliminado', 'La reparación ha sido eliminada', 'success');
+          }
+        )
 
 
         Swal.fire({

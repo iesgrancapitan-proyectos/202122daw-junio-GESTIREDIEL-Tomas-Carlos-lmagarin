@@ -84,6 +84,7 @@ const actualizarReparacion=async(req,res=response)=>{
 const crearReparacion = async (req, res = response) => {
 
   const {
+    articulos,
     id_dispositivo,
     id_tecnico,
     fecha_reparacion,
@@ -122,6 +123,24 @@ const crearReparacion = async (req, res = response) => {
         msg: 'El dispositivo no existe'
       })
     }
+
+    const existenArticulos=articulos.every(async (articulo) => {
+      await prisma.articulo.findUnique({
+        where: {
+          id: Number(articulo)
+        }
+      });
+    });
+
+    if(!existenArticulos){
+      return res.status(400).json({
+        ok: false,
+        msg: 'Alguno de los articulos no existe'
+      })
+    }
+
+
+
     await prisma.reparacion.create({
       data: {
         id_dispositivo,
@@ -180,9 +199,8 @@ const removeReparacion = async (req, res = response) => {
 const getAllReparaciones = async (req, res = response) => {
 
   const reparaciones = await prisma.$queryRaw `
-    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id
+    select * from articulo_reparacion inner join reparacion on articulo_reparacion.id_reparacion = reparacion.id inner join articulo on articulo_reparacion.id_articulo = articulo.id inner join dispositivo on reparacion.id_dispositivo = dispositivo.id inner join tecnico on reparacion.id_tecnico = tecnico.id order by id_reparacion asc
   `
-
   if (reparaciones.length < 0) {
     return res.status(404).json({
       ok: false,
@@ -191,44 +209,38 @@ const getAllReparaciones = async (req, res = response) => {
   }
 
   let data = [];
+  
+  reparaciones.forEach( (reparacion, i) => {
+  
+    let articulos=[]
+    let j=0;
+    const idReparacion=reparacion.id_dispositivo
 
-   reparaciones.forEach( (reparacion, i) => {
-
-    data[i] = {
-      id: reparacion.id,
+    data[i]={
+      id:reparacion.id_reparacion,
       estado: reparacion.estado,
-      accesorios: reparacion.accesorios,
       fecha_compromiso: reparacion.fecha_compromiso,
       averia: reparacion.averia,
+      accesorios: reparacion.accesorios,
       observaciones: reparacion.observaciones,
-      dispositivo: {
+      articulos: articulos,
+      dispositivo:{
         id: reparacion.id_dispositivo,
+        id_cliente: reparacion.id_cliente,
         tipo: reparacion.tipo,
         marca: reparacion.marca,
         modelo: reparacion.modelo,
         codigo_desbloqueo: reparacion.codigo_desbloqueo,
         pin_sim: reparacion.pin_sim,
-        cliente: {
-          id: reparacion.id_cliente,
-          email: reparacion.email,
-          nif: reparacion.nif,
-          nombre_fiscal: reparacion.nombre_fiscal,
-          telefono: reparacion.telefono,
-          domicilio: reparacion.domicilio,
-          cp: reparacion.CP,
-          poblacion: reparacion.poblacion,
-          provincia: reparacion.provincia,
-          persona_contacto: reparacion.persona_contacto,
-          id_usuario: reparacion.id_usuario
-        }
+        numero_serie: reparacion.numero_serie,
       },
-      tecnico: {
+      tecnico:{
         id: reparacion.id_tecnico,
         nombre: reparacion.nombre,
+        id_usuario: reparacion.id_usuario
       }
     }
-
-    
+   
   });
 
   return res.status(200).json(data)

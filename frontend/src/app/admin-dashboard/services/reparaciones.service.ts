@@ -13,4 +13,32 @@ export class ReparacionesService {
     return this.http.post(`${environment.baseUrl}/reparaciones/mail`,{email,mensaje});
   }
 
+  crearReparacion(reparacion:any):Observable<any>{
+    return this.http.post(`${environment.baseUrl}/reparaciones`,reparacion);
+  }
+
+  editarReparacion(id:number,reparacion:any):Observable<any>{
+    return this.http.put(`${environment.baseUrl}/reparaciones/${id}`,reparacion);
+  }
+
+  borrarReparacion(id:number):Observable<any>{
+    return this.http.delete(`${environment.baseUrl}/reparaciones/${id}`);
+  }
+
+  getReparaciones():Observable<any>{
+    return this.http.get(`${environment.baseUrl}/reparaciones`);
+  }
+
+  getReparacion(id:number):Observable<any>{
+    return this.http.get(`${environment.baseUrl}/reparaciones/${id}`);
+  }
+
+  getReparacionesPorCliente(id:number):Observable<any>{
+    return this.http.get(`${environment.baseUrl}/reparaciones/cliente/${id}`);
+  }
+
+  getReparacionPorTecnico(id:number):Observable<any>{
+    return this.http.get(`${environment.baseUrl}/reparaciones/tecnico/${id}`);
+  }
+
 }
