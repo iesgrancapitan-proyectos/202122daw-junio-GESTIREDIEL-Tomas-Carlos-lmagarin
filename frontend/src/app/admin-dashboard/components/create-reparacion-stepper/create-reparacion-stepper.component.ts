@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ClientesService } from '../../../shared/services/clientes.service';
@@ -80,6 +80,17 @@ export class CreateReparacionStepperComponent implements OnInit {
     this.dispositivos.unshift(dispositivo);
     this.secondFormGroup.get('dispositivo')!.setValue(dispositivo);
     stepper.next();
+  }
+
+  seleccionarDispositivo(dispositivo: Dispositivo,stepper:any) {
+    this.dispositivoSelected = dispositivo;
+    stepper.next();
+  }
+
+  toogleBuscarCliente() {
+    this.buscarCliente = !this.buscarCliente;
+    this.clienteCtrl.setValue('');
+    this.clienteSelected = {} as Cliente;
   }
 
 }

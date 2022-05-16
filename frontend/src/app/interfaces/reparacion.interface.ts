@@ -4,8 +4,8 @@ import { Tecnico } from "./tecnico.interface";
 
 export interface Reparacion {
   id?:               number;
-  estado:           string;
-  accesorios:       string;
+  estado?:           string;
+  accesorios?:       string;
   fecha_compromiso: Date;
   averia:           string;
   observaciones:    string;

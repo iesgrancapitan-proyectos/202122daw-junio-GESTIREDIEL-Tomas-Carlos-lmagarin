@@ -87,7 +87,7 @@ const crearReparacion = async (req, res = response) => {
     articulos,
     id_dispositivo,
     id_tecnico,
-    fecha_reparacion,
+    fecha_compromiso,
     averia,
     accesorios,
     observaciones,
@@ -97,7 +97,7 @@ const crearReparacion = async (req, res = response) => {
 
   try {
 
-    const tecnico= await prisma.tecnico.findUnique({
+    const tecnico = await prisma.tecnico.findUnique({
       where: {
         id: Number(id_tecnico)
       }
@@ -124,30 +124,13 @@ const crearReparacion = async (req, res = response) => {
       })
     }
 
-    const existenArticulos=articulos.every(async (articulo) => {
-      await prisma.articulo.findUnique({
-        where: {
-          id: Number(articulo)
-        }
-      });
-    });
-
-    if(!existenArticulos){
-      return res.status(400).json({
-        ok: false,
-        msg: 'Alguno de los articulos no existe'
-      })
-    }
-
-
-
     await prisma.reparacion.create({
       data: {
         id_dispositivo,
         id_tecnico,
         estado,
         accesorios,
-        fecha_compromiso: fecha_reparacion,
+        fecha_compromiso,
         averia,
         observaciones
       }
@@ -199,7 +182,11 @@ const removeReparacion = async (req, res = response) => {
 const getAllReparaciones = async (req, res = response) => {
 
   const reparaciones = await prisma.$queryRaw `
+<<<<<<< HEAD
     select * from articulo_reparacion inner join reparacion on articulo_reparacion.id_reparacion = reparacion.id inner join articulo on articulo_reparacion.id_articulo = articulo.id inner join dispositivo on reparacion.id_dispositivo = dispositivo.id inner join tecnico on reparacion.id_tecnico = tecnico.id order by id_reparacion asc
+=======
+    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id inner join usuarios u on c.id_usuario=u.id
+>>>>>>> 9ca21f80fc80589a4cd019b1407616769ac18363
   `
   if (reparaciones.length < 0) {
     return res.status(404).json({
@@ -233,6 +220,19 @@ const getAllReparaciones = async (req, res = response) => {
         codigo_desbloqueo: reparacion.codigo_desbloqueo,
         pin_sim: reparacion.pin_sim,
         numero_serie: reparacion.numero_serie,
+      },
+      cliente: {
+        id: reparacion.id_cliente,
+        email: reparacion.email,
+        nif: reparacion.nif,
+        nombre_fiscal: reparacion.nombre_fiscal,
+        telefono: reparacion.telefono,
+        domicilio: reparacion.domicilio,
+        cp: reparacion.CP,
+        poblacion: reparacion.poblacion,
+        provincia: reparacion.provincia,
+        persona_contacto: reparacion.persona_contacto,
+        id_usuario: reparacion.id_usuario
       },
       tecnico:{
         id: reparacion.id_tecnico,

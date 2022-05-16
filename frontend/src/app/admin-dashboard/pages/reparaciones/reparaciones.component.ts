@@ -22,7 +22,6 @@ export class ReparacionesComponent implements OnInit {
     this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
       this.reparaciones = reparaciones;
       this.reparacionesFiltradas = this.reparaciones;
-      console.log(reparaciones);
     });
     
   }
@@ -32,6 +31,10 @@ export class ReparacionesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         //TODO: actualizar la tabla
+        this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
+          this.reparaciones = reparaciones;
+          this.reparacionesFiltradas = this.reparaciones;
+        });
       }
     });
   }

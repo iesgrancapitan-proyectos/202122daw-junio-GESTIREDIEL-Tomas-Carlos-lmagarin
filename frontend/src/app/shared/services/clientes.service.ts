@@ -14,7 +14,7 @@ export class ClientesService {
   constructor(private http: HttpClient) { }
 
 
-  createCliente(cliente: Cliente) {
+  createCliente(cliente: Cliente):Observable<any> {
     return this.http.post<Cliente>(`${environment.baseUrl}/clientes`, cliente);
   }
 
