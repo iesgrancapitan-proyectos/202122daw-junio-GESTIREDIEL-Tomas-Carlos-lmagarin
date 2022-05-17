@@ -189,7 +189,7 @@ const getAllReparaciones = async (req, res = response) => {
     inner join cliente c on d.id_cliente=c.id 
     inner join usuarios u on c.id_usuario=u.id
   `
-  console.log(reparaciones);
+
   const articulos_reparacion = await prisma.articulo_reparacion.findMany()
 
   if (reparaciones.length < 0) {
@@ -204,13 +204,12 @@ const getAllReparaciones = async (req, res = response) => {
   reparaciones.forEach( (reparacion, i) => {
   
     let articulos=[]
-    console.log(articulos_reparacion, reparacion.id_reparacion);
     articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
       articulos.push(articulo.id_articulo)
     })
 
     data[i]={
-      id:reparacion.id,
+      id:reparacion.id_reparacion,
       estado: reparacion.estado,
       fecha_compromiso: reparacion.fecha_compromiso,
       averia: reparacion.averia,

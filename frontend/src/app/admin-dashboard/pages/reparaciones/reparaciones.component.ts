@@ -19,22 +19,14 @@ export class ReparacionesComponent implements OnInit {
     private reparacionesService: ReparacionesService) { }
 
   ngOnInit() {
-    this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
-      this.reparaciones = reparaciones;
-      this.reparacionesFiltradas = this.reparaciones;
-    });
-    
+    this.actualizarDatos();
   }
 
   addNewReparacion() {
     const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "70%", height: "70%", disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        //TODO: actualizar la tabla
-        this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
-          this.reparaciones = reparaciones;
-          this.reparacionesFiltradas = this.reparaciones;
-        });
+        this.actualizarDatos();
       }
     });
   }
@@ -45,6 +37,13 @@ export class ReparacionesComponent implements OnInit {
     // } else {
     //   this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
     // }
+  }
+
+  actualizarDatos() {
+    this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
+      this.reparaciones = reparaciones;
+      this.reparacionesFiltradas = this.reparaciones;
+    });
   }
 
 }

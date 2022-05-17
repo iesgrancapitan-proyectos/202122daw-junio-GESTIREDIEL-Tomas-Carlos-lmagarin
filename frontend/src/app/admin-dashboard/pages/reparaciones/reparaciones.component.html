@@ -3,7 +3,7 @@
   
   <div class="flex justify-between items-center my-5">
     <div>
-      <p>Prioridades:</p>
+      <p>Prioridad:</p>
       <mat-chip-list>
         <mat-chip (click)="filtrar('Alta')" color="prioridadAlta">
           Alta
@@ -24,6 +24,6 @@
     </button>
   </div>
   <div class="flex flex-col gap-5">
-    <app-reparacion-expand [reparacion]="reparacion" *ngFor="let reparacion of reparacionesFiltradas"></app-reparacion-expand> 
+    <app-reparacion-expand (onBorrar)="actualizarDatos()" [reparacion]="reparacion" *ngFor="let reparacion of reparacionesFiltradas"></app-reparacion-expand> 
   </div>
 </div>

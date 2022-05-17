@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
 import { ReparacionesService } from '../../services/reparaciones.service';
 
@@ -10,6 +10,8 @@ import { ReparacionesService } from '../../services/reparaciones.service';
 export class ReparacionExpandComponent implements OnInit {
 
   @Input() reparacion: any;
+
+  @Output() onBorrar = new EventEmitter();
 
   constructor(private serviceReparacion:ReparacionesService ) { }
 
@@ -76,20 +78,26 @@ export class ReparacionExpandComponent implements OnInit {
       if (result.value) {
         //TODO: borra pero no actualiza automaticamente la tabla
 
-        this.serviceReparacion.borrarReparacion(this.reparacion.id).subscribe(
-          (data) => {
-            console.log(data);
-            Swal.fire('Eliminado', 'La reparación ha sido eliminada', 'success');
+        this.serviceReparacion.borrarReparacion(this.reparacion.id).subscribe({
+          next: (data) => {
+            this.onBorrar.emit();
+            Swal.fire({
+              title: 'Eliminada',
+              text: `La reparación ha sido eliminada`,
+              icon: 'success'
+            });
+          },
+          error: (err) => {
+            Swal.fire({
+              title: 'Error',
+              text: `Error al eliminar la reparación`,
+              icon: 'error'
+            });
           }
-        )
+        })
 
 
-        Swal.fire({
-          title: 'Eliminada',
-          text: `La reparación ha sido eliminada`,
-          icon: 'success',
-          confirmButtonText: 'Ok'
-        });
+        
       }
 
     })

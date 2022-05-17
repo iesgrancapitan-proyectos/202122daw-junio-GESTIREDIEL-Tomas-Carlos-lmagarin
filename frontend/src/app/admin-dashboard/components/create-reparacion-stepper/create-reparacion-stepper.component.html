@@ -1,6 +1,10 @@
 <div class="w-full flex flex-col justify-between bg-secondary-color rounded-2xl">
-
-  <mat-stepper linear #stepper class="bg-secondary-color rounded-2xl ">
+  <div class="flex justify-end m-5 mb-0">
+    <button (click)="closeDialog()" mat-fab color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-stepper linear #stepper class="bg-secondary-color rounded-2xl pt-0">
     <mat-step>
       <ng-template matStepLabel>Cliente</ng-template>
       <div class="flex justify-center items-start gap-5">
@@ -60,11 +64,7 @@
       </div>
     </mat-step>
   </mat-stepper>
-  <div class="m-10 mt-0">
-    <button (click)="closeDialog()" mat-fab color="warn">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
+  
 </div>
 
 <ng-template #crearCliente>
