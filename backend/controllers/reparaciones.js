@@ -182,12 +182,16 @@ const removeReparacion = async (req, res = response) => {
 const getAllReparaciones = async (req, res = response) => {
 
   const reparaciones = await prisma.$queryRaw `
-<<<<<<< HEAD
-    select * from articulo_reparacion inner join reparacion on articulo_reparacion.id_reparacion = reparacion.id inner join articulo on articulo_reparacion.id_articulo = articulo.id inner join dispositivo on reparacion.id_dispositivo = dispositivo.id inner join tecnico on reparacion.id_tecnico = tecnico.id order by id_reparacion asc
-=======
-    select * from reparacion r inner join tecnico t on r.id_tecnico=t.id inner join dispositivo d on r.id_dispositivo=d.id inner join cliente c on d.id_cliente=c.id inner join usuarios u on c.id_usuario=u.id
->>>>>>> 9ca21f80fc80589a4cd019b1407616769ac18363
+    select r.*,t.*,d.*,c.*,u.*, r.id as id_reparacion
+    from reparacion r 
+    inner join tecnico t on r.id_tecnico=t.id 
+    inner join dispositivo d on r.id_dispositivo=d.id 
+    inner join cliente c on d.id_cliente=c.id 
+    inner join usuarios u on c.id_usuario=u.id
   `
+  console.log(reparaciones);
+  const articulos_reparacion = await prisma.articulo_reparacion.findMany()
+
   if (reparaciones.length < 0) {
     return res.status(404).json({
       ok: false,
@@ -200,11 +204,13 @@ const getAllReparaciones = async (req, res = response) => {
   reparaciones.forEach( (reparacion, i) => {
   
     let articulos=[]
-    let j=0;
-    const idReparacion=reparacion.id_dispositivo
+    console.log(articulos_reparacion, reparacion.id_reparacion);
+    articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
+      articulos.push(articulo.id_articulo)
+    })
 
     data[i]={
-      id:reparacion.id_reparacion,
+      id:reparacion.id,
       estado: reparacion.estado,
       fecha_compromiso: reparacion.fecha_compromiso,
       averia: reparacion.averia,
