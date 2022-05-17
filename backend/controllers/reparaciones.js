@@ -202,10 +202,13 @@ const getAllReparaciones = async (req, res = response) => {
   let data = [];
   
   reparaciones.forEach( (reparacion, i) => {
+
+    console.log(reparacion)
   
     let articulos=[]
     articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
-      articulos.push(articulo.id_articulo)
+
+      articulos.push(articulo.id_articulo);
     })
 
     data[i]={
@@ -215,7 +218,7 @@ const getAllReparaciones = async (req, res = response) => {
       averia: reparacion.averia,
       accesorios: reparacion.accesorios,
       observaciones: reparacion.observaciones,
-      articulos: articulos,
+      articulos,
       dispositivo:{
         id: reparacion.id_dispositivo,
         id_cliente: reparacion.id_cliente,
@@ -249,6 +252,83 @@ const getAllReparaciones = async (req, res = response) => {
   });
 
   return res.status(200).json(data)
+}
+
+const getReparacionesByUser= async (req, res = response) => {
+
+  const {id} = req.params;
+  let data=[]
+  try{
+    const usuario= await prisma.usuarios.findUnique({
+      where: {
+        id
+      }
+    })
+  
+    if(!usuario){
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no existe'
+      })
+    }
+
+    let reparaciones;
+    
+    if(usuario.rol=="cliente"){
+      reparaciones=await prisma.$queryRaw `
+      select reparacion.id,estado,fecha_compromiso,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join cliente on dispositivo.id_cliente=cliente.id inner join usuarios on cliente.id_usuario=usuarios.id where usuarios.id=${id} 
+
+    `
+    }else if(usuario.rol=="tecnico"){
+      reparaciones=await prisma.$queryRaw `
+      select reparacion.id,estado,fecha_compromiso,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join tecnico on reparacion.id_tecnico=tecnico.id inner join usuarios on tecnico.id_usuario=usuarios.id where usuarios.id=${id}
+    `
+    }else{
+      return res.status(400).json({
+        ok: false,
+        msg: 'El usuario no es cliente ni tecnico'
+      })
+    }
+
+    reparaciones.forEach((reparacion,i)=>{
+      data[i]={
+        id:i,
+        reparacion:{
+          id:reparacion.id,
+          estado: reparacion.estado,
+          fecha_compromiso: reparacion.fecha_compromiso,
+          averia: reparacion.averia,
+          observaciones: reparacion.observaciones,
+        },
+        dispositivo:{
+          id:reparacion.id_dispositivo,
+          tipo: reparacion.tipo,
+          marca: reparacion.marca,
+          modelo: reparacion.modelo,
+        }
+      }
+    })
+
+    if(reparaciones.length<0){
+      return res.status(404).json({
+        ok: false,
+        msg: 'No hay reparaciones'
+      })
+    }
+
+  }catch(error){
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al buscar usuario'
+    })
+  }
+
+  return res.status(200).json({
+    ok:true,
+    data
+  })
+
 }
 
 const enviarMail = async (req, res = response) => {
@@ -294,5 +374,6 @@ module.exports = {
   removeReparacion,
   crearReparacion,
   actualizarReparacion,
-  enviarMail
+  enviarMail,
+  getReparacionesByUser
 }

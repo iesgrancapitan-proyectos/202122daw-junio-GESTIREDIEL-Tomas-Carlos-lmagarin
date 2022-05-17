@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {getAllReparaciones, removeReparacion,crearReparacion,enviarMail,actualizarReparacion} = require('../controllers/reparaciones');
+const {getAllReparaciones, removeReparacion,crearReparacion,enviarMail,actualizarReparacion,getReparacionesByUser} = require('../controllers/reparaciones');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -36,5 +36,11 @@ router.put('/:id',[
 
 //Enviar mail
 router.post('/mail',enviarMail);
+
+//Get reparaciones by user
+router.get('/cliente/:id',getReparacionesByUser);
+
+//Get reparaciones by tecnico
+router.get('/tecnico/:id',getReparacionesByUser);
 
 module.exports = router;
