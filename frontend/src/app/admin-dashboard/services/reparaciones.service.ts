@@ -29,10 +29,6 @@ export class ReparacionesService {
     return this.http.get(`${environment.baseUrl}/reparaciones`);
   }
 
-  getReparacion(id:number):Observable<any>{
-    return this.http.get(`${environment.baseUrl}/reparaciones/${id}`);
-  }
-
   getReparacionesPorCliente(id:number):Observable<any>{
     return this.http.get(`${environment.baseUrl}/reparaciones/cliente/${id}`);
   }
