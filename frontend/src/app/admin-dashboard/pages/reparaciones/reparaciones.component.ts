@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateReparacionStepperComponent } from '../../components/create-reparacion-stepper/create-reparacion-stepper.component';
 import { Reparacion } from '../../../interfaces/reparacion.interface';
-import { ReparacionesService } from '../../../shared/services/reparaciones.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-reparaciones',
@@ -15,18 +15,20 @@ export class ReparacionesComponent implements OnInit {
 
   reparacionesFiltradas: Reparacion[] = [];
 
-  constructor(public dialog: MatDialog,
-    private reparacionesService: ReparacionesService) { }
+  newReparacion: Subject<void> = new Subject<void>();
+
+
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.actualizarDatos();
+    
   }
 
   addNewReparacion() {
     const dialogRef = this.dialog.open(CreateReparacionStepperComponent, { panelClass: "custom-modalbox", width: "70%", height: "70%", disableClose: true });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.actualizarDatos();
+        this.newReparacion.next()
       }
     });
   }
@@ -37,13 +39,6 @@ export class ReparacionesComponent implements OnInit {
     // } else {
     //   this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
     // }
-  }
-
-  actualizarDatos() {
-    this.reparacionesService.getAllReparaciones().subscribe(reparaciones => {
-      this.reparaciones = reparaciones;
-      this.reparacionesFiltradas = this.reparaciones;
-    });
   }
 
 }

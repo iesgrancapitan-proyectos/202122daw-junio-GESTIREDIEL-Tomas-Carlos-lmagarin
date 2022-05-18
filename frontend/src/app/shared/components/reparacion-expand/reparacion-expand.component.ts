@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Swal from 'sweetalert2';
-import { ReparacionesService } from '../../services/reparaciones.service';
+import { ReparacionesService } from '../../../admin-dashboard/services/reparaciones.service';
 
 @Component({
   selector: 'app-reparacion-expand',

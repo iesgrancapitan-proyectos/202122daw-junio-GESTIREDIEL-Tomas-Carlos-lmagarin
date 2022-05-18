@@ -20,7 +20,6 @@ import { CreateClienteFormComponent } from './components/create-cliente-form/cre
 import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
 import { MaterialModule } from '../material/material.module';
 import { CreateReparacionStepperComponent } from './components/create-reparacion-stepper/create-reparacion-stepper.component';
-import { ReparacionExpandComponent } from './components/reparacion-expand/reparacion-expand.component';
 import { CreateDispositivoFormComponent } from './components/create-dispositivo-form/create-dispositivo-form.component';
 import { CreateReparacionFormComponent } from './components/create-reparacion-form/create-reparacion-form.component';
 
@@ -42,7 +41,6 @@ import { CreateReparacionFormComponent } from './components/create-reparacion-fo
     CreateClienteFormComponent,
     ReparacionesComponent,
     CreateReparacionStepperComponent,
-    ReparacionExpandComponent,
     CreateDispositivoFormComponent,
     CreateReparacionFormComponent
   ],
