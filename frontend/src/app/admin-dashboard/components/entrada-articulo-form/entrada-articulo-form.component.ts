@@ -59,7 +59,6 @@ export class EntradaArticuloFormComponent implements OnInit {
             })
           }},
         error: (err) => {
-          console.log(err.error)
           Swal.fire({
             position: 'center',
             icon: 'error',

@@ -33,7 +33,7 @@ export class ArticuloFormComponent implements OnInit {
   ngOnInit(): void {
     this.editForm = this.articulo != null;
 
-    this.categoriaService.getCategorias().subscribe({ next: (res) => { console.log(res); this.categorias = res } })
+    this.categoriaService.getCategorias().subscribe({ next: (res) => { this.categorias = res } })
 
 
     if (this.editForm) {
@@ -161,7 +161,13 @@ export class ArticuloFormComponent implements OnInit {
           })
         },
         error: (err) => {
-          console.log(err);
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: err.error.msg,
+            showConfirmButton: false,
+            timer: 2000
+          })
         }
       }
     )
@@ -228,6 +234,14 @@ export class ArticuloFormComponent implements OnInit {
     this.articuloIsServicio = false;
     this.form.controls['precio_coste'].setValue("");
     this.form.controls['categoria'].setValue("");
+  }
+
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
   }
 
 }

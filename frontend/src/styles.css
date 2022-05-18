@@ -3,11 +3,16 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {  
-  margin:0px;  
-  height:100%;  
-}  
+html,
+body {
+  margin: 0px;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
+.custom-modalbox > mat-dialog-container {
+  background-color: transparent !important;
+  padding: 0;
+  box-shadow: none;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

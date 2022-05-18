@@ -53,7 +53,7 @@ export class PerfilComponent implements OnInit {
   public updateClient(): void {
     const user=this.userService.usuario;
 
-    let client = {
+    const client:Cliente = {
       nombre_fiscal: this.form.value.nombre_fiscal,
       nif: this.form.value.nif,
       domicilio: this.form.value.domicilio,

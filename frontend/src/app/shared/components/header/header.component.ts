@@ -22,6 +22,10 @@ export class HeaderComponent implements OnInit {
     this.username=this.authService.usuario.username;
   }
 
+  public isNotAdmin():boolean{
+    return this.authService.usuario.rol!='admin';
+  }
+
   public logout() {
     Swal.fire({
       title: '¿Estás seguro?',

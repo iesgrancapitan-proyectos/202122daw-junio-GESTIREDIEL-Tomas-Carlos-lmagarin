@@ -1,8 +1,9 @@
 export interface Cliente {
+  id?: string;
   id_usuario?:       string;
   password?:         string;
   rol?:              string;
-  username:         string;
+  username?:         string;
   email:            string;
   nif:              string;
   nombre_fiscal:    string;
@@ -10,6 +11,7 @@ export interface Cliente {
   CP:               string;
   poblacion:        string;
   provincia:        string;
-  persona_contacto: string;
-  registered:       Date;
+  persona_contacto?: string;
+  registered?:       Date;
+  telefono?:         Number;
 }

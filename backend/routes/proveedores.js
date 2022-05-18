@@ -8,6 +8,11 @@ const router = Router();
 router.post('/',[
   check('nombre_fiscal', 'La nombre fiscal es obligatorio').not().isEmpty(),
   check('nombre_comercial', 'La nombre comercial es obligatorio').not().isEmpty(),
+  check('cif', 'El cif es obligatorio').not().isEmpty(),
+  check('direccion', 'La dirección es obligatoria').not().isEmpty(),
+  check('cp', 'El código postal es obligatorio').not().isEmpty(),
+  check('telefono', 'El teléfono es obligatorio').not().isEmpty(),
+  check('email', 'El email es obligatorio').isEmail(),
   validarCampos
 ],crearProveedor)
 
@@ -15,6 +20,11 @@ router.post('/',[
 router.put('/:id',[
   check('nombre_fiscal', 'La nombre fiscal es obligatorio').not().isEmpty(),
   check('nombre_comercial', 'La nombre comercial es obligatorio').not().isEmpty(),
+  check('cif', 'El cif es obligatorio').not().isEmpty(),
+  check('direccion', 'La dirección es obligatoria').not().isEmpty(),
+  check('cp', 'El código postal es obligatorio').not().isEmpty(),
+  check('telefono', 'El teléfono es obligatorio').not().isEmpty(),
+  check('email', 'El email es obligatorio').isEmail(),
   validarCampos
 ],editarProveedor)
 
@@ -23,6 +33,5 @@ router.delete('/:id',borrarProveedor)
 
 //obtener todos los proveedores
 router.get('/',getAllProveedor)
-
 
 module.exports = router;

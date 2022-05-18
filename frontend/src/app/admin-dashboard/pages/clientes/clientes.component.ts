@@ -21,6 +21,7 @@ export class ClientesComponent implements OnInit {
     'nif',
     'email',
     'domicilio',
+    'telefono',
     'poblacion',
     'provincia',
     'acciones',
@@ -42,7 +43,6 @@ export class ClientesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getClientes();
-    console.log(this.dataSource);
   }
 
   private getClientes(): void {

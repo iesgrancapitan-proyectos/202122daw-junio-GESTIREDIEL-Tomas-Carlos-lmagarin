@@ -2,7 +2,7 @@
   {{editForm?"Editar proveedor":"Crear proveedor"}}
 </div>
 <form class="w-full max-w-lg duration-200" [formGroup]="form" (ngSubmit)="submit()">
-  <div class="flex flex-wrap -mx-3 mb-6">
+  <div class="flex flex-wrap -mx-3 ">
     <div class=" w-full px-3">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-nombre_comercial">
         Nombre comercial
@@ -11,10 +11,13 @@
         formControlName="nombre_comercial"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-nombre_comercial" type="text" placeholder="Nombre comercial...">
-        <p *ngIf="form.controls['nombre_comercial'].invalid && form.controls['nombre_comercial'].touched" class="text-red-500 text-xs italic">El nombre comercial es obligatorio.</p>
+        <p 
+        [style.visibility]="visibility('nombre_comercial')" 
+        class="text-red-500 text-xs italic">
+        El nombre comercial es obligatorio.</p>
     </div>
   </div>
-  <div class="flex flex-wrap -mx-3 mb-6">
+  <div class="flex flex-wrap -mx-3 ">
     <div class=" w-full px-3">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-nombre_fiscal">
         Nombre fiscal
@@ -23,7 +26,85 @@
         formControlName="nombre_fiscal"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
         id="grid-nombre_fiscal" type="text" placeholder="Nombre fiscal...">
-        <p *ngIf="form.controls['nombre_fiscal'].invalid && form.controls['nombre_fiscal'].touched" class="text-red-500 text-xs italic">El nombre fiscal es obligatorio.</p>
+        <p 
+        [style.visibility]="visibility('nombre_fiscal')"
+        class="text-red-500 text-xs italic">
+        El nombre fiscal es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 ">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-cif">
+        CIF
+      </label>
+      <input
+        formControlName="cif"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-cif" type="text" placeholder="CIF...">
+        <p 
+        [style.visibility]="visibility('cif')"
+        class="text-red-500 text-xs italic">
+        El cif es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 ">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-cp">
+        Codigo postal
+      </label>
+      <input
+        formControlName="cp"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-cp" type="text" placeholder="Codigo postal...">
+        <p 
+        [style.visibility]="visibility('cp')"
+        class="text-red-500 text-xs italic">
+        El codigo postal es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 ">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-direccion">
+        Dirección
+      </label>
+      <input
+        formControlName="direccion"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-direccion" type="text" placeholder="Dirección...">
+        <p 
+        [style.visibility]="visibility('direccion')"
+        class="text-red-500 text-xs italic">
+        La dirección es obligatoria.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 ">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-telefono">
+        Teléfono
+      </label>
+      <input
+        formControlName="telefono"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-telefono" type="tel" placeholder="Teléfono...">
+        <p 
+        [style.visibility]="visibility('telefono')"
+        class="text-red-500 text-xs italic">
+        El teléfono es obligatorio.</p>
+    </div>
+  </div>
+  <div class="flex flex-wrap -mx-3 ">
+    <div class=" w-full px-3">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-email">
+        Email
+      </label>
+      <input
+        formControlName="email"
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="grid-email" type="email" placeholder="Email...">
+        <p 
+        [style.visibility]="visibility('email')"
+        class="text-red-500 text-xs italic">
+        El email es obligatorio.</p>
     </div>
   </div>
 

@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {crearArticulo,editarArticulo,borrarArticulo,getAllArticulo, entradaArticulo,articuloExist} = require('../controllers/articulos');
+const {crearArticulo,editarArticulo,borrarArticulo,getAllArticulo, entradaArticulo,articuloExist,getArticulosByIdProveedor} = require('../controllers/articulos');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -41,5 +41,6 @@ router.get('/',getAllArticulo)
 
 router.get('/exist/:referencia',articuloExist)
 
+router.get('/byProveedor/:id_proveedor',getArticulosByIdProveedor)
 
 module.exports = router;

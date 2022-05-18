@@ -1,0 +1,29 @@
+mat-expansion-panel{
+  border-radius: 1rem;
+  color: black;
+}
+
+.mat-expansion-panel-header.mat-expanded{
+  height: 6rem;
+}
+
+::ng-deep .expension-header > .mat-expansion-indicator:after {
+  border-color: black;
+}
+
+.mat-prioridadAlta {
+  background-color: #EB5757;
+  color: #fff;
+}
+.mat-prioridadMedia {
+  background-color: #F2994A;
+  color: #fff;
+}
+.mat-prioridadBaja {
+  background-color: #27AE60;
+  color: #fff;
+}
+.mat-azul {
+  background-color: #369FFF;
+  color: #fff;
+}

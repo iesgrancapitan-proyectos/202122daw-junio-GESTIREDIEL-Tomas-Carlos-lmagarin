@@ -1,0 +1,79 @@
+<mat-expansion-panel class="bg-secondary-color animate__animated animate__zoomIn">
+      <mat-expansion-panel-header class="h-24 expension-header">
+        <mat-panel-title class="w-1/3 text-black">
+          <i [ngClass]="reparacion.dispositivo.tipo == 'movil' ? ' bx bx-mobile-alt ' : 
+          reparacion.dispositivo.tipo == 'pc' ? ' bx bx-desktop ' : ' bx bx-wrench '"
+            class='text-white text-3xl bg-primary-color p-2 rounded-xl mr-5'></i>
+          {{reparacion.fecha_compromiso | date:'medium'}}
+        </mat-panel-title>
+        <mat-panel-description class="flex justify-between items-center gap-5 pr-5 text-black">
+          <!-- Dispositivo -->
+
+          <span class="text-xl">{{reparacion.dispositivo.marca + " "+ reparacion.dispositivo.modelo}}</span>
+
+          <!-- avatar -->
+          <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center gap-3 mr-5">
+              <img src="../../../../assets/tecnico_profile.png" alt="avatar"
+                class="border-2 border-primary-color rounded-full w-12 h-12">
+              <span class="w-16">{{reparacion.tecnico.nombre}}</span>
+            </div>
+            <div [ngClass]="colorPrioridad(reparacion.prioridad)"
+              class="rounded-full w-52 text-center px-3 py-1 text-white text-xl">{{reparacion.estado}}</div>
+          </div>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div class="flex gap-20 h-80 mx-7">
+
+        <!-- textarea -->
+        <div class="flex-1 flex flex-col w-1/3 h-full">
+          <div class="text-3xl">Reparación</div>
+          <hr class="border-primary-color mt-3 mb-5">
+
+          <form class="flex flex-col gap-5">
+            <div class="flex justify-between gap-5">
+              <div class="flex-1">
+                <label for="averia">Averia:</label>
+                <input class="rounded-xl w-full" type="text" id="averia" [value]="reparacion.averia">
+              </div>
+              <div class="flex-1">
+                <label for="averia">Accesorios:</label>
+                <input class="rounded-xl w-full" type="text" id="averia" [value]="reparacion.accesorios">
+              </div>
+            </div>
+            <div>
+              <label for="observaciones" class="text-black text-base">Observaciones</label>
+              <textarea id="observaciones" placeholder="Descripción" rows="3" [value]="reparacion.observaciones"
+                class=" w-full text-black rounded-xl border-0 resize-none"></textarea>
+            </div>
+            <div class="flex justify-end">
+              <button mat-button type="submit" class="w-1/3 " color="azul">
+                <mat-icon>save</mat-icon>Guardar
+              </button>
+            </div>            
+          </form>
+        </div>
+
+        <div class="flex-1 flex flex-col justify-between text-black text-base">
+          <div>
+            <div class="text-3xl">Cliente</div>
+            <hr class="border-primary-color mt-3 mb-5">
+            <div class="bg-primary-color text-white text-2xl font-medium flex flex-col gap-3 p-5 rounded-xl">
+              <span>{{reparacion.cliente.nombre_fiscal}}</span>
+              <span class="flex items-center gap-2"><i class='bx bxs-phone'></i> {{reparacion.cliente.telefono}}</span>
+              <span class="flex items-center gap-2"><i class='bx bx-envelope'></i>{{reparacion.cliente.email}}</span>
+            </div>
+          </div>
+          <div class="flex justify-end items-end">
+            <div class="flex justify-center gap-5 ">
+              <button mat-button (click)="enviarCorreo()" color="azul">
+                <mat-icon>email</mat-icon>
+              </button>
+              <button (click)="borrar()" mat-fab color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>

@@ -5,14 +5,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { SharedModule } from '../shared/shared.module';
 import { AdminDashboardRoutingModule } from './admin-dashboard-routing.module';
 import { ClientesComponent } from './pages/clientes/clientes.component';
-
 import { DataTablesModule } from "angular-datatables";
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatDialogModule} from '@angular/material/dialog';
-
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EditFormComponent } from './components/edit-cliente-form/edit-cliente-form.component';
 import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
 import { TecnicoCardComponent } from './components/tecnico-card/tecnico-card.component';
@@ -21,11 +15,14 @@ import { ArticulosComponent } from './pages/articulos/articulos.component';
 import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
 import { ArticuloFormComponent } from './components/articulo-form/articulo-form.component';
 import { EntradaArticuloFormComponent } from './components/entrada-articulo-form/entrada-articulo-form.component';
-
-
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { ProveedoresFormComponent } from './components/proveedores-form/proveedores-form.component';
 import { CreateClienteFormComponent } from './components/create-cliente-form/create-cliente-form.component';
+import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
+import { MaterialModule } from '../material/material.module';
+import { CreateReparacionStepperComponent } from './components/create-reparacion-stepper/create-reparacion-stepper.component';
+import { CreateDispositivoFormComponent } from './components/create-dispositivo-form/create-dispositivo-form.component';
+import { CreateReparacionFormComponent } from './components/create-reparacion-form/create-reparacion-form.component';
+
 
 @NgModule({
   declarations: [
@@ -41,19 +38,20 @@ import { CreateClienteFormComponent } from './components/create-cliente-form/cre
     ArticuloFormComponent,
     EntradaArticuloFormComponent,
     ProveedoresFormComponent,
-    CreateClienteFormComponent
+    CreateClienteFormComponent,
+    ReparacionesComponent,
+    CreateReparacionStepperComponent,
+    CreateDispositivoFormComponent,
+    CreateReparacionFormComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
     AdminDashboardRoutingModule,
     DataTablesModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatDialogModule,
     ReactiveFormsModule,
-    MatTooltipModule
+    MaterialModule,
+    FormsModule
   ]
 })
 export class AdminDashboardModule { }

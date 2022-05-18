@@ -24,17 +24,27 @@ export class ProveedoresFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.proveedor != null;
-
+    console.log(this.editForm);
     
     if (this.editForm) {
       this.form = this.fb.group({
         nombre_comercial: [this.proveedor.nombre_comercial, [Validators.required, Validators.maxLength(45)]],
         nombre_fiscal: [this.proveedor.nombre_fiscal, [Validators.required, Validators.maxLength(45)]],
+        cif: [this.proveedor.cif, [Validators.required]],
+        direccion: [this.proveedor.direccion, [Validators.required]],
+        cp: [this.proveedor.cp, [Validators.required]],
+        email: [this.proveedor.email, [Validators.required, Validators.email]],
+        telefono: [this.proveedor.telefono, [Validators.required]]
       }) 
     }else{
       this.form = this.fb.group({
         nombre_comercial: ['', [Validators.required, Validators.maxLength(45)]],
         nombre_fiscal: ['', [Validators.required, Validators.maxLength(45)]],
+        cif: ['', [Validators.required]],
+        direccion: ['', [Validators.required]],
+        cp: ['', [Validators.required]],
+        email: ['', [Validators.required,Validators.email]],
+        telefono: ['', [Validators.required]]
       })
     }
   }
@@ -97,4 +107,12 @@ export class ProveedoresFormComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  visibility(field: string):string {
+    console.log(this.form.controls[field].invalid);
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
+  }
 }

@@ -3,6 +3,7 @@ import { Cliente } from '../../../interfaces/cliente.interface';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-form',
@@ -29,7 +30,8 @@ export class EditFormComponent implements OnInit {
       CP: [this.cliente.CP, [Validators.required, Validators.pattern('[0-9]{5}')]],
       poblacion: [this.cliente.poblacion, [Validators.required]],
       provincia: [this.cliente.provincia, [Validators.required]],
-      persona_contacto: [this.cliente.persona_contacto, [Validators.required]]
+      persona_contacto: [this.cliente.persona_contacto, [Validators.required]],
+      telefono: [this.cliente.telefono, [Validators.required, Validators.pattern('[0-9]{9}')]]
     })
   }
 
@@ -37,10 +39,20 @@ export class EditFormComponent implements OnInit {
     this.clientesService.editarCliente(this.cliente.id_usuario!, this.form.value).subscribe(
       {
         next: (res) => {
+          Swal.fire({
+            title: 'Cliente editado',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          })
           this.dialogRef.close();
         },
         error: (err) => {
-          console.log(err);
+          Swal.fire({
+            title: 'Error',
+            text: err.error.msg,
+            icon: 'error'
+          })
+
         }
       }
     )
@@ -48,5 +60,13 @@ export class EditFormComponent implements OnInit {
 
   closeDialog(): void {
     this.dialogRef.close();
+  }
+
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
   }
 }

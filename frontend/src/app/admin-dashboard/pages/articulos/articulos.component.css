@@ -1,9 +1,16 @@
+h1{
+  font-family: Montserrat, sans-serif;
+}
 table {
   width: 100%;
 }
 .mat-table{    
   border-radius:  0.25rem;
   overflow:hidden !important;
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
 }
 
 table .mat-header-row {

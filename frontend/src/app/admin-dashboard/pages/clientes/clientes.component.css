@@ -1,4 +1,6 @@
-
+h1{
+  font-family: Montserrat, sans-serif;
+}
 table {
   width: 100%;
 }
@@ -8,12 +10,10 @@ table {
 }
 
 table .mat-header-row {
-
   background-color: #369FFF;
 }
 
 table th{
-  text-align: center;
   color: #fff;
 }
 table td{

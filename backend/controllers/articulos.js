@@ -35,6 +35,13 @@ const crearArticulo = async (req, res = response) => {
       }
     }
 
+    if (precio_coste >= precio_venta) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'El precio de venta debe ser mayor que el precio de coste'
+      })
+    }
+
 
     //crear articulo en la BD
     await prisma.articulo.create({
@@ -65,14 +72,14 @@ const crearArticulo = async (req, res = response) => {
 const getAllArticulo = async (req, res = response) => {
   try {
 
-    const tecnicos = await prisma.$queryRaw `
-      SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria, 
-      (SELECT nombre FROM categoria WHERE articulo.id_categoria = categoria.id) AS categoria,
-      (SELECT SUM(stock) FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id) AS stock
-      FROM articulo
+    const articulos = await prisma.$queryRaw `
+    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria, 
+    (SELECT nombre FROM categoria WHERE articulo.id_categoria = categoria.id) AS categoria,
+    (SELECT SUM(stock) FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id) AS stock
+    FROM articulo
     `
 
-    return res.status(200).json(tecnicos)
+    return res.status(200).json(articulos)
 
   } catch (error) {
     console.log(error);
@@ -174,6 +181,13 @@ const entradaArticulo = async (req, res = response) => {
 
   try {
 
+    if (cantidad <= 0) {
+      return res.status(400).json({
+        ok: true,
+        msg: 'La cantidad debe ser mayor a 0'
+      })
+    }
+
     const relacionExist = await prisma.$queryRaw `
       SELECT * FROM proveedor_articulo WHERE id_articulo = ${id_articulo} AND id_proveedor = ${id_proveedor}  
     `
@@ -242,11 +256,35 @@ const articuloExist = async (req, res = response) => {
   }
 }
 
+const getArticulosByIdProveedor = async (req, res = response) => {
+  const {
+    id_proveedor
+  } = req.params;
+
+  try { 
+    const articulos = await prisma.$queryRaw `
+    SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria,stock,
+    (SELECT nombre FROM categoria WHERE a.id_categoria = categoria.id) AS categoria
+    FROM articulo as a , proveedor_articulo as pa
+    WHERE a.id = pa.id_articulo AND pa.id_proveedor = ${id_proveedor}
+    `
+
+    return res.status(200).json(articulos)
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 module.exports = {
   crearArticulo,
   editarArticulo,
   borrarArticulo,
   getAllArticulo,
   entradaArticulo,
-  articuloExist
+  articuloExist,
+  getArticulosByIdProveedor
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { Cliente } from '../../../interfaces/cliente.interface';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClientesService } from '../../../shared/services/clientes.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
+import { Cliente } from '../../../interfaces/cliente.interface';
 
 @Component({
   selector: 'app-create-cliente-form',
@@ -13,6 +14,10 @@ export class CreateClienteFormComponent implements OnInit {
 
 
   public form!: FormGroup;
+  @Input()
+  inReparacion:boolean = false;
+  @Output()
+  newClienteOnReparacion = new EventEmitter<Cliente>();
 
   constructor(private clientesService: ClientesService,
     private fb: FormBuilder,
@@ -28,7 +33,8 @@ export class CreateClienteFormComponent implements OnInit {
       CP: ["", [Validators.required, Validators.pattern('[0-9]{5}')]],
       poblacion: ["", [Validators.required]],
       provincia: ["", [Validators.required]],
-      persona_contacto: ["", [Validators.required]]
+      persona_contacto: ["", [Validators.required]],
+      telefono: ["", [Validators.required, Validators.pattern('[0-9]{9}')]],
     })
   }
 
@@ -36,10 +42,24 @@ export class CreateClienteFormComponent implements OnInit {
     this.clientesService.createCliente(this.form.value).subscribe(
       {
         next: (res) => {
-          this.dialogRef.close();
+          Swal.fire({
+            title: 'Cliente creado',
+            text: 'El cliente ha sido creado correctamente',
+            icon: 'success',
+            confirmButtonText: 'Ok'
+          });
+          this.newClienteOnReparacion.emit(res.cliente);
+          if(!this.inReparacion){
+            this.dialogRef.close();
+          }
         },
         error: (err) => {
-          console.log(err);
+          Swal.fire({
+            title: 'Error',
+            text: err.error.msg,
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
         }
       }
     )
@@ -48,4 +68,13 @@ export class CreateClienteFormComponent implements OnInit {
   closeDialog(): void {
     this.dialogRef.close();
   }
+
+  visibility(field: string):string {
+    if (this.form.controls[field].invalid && this.form.controls[field].touched) {
+      return "visible";
+    } else {
+      return "hidden";
+    }
+  }
+
 }

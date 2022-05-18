@@ -10,6 +10,8 @@ import { ArticuloFormComponent } from '../../components/articulo-form/articulo-f
 import { EntradaArticuloFormComponent } from '../../components/entrada-articulo-form/entrada-articulo-form.component';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
+import { ProveedoresService } from '../../services/proveedores.service';
+import { Proveedor } from 'src/app/interfaces/proveedor.interface';
 
 @Component({
   selector: 'app-articulos',
@@ -34,20 +36,26 @@ export class ArticulosComponent implements OnInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
+  proveedores: Proveedor[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-
   constructor(private articulosService: ArticulosService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private proveedoresService:ProveedoresService) { }
 
   ngOnInit(): void {
     this.getArticulos()
-    console.log(this.dataSource);
+
+    this.proveedoresService.getProveedores().subscribe(
+      (proveedores: Proveedor[]) => {
+        this.proveedores = proveedores
+      });
   }
 
   private getArticulos(): void {
+
     this.articulosService.getArticulos().subscribe(
       (articulos: Articulo[]) => {
         this.dataSource = new MatTableDataSource(articulos);
@@ -118,4 +126,17 @@ export class ArticulosComponent implements OnInit {
     })
   };
 
+  filtrarPorProveedor(id_proveedor: number) {
+    if (id_proveedor) {
+      this.articulosService.getArticulosByProveedor(id_proveedor).subscribe(
+        (articulos: Articulo[]) => {
+          this.dataSource = new MatTableDataSource(articulos);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        }
+      );  
+    }else{
+      this.getArticulos()
+    }
+  }
 }

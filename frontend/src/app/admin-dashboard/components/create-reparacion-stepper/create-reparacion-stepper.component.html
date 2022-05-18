@@ -1,0 +1,74 @@
+<div class="w-full flex flex-col justify-between bg-secondary-color rounded-2xl">
+  <div class="flex justify-end m-5 mb-0">
+    <button (click)="closeDialog()" mat-fab color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <mat-stepper linear #stepper class="bg-secondary-color rounded-2xl pt-0">
+    <mat-step>
+      <ng-template matStepLabel>Cliente</ng-template>
+      <div class="flex justify-center items-start gap-5">
+          <div class="flex items-center  justify-between w-full gap-5" *ngIf="buscarCliente else crearCliente">
+            <mat-form-field class="w-full" appearance="fill">
+              <mat-label>Cliente</mat-label>
+              <form [formGroup]="form">
+              <input matInput aria-label="Cliente" [matAutocomplete]="auto" formControlName="clienteCtrl"
+                [formControl]="clienteCtrl">
+              </form>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="saveClienteSelected(cliente,stepper)"
+                  *ngFor="let cliente of filteredClientes | async" [value]="cliente.nombre_fiscal+' - '+cliente.nif">
+                  <span>{{cliente.nombre_fiscal}}</span> |
+                  <small>NIF: {{cliente.nif}}</small>
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>
+        <button (click)="toogleBuscarCliente()" mat-fab color="azul">
+          <mat-icon>{{buscarCliente ? 'add' : 'search'}} </mat-icon>
+        </button>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Dispositivo</ng-template>
+        <div class="flex gap-5">
+          <div class="w-full mt-5 mx-auto flex-1">
+            <mat-radio-group class="flex flex-col gap-5 overflow-y-scroll h-64 pl-5 "  formControlName="dispositivo">
+              <mat-radio-button *ngFor="let dispositivo of dispositivos" (click)="seleccionarDispositivo(dispositivo,stepper)" [value]="dispositivo">
+                <div class="flex justify-center items-center text-xl">
+                  <div *ngIf="dispositivo.tipo == 'movil'">
+                    <i class='bx bx-mobile-alt text-3xl'></i>
+                  </div>
+                  <div *ngIf="dispositivo.tipo == 'pc'">
+                    <i class='bx bx-laptop text-3xl'></i>
+                  </div>
+                  <div>{{dispositivo.marca + " - " + dispositivo.modelo +" - "+ dispositivo.numero_serie}}</div>
+                </div>
+              </mat-radio-button>
+            </mat-radio-group>
+            <button mat-button matStepperPrevious>Atras</button>
+            <button mat-button matStepperNext>Siguiente</button>
+          </div>
+          <div class="flex-1">
+            <app-create-dispositivo-form [cliente]="clienteSelected"  (actualizarLista)="actualizarLista($event,stepper)"></app-create-dispositivo-form>
+          </div>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Precio/Final</ng-template>
+      <app-create-reparacion-form [dispositivo]="dispositivoSelected" ></app-create-reparacion-form>
+      <div>
+        <button mat-button matStepperPrevious>Atras</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  
+</div>
+
+<ng-template #crearCliente>
+  <div class="flex justify-center items-center">
+    <app-create-cliente-form [inReparacion]="true" (newClienteOnReparacion)="saveClienteSelected($event,stepper)"></app-create-cliente-form>
+  </div>
+</ng-template>
