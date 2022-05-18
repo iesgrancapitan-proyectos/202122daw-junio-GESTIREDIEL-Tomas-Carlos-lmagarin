@@ -23,7 +23,5 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div class="flex flex-col gap-5">
-    <app-reparacion-expand (onBorrar)="actualizarDatos()" [reparacion]="reparacion" *ngFor="let reparacion of reparacionesFiltradas"></app-reparacion-expand> 
-  </div>
+  <app-lista-reparaciones [actualizar]="newReparacion.asObservable()" ></app-lista-reparaciones>
 </div>
