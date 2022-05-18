@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(localeEs);
 
@@ -23,6 +24,7 @@ registerLocaleData(localeEs);
     AppRoutingModule,
     AuthModule,
     HttpClientModule,
+    SharedModule,
     AdminDashboardModule,
     DataTablesModule,
     BrowserAnimationsModule

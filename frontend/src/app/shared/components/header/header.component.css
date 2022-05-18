@@ -30,3 +30,13 @@ header div .user{
   justify-content: flex-start;
   gap: 10px;
 }
+
+@media (max-width: 550px) {
+  header div{
+    font-size: 0.7rem;
+    margin-right:10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
