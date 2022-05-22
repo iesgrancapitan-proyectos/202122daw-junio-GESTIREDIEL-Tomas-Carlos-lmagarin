@@ -202,8 +202,6 @@ const getAllReparaciones = async (req, res = response) => {
   let data = [];
   
   reparaciones.forEach( (reparacion, i) => {
-
-    console.log(reparacion)
   
     let articulos=[]
     articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
@@ -254,7 +252,7 @@ const getAllReparaciones = async (req, res = response) => {
   return res.status(200).json(data)
 }
 
-const getReparacionesByUser= async (req, res = response) => {
+const getReparacionesByUser = async (req, res = response) => {
 
   const {id} = req.params;
   let data=[]
@@ -281,7 +279,7 @@ const getReparacionesByUser= async (req, res = response) => {
     `
     }else if(usuario.rol=="tecnico"){
       reparaciones=await prisma.$queryRaw `
-      select reparacion.id,estado,fecha_compromiso,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join tecnico on reparacion.id_tecnico=tecnico.id inner join usuarios on tecnico.id_usuario=usuarios.id where usuarios.id=${id}
+      select reparacion.id,estado,fecha_compromiso, accesorios,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join tecnico on reparacion.id_tecnico=tecnico.id inner join usuarios on tecnico.id_usuario=usuarios.id where usuarios.id=${id}
     `
     }else{
       return res.status(400).json({
@@ -292,29 +290,21 @@ const getReparacionesByUser= async (req, res = response) => {
 
     reparaciones.forEach((reparacion,i)=>{
       data[i]={
-        id:i,
-        reparacion:{
-          id:reparacion.id,
-          estado: reparacion.estado,
-          fecha_compromiso: reparacion.fecha_compromiso,
-          averia: reparacion.averia,
-          observaciones: reparacion.observaciones,
-        },
+        id:reparacion.id,
+        estado: reparacion.estado,
+        fecha_compromiso: reparacion.fecha_compromiso,
+        accesorios: reparacion.accesorios,
+        averia: reparacion.averia,
+        observaciones: reparacion.observaciones,
         dispositivo:{
           id:reparacion.id_dispositivo,
           tipo: reparacion.tipo,
           marca: reparacion.marca,
           modelo: reparacion.modelo,
+          fecha_compromiso: reparacion.fecha_compromiso,
         }
       }
     })
-
-    if(reparaciones.length<0){
-      return res.status(404).json({
-        ok: false,
-        msg: 'No hay reparaciones'
-      })
-    }
 
   }catch(error){
     console.log(error)
@@ -324,10 +314,7 @@ const getReparacionesByUser= async (req, res = response) => {
     })
   }
 
-  return res.status(200).json({
-    ok:true,
-    data
-  })
+  return res.status(200).json(data)
 
 }
 

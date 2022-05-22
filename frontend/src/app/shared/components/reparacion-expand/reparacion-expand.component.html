@@ -12,7 +12,7 @@
           <span class="text-xl">{{reparacion.dispositivo.marca + " "+ reparacion.dispositivo.modelo}}</span>
 
           <!-- avatar -->
-          <div class="flex justify-center items-center">
+          <div class="flex justify-center items-center" *ngIf="!forTecnico">
             <div class="flex justify-center items-center gap-3 mr-5">
               <img src="../../../../assets/tecnico_profile.png" alt="avatar"
                 class="border-2 border-primary-color rounded-full w-12 h-12">
@@ -55,7 +55,7 @@
         </div>
 
         <div class="flex-1 flex flex-col justify-between text-black text-base">
-          <div>
+          <div *ngIf="!forTecnico">
             <div class="text-3xl">Cliente</div>
             <hr class="border-primary-color mt-3 mb-5">
             <div class="bg-primary-color text-white text-2xl font-medium flex flex-col gap-3 p-5 rounded-xl">
@@ -64,13 +64,10 @@
               <span class="flex items-center gap-2"><i class='bx bx-envelope'></i>{{reparacion.cliente.email}}</span>
             </div>
           </div>
-          <div class="flex justify-end items-end">
+          <div *ngIf="!forTecnico" class="flex justify-end items-end">
             <div class="flex justify-center gap-5 ">
               <button mat-button (click)="enviarCorreo()" color="azul">
                 <mat-icon>email</mat-icon>
-              </button>
-              <button (click)="borrar()" mat-fab color="warn">
-                <mat-icon>delete</mat-icon>
               </button>
             </div>
           </div>

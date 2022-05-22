@@ -11,54 +11,44 @@ import { AuthService } from '../../../auth/services/auth.service';
 })
 export class ListaReparacionesComponent implements OnInit, OnDestroy {
 
-  reparaciones:Reparacion[] = [];
+  reparaciones: Reparacion[] = [];
 
-  @Input() actualizar!:Observable<void>;
+  @Input() actualizar!: Observable<void>;
+  @Input() UidTecnico!: string;
 
   private eventsSubscription: any
 
-  constructor(private reparacionesService:ReparacionesService,private authService:AuthService) { }
+  constructor(private reparacionesService: ReparacionesService, private authService: AuthService) { }
 
   ngOnDestroy(): void {
-    if(this.eventsSubscription) {
+    if (this.eventsSubscription) {
       this.eventsSubscription.unsubscribe();
     }
-    // this.eventsSubscription.unsubscribe()
   }
 
   ngOnInit(): void {
-    if(this.actualizar) {
+
+    if (this.actualizar) {
       this.eventsSubscription = this.actualizar.subscribe(() => {
         this.actualizarDatos()
       })
     }
-    // this.eventsSubscription = this.actualizar.subscribe(() => this.actualizarDatos())
-    this.reparacionesService.getReparaciones().subscribe(
-      (reparaciones)=>{
-        this.reparaciones = reparaciones;
-      }
-    )
-    this.getReparacionesClient();
+    this.actualizarDatos()
   }
 
   actualizarDatos() {
-    this.reparacionesService.getReparaciones().subscribe(reparaciones => {
-      this.reparaciones = reparaciones;
-      // this.reparacionesFiltradas = this.reparaciones;
-    });
+    if (this.UidTecnico) {
+      this.reparacionesService.getReparacionPorTecnico(this.UidTecnico).subscribe({
+        next: (reparaciones: Reparacion[]) => {
+          this.reparaciones = reparaciones
+        }
+      })
+    } else {
+      this.reparacionesService.getReparaciones().subscribe({
+        next: (reparaciones: Reparacion[]) => {
+          this.reparaciones = reparaciones
+        }
+      });
+    }
   }
-
-  getReparacionesClient(){
-    let id=this.authService.usuario.uid;
-    this.reparacionesService.getReparacionesPorCliente(id!).subscribe({
-      next: (reparaciones)=>{
-        console.log(reparaciones)
-      },
-      error: (err)=>{
-        console.log(err)
-      }
-    })
-  }
-
-
 }

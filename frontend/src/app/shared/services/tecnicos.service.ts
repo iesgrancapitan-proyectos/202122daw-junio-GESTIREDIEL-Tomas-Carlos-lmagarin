@@ -8,6 +8,7 @@ import { Tecnico } from '../../interfaces/tecnico.interface';
   providedIn: 'root'
 })
 export class TecnicosService {
+  
 
   constructor(private http: HttpClient) { }
 
@@ -22,5 +23,9 @@ export class TecnicosService {
 
   editarTecnico(id: string, tecnico: any) {
     return this.http.put<Tecnico>(`${environment.baseUrl}/tecnicos/${id}`, tecnico);
+  }
+
+  getTecnicoByUid(uid: string):Observable<Tecnico> {
+    return this.http.get<Tecnico>(`${environment.baseUrl}/tecnicos/${uid}`);
   }
 }

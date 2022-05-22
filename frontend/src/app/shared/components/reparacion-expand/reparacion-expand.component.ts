@@ -10,9 +10,11 @@ import { ReparacionesService } from '../../../admin-dashboard/services/reparacio
 export class ReparacionExpandComponent implements OnInit {
 
   @Input() reparacion: any;
+  @Input() forTecnico!:boolean;
+
 
   @Output() onBorrar = new EventEmitter();
-
+  
   constructor(private serviceReparacion:ReparacionesService ) { }
 
   ngOnInit(): void {

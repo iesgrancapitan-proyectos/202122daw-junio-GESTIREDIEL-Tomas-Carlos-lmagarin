@@ -166,8 +166,36 @@ const editarTecnico = async (req, res = response) => {
     })
   }
 }
+
+
+const getTecnicoByUid = async (req, res = response) => {
+  const {
+    id
+  } = req.params;
+  
+
+  try {
+
+    const tecnico = await prisma.tecnico.findFirst({
+      where: {
+        id_usuario: id
+      }
+    });
+
+    return res.status(200).json(tecnico)
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 module.exports = {
   crearTecnico,
   getallTecnicos,
-  editarTecnico
+  editarTecnico,
+  getTecnicoByUid
 }

@@ -24,7 +24,6 @@ export class ProveedoresFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.proveedor != null;
-    console.log(this.editForm);
     
     if (this.editForm) {
       this.form = this.fb.group({
@@ -108,7 +107,6 @@ export class ProveedoresFormComponent implements OnInit {
   }
 
   visibility(field: string):string {
-    console.log(this.form.controls[field].invalid);
     if (this.form.controls[field].invalid && this.form.controls[field].touched) {
       return "visible";
     } else {
