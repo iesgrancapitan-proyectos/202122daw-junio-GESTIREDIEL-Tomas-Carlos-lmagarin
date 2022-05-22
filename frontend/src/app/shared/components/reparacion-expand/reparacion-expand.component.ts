@@ -46,19 +46,17 @@ export class ReparacionExpandComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     });
     if (mensaje) {
-      //Enviar correo
       this.serviceReparacion.sendMail(this.reparacion.cliente.email,mensaje).subscribe(
         (data) => {
-          console.log(data);
           Swal.fire('Enviado', 'El correo ha sido enviado', 'success');
         }
       )
 
-      Swal.fire({
-        title: 'Enviado',
-        text: 'Mensaje enviado correctamente',
-        icon: 'success'
-      })
+      // Swal.fire({
+      //   title: 'Enviado',
+      //   text: 'Mensaje enviado correctamente',
+      //   icon: 'success'
+      // })
     }
 
 
@@ -76,7 +74,6 @@ export class ReparacionExpandComponent implements OnInit {
       cancelButtonText: 'No, cancelar'
     }).then((result) => {
       if (result.value) {
-        //TODO: borra pero no actualiza automaticamente la tabla
 
         this.serviceReparacion.borrarReparacion(this.reparacion.id).subscribe({
           next: (data) => {
@@ -97,7 +94,7 @@ export class ReparacionExpandComponent implements OnInit {
         })
 
 
-        
+
       }
 
     })

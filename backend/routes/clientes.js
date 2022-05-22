@@ -21,10 +21,10 @@ router.post('/',[
 router.put('/:id',[
   check('email', 'El email es obligatorio').isEmail(),
   check('nif','El nif es obligatorio').not().isEmpty(),
-  check('telefono', 'El telefono es obligatorio').isLength({min: 9}),
+  check('telefono', 'El telefono es obligatorio').isLength({min: 9,max:9}),
   check('nombre_fiscal','El nombre fiscal es obligatorio').not().isEmpty(),
   check('domicilio','El domicilio es obligatorio').not().isEmpty(),
-  check('CP','El codigo postal es obligatorio').isNumeric().not().isEmpty(),
+  check('CP','El codigo postal es obligatorio').isNumeric().isLength({min: 5,max:5}).not().isEmpty(),
   check('poblacion','El poblacion es obligatorio').not().isEmpty(),
   check('provincia','La provincia es obligatoria').not().isEmpty(),
   validarCampos
@@ -42,7 +42,10 @@ router.post('/dispositivos/:id',[
   validarCampos
 ],createDispositivo)
 
-router.get('/user/:token',getClienteByToken)
+router.get('/user/:token',[
+  check('token', 'El token es obligatorio').not().isEmpty(),
+  validarCampos
+],getClienteByToken)
 
 
 router.get('/',getallClientes)

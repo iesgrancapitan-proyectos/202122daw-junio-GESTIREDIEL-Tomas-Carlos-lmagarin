@@ -26,6 +26,7 @@ export class PerfilComponent implements OnInit {
     poblacion: new FormControl(''),
     provincia: new FormControl(''),
     cp: new FormControl(''),
+    telefono:new FormControl('')
   });
 
   constructor(
@@ -46,6 +47,7 @@ export class PerfilComponent implements OnInit {
         poblacion: [res.poblacion, Validators.required],
         provincia: [res.provincia, Validators.required],
         cp: [res.CP, Validators.required],
+        telefono: [res.telefono, Validators.required],
       });
     });
   }
@@ -60,26 +62,28 @@ export class PerfilComponent implements OnInit {
       poblacion: this.form.value.poblacion,
       provincia: this.form.value.provincia,
       CP: this.form.value.cp,
-      email: user.email
+      email: user.email,
+      telefono: this.form.value.telefono
     };
 
-    this.clientesService.editarCliente(user.uid, client).subscribe((res: any) => {
-      if (res.ok) {
+    this.clientesService.editarCliente(user.uid,client).subscribe({
+      next: (res: any) => {
         Swal.fire({
-          title: '¡Listo!',
-          text: 'Se ha actualizado correctamente tus datos. Recarga la página para ver los cambios',
           icon: 'success',
-          confirmButtonText: 'Ok',
+          title: 'Datos actualizados correctamente',
+          showConfirmButton: false,
+          timer: 1500,
         });
-      } else {
+      },
+      error: (err: any) => {
         Swal.fire({
-          title: '¡Error!',
-          text: 'No se ha podido actualizar',
           icon: 'error',
-          confirmButtonText: 'Ok',
+          title: 'Error al actualizar los datos',
+          showConfirmButton: false,
+          timer: 1500,
         });
       }
-    });
+    })
   }
 
   public changePassword(): void {
