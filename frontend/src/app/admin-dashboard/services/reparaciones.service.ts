@@ -29,11 +29,11 @@ export class ReparacionesService {
     return this.http.get(`${environment.baseUrl}/reparaciones`);
   }
 
-  getReparacionesPorCliente(id:number):Observable<any>{
+  getReparacionesPorCliente(id:string):Observable<any>{
     return this.http.get(`${environment.baseUrl}/reparaciones/cliente/${id}`);
   }
 
-  getReparacionPorTecnico(id:number):Observable<any>{
+  getReparacionPorTecnico(id:string):Observable<any>{
     return this.http.get(`${environment.baseUrl}/reparaciones/tecnico/${id}`);
   }
 
