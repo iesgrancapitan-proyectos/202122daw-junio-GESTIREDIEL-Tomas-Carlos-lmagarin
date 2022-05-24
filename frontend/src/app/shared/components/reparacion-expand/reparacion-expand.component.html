@@ -12,8 +12,8 @@
           <span class="text-xl">{{reparacion.dispositivo.marca + " "+ reparacion.dispositivo.modelo}}</span>
 
           <!-- avatar -->
-          <div class="flex justify-center items-center" *ngIf="!forTecnico">
-            <div class="flex justify-center items-center gap-3 mr-5">
+          <div class="flex justify-center items-center" >
+            <div *ngIf="!forTecnico" class="flex justify-center items-center gap-3 mr-5">
               <img src="../../../../assets/tecnico_profile.png" alt="avatar"
                 class="border-2 border-primary-color rounded-full w-12 h-12">
               <span class="w-16">{{reparacion.tecnico.nombre}}</span>
@@ -55,6 +55,32 @@
         </div>
 
         <div class="flex-1 flex flex-col justify-between text-black text-base">
+            <mat-form-field class="example-chip-list w-full" appearance="fill">
+              <mat-label>Artículos usados en la reparación</mat-label>
+              <mat-chip-list #chipList aria-label="Fruit selection">
+                <mat-chip
+                  *ngFor="let articulo of reparacion.articulos"
+                  (removed)="remove(articulo)">
+                  {{articulo}}
+                  <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                  </button>
+                </mat-chip>
+                <input
+                  placeholder="Nuevo artículo..."
+                  #articuloInput
+                  [formControl]="articulosCtrl"
+                  [matAutocomplete]="auto"
+                  [matChipInputFor]="chipList"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="add($event)">
+              </mat-chip-list>
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let articulo of filteredArticulos | async" [value]="articulo">
+                  {{articulo.descripcion}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
           <div *ngIf="!forTecnico">
             <div class="text-3xl">Cliente</div>
             <hr class="border-primary-color mt-3 mb-5">

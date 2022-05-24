@@ -288,7 +288,16 @@ const getReparacionesByUser = async (req, res = response) => {
       })
     }
 
+    const articulos_reparacion = await prisma.articulo_reparacion.findMany()
+
     reparaciones.forEach((reparacion,i)=>{
+
+      let articulos=[]
+      articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
+  
+        articulos.push(articulo.id_articulo);
+      })
+
       data[i]={
         id:reparacion.id,
         estado: reparacion.estado,
@@ -296,6 +305,7 @@ const getReparacionesByUser = async (req, res = response) => {
         accesorios: reparacion.accesorios,
         averia: reparacion.averia,
         observaciones: reparacion.observaciones,
+        articulos,
         dispositivo:{
           id:reparacion.id_dispositivo,
           tipo: reparacion.tipo,
