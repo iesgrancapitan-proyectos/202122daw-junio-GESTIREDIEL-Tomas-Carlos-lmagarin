@@ -22,8 +22,6 @@ export class ClientesComponent implements OnInit {
     'email',
     'domicilio',
     'telefono',
-    'poblacion',
-    'provincia',
     'acciones',
   ];
   dataSource!: MatTableDataSource<Cliente>;

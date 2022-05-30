@@ -18,6 +18,7 @@ table th{
 }
 table td{
   height: 70px;
+  padding-right: 10px;
 }
 table .mat-row{
   cursor: pointer;
