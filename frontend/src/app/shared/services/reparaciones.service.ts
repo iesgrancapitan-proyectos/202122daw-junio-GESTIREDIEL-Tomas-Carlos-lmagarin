@@ -10,6 +10,9 @@ export class ReparacionesService {
 
   constructor(private http: HttpClient) { }
 
+  getReparacion(id: string) {
+    return this.http.get<Reparacion[]>(`${environment.baseUrl}/reparaciones/cliente/${id}`);
+  }
 
   getAllReparaciones() {
     return this.http.get<Reparacion[]>(`${environment.baseUrl}/reparaciones`);
