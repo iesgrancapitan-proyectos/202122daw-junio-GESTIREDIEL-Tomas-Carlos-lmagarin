@@ -13,7 +13,7 @@ export class ReparacionClienteComponent implements OnInit {
 
   constructor(private reparacionServ:ReparacionesService,private userService: AuthService) { }
 
-  reparaciones = [];
+  reparaciones:any = [];
 
   ngOnInit(): void {
     this.reparacionServ.getReparacion(this.userService.usuario.uid).subscribe(
@@ -26,7 +26,6 @@ export class ReparacionClienteComponent implements OnInit {
         }
       }
     );
-    console.log(this.reparaciones);
   }
 
 }

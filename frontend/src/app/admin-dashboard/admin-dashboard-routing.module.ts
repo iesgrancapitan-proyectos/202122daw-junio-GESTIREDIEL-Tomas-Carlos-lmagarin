@@ -20,7 +20,6 @@ const routes: Routes = [
       { path: 'tecnicos'    , component: TecnicosComponent },
       { path: 'articulos'   , component: ArticulosComponent },
       { path: 'proveedores' , component: ProveedoresComponent },
-      { path: 'perfil'      ,component:  PerfilComponent},
       { path: 'reparaciones'      ,component:  ReparacionesComponent},
       { path: '**', redirectTo: '' }
     ]

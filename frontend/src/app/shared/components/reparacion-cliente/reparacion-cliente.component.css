@@ -8,6 +8,7 @@
     width: 100%;
     height: 100%;
     flex-wrap: wrap;
+    margin-top: 0px;
   }
   .responsiveContainer div{
     width: 45%;
@@ -16,4 +17,8 @@
     align-items: center;
     flex-direction: column;
   }
+}
+
+.responsiveContainer{
+  margin-top:150px;
 }
