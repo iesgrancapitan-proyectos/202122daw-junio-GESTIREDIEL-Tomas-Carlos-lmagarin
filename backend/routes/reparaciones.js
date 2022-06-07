@@ -13,7 +13,8 @@ const {
     getReparacionesByUser,
     addArticulo,
     removeArticulo,
-    getArticulos
+    getArticulos,
+    changeState
 } = require('../controllers/reparaciones');
 const {
     validarCampos
@@ -28,7 +29,7 @@ router.post('/', [
     check('averia', 'La averia es obligatoria').not().isEmpty(),
     check('accesorios', 'Los accesorios son obligatorios').optional(),
     check('observaciones', 'Las observaciones son obligatorias').optional(),
-    check('estado', 'El estado de la reparacion es obligatorio').not().isEmpty().isIn(['pendiente', 'reparado', 'cancelado', 'en reparacion']),
+    check('estado', 'El estado de la reparacion es obligatorio').not().isEmpty().isIn(['Pendiente']),
     validarCampos
 ], crearReparacion);
 
@@ -46,7 +47,7 @@ router.put('/:id', [
 router.put('/estado/:id', [
     check('estado', 'El estado de la reparacion no es correcto.').not().isEmpty().isIn(['Pendiente', 'Terminada', 'Cancelada', 'En reparación']),
     validarCampos
-], actualizarReparacion);
+], changeState);
 
 //Enviar mail
 router.post('/mail', enviarMail);

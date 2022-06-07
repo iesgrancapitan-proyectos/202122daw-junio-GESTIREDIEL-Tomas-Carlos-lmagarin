@@ -7,6 +7,7 @@ import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ReparacionesService } from '../../services/reparaciones.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-reparacion-expand',
@@ -19,6 +20,8 @@ export class ReparacionExpandComponent implements OnInit {
   @Input() forTecnico!:boolean;
 
   @Output() onBorrar = new EventEmitter();
+  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
+  position = new FormControl(this.positionOptions[3]);
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   articulosCtrl = new FormControl();

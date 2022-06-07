@@ -24,9 +24,6 @@
                 <mat-option *ngFor="let estado of estados" [value]="estado">{{estado}}</mat-option>
               </mat-select>
             </mat-form-field>
-            <div [ngClass]="colorPrioridad(reparacion.prioridad)"
-              class="rounded-full w-52 text-center px-3 py-1 text-white text-xl">{{reparacion.estado}}
-            </div>
           </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
@@ -96,14 +93,10 @@
             <div class="bg-primary-color text-white text-2xl font-medium flex flex-col gap-3 p-5 rounded-xl">
               <span>{{reparacion.cliente.nombre_fiscal}}</span>
               <span class="flex items-center gap-2"><i class='bx bxs-phone'></i> {{reparacion.cliente.telefono}}</span>
-              <span class="flex items-center gap-2"><i class='bx bx-envelope'></i>{{reparacion.cliente.email}}</span>
-            </div>
-          </div>
-          <div *ngIf="!forTecnico" class="flex justify-end items-end">
-            <div class="flex justify-center gap-5 ">
-              <button mat-button (click)="enviarCorreo()" color="azul">
-                <mat-icon>email</mat-icon>
-              </button>
+              <span 
+                    (click)="enviarCorreo()" 
+                    #tooltip="matTooltip" matTooltip="Enviar email" [matTooltipPosition]="position.value"
+                    class="flex items-center gap-2 hover:px-5 hover:bg-secondary-color hover:text-black w-fit rounded duration-300 cursor-pointer"><i class='bx bx-envelope'></i>{{reparacion.cliente.email}}</span>
             </div>
           </div>
         </div>

@@ -497,7 +497,7 @@ const changeState = async (req, res = response) => {
 
     await prisma.reparacion.update({
       where: {
-        id
+        id:Number(id)
       },
       data: {
         estado

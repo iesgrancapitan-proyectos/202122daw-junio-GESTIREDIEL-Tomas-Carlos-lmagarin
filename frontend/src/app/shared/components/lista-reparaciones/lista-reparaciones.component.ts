@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ReparacionesService } from '../../../admin-dashboard/services/reparaciones.service';
 import { Reparacion } from '../../../interfaces/reparacion.interface';
-import { AuthService } from '../../../auth/services/auth.service';
+import { ReparacionesService } from '../../services/reparaciones.service';
 
 @Component({
   selector: 'app-lista-reparaciones',
@@ -18,7 +17,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
 
   private eventsSubscription: any
 
-  constructor(private reparacionesService: ReparacionesService, private authService: AuthService) { }
+  constructor(private reparacionesService:ReparacionesService ) { }
 
   ngOnDestroy(): void {
     if (this.eventsSubscription) {
