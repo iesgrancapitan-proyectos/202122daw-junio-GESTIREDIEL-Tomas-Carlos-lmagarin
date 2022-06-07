@@ -7,59 +7,26 @@ const {
 const nodemailer = require('nodemailer');
 const prisma = new PrismaClient()
 
-const actualizarReparacion=async(req,res=response)=>{
-
-  const {id}=req.params;
-  id=Number(id);
+const actualizarReparacion = async (req, res = response) => {
 
   const {
-    id_dispositivo,
-    id_tecnico,
-    fecha_reparacion,
+    id
+  } = req.params;
+
+  const {
     averia,
     accesorios,
-    observaciones,
-    estado,
+    observaciones
   } = req.body;
 
-  try{
+  try {
 
-    const tecnico = await prisma.tecnico.findUnique({
-      where: {
-        id: Number(id_tecnico)
-      }
-    });
-
-    if (!tecnico) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'El tecnico no existe'
-      })
-    }
-
-    const dispositivo = await prisma.dispositivo.findUnique({
-      where: {
-        id: Number(id_dispositivo)
-      }
-    });
-
-    if (!dispositivo) {
-      return res.status(400).json({
-        ok: false,
-        msg: 'El dispositivo no existe'
-      })
-    }
-    
     const reparacion = await prisma.reparacion.update({
       where: {
         id: Number(id)
       },
       data: {
-        id_dispositivo,
-        id_tecnico,
-        estado,
         accesorios,
-        fecha_compromiso: fecha_reparacion,
         averia,
         observaciones
       }
@@ -72,7 +39,7 @@ const actualizarReparacion=async(req,res=response)=>{
     })
 
 
-  }catch(error){
+  } catch (error) {
     console.log(error);
     return res.status(500).json({
       ok: false,
@@ -103,7 +70,7 @@ const crearReparacion = async (req, res = response) => {
       }
     });
 
-    if(!tecnico){
+    if (!tecnico) {
       return res.status(400).json({
         ok: false,
         msg: 'El tecnico no existe'
@@ -111,13 +78,13 @@ const crearReparacion = async (req, res = response) => {
     }
 
 
-    const dispositivo= await prisma.dispositivo.findUnique({
+    const dispositivo = await prisma.dispositivo.findUnique({
       where: {
         id: Number(id_dispositivo)
       }
     });
 
-    if(!dispositivo){
+    if (!dispositivo) {
       return res.status(400).json({
         ok: false,
         msg: 'El dispositivo no existe'
@@ -200,24 +167,24 @@ const getAllReparaciones = async (req, res = response) => {
   }
 
   let data = [];
-  
-  reparaciones.forEach( (reparacion, i) => {
-  
-    let articulos=[]
-    articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
+
+  reparaciones.forEach((reparacion, i) => {
+
+    let articulos = []
+    articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo) => {
 
       articulos.push(articulo.id_articulo);
     })
 
-    data[i]={
-      id:reparacion.id_reparacion,
+    data[i] = {
+      id: reparacion.id_reparacion,
       estado: reparacion.estado,
       fecha_compromiso: reparacion.fecha_compromiso,
       averia: reparacion.averia,
       accesorios: reparacion.accesorios,
       observaciones: reparacion.observaciones,
       articulos,
-      dispositivo:{
+      dispositivo: {
         id: reparacion.id_dispositivo,
         id_cliente: reparacion.id_cliente,
         tipo: reparacion.tipo,
@@ -240,13 +207,13 @@ const getAllReparaciones = async (req, res = response) => {
         persona_contacto: reparacion.persona_contacto,
         id_usuario: reparacion.id_usuario
       },
-      tecnico:{
+      tecnico: {
         id: reparacion.id_tecnico,
         nombre: reparacion.nombre,
         id_usuario: reparacion.id_usuario
       }
     }
-   
+
   });
 
   return res.status(200).json(data)
@@ -254,16 +221,18 @@ const getAllReparaciones = async (req, res = response) => {
 
 const getReparacionesByUser = async (req, res = response) => {
 
-  const {id} = req.params;
-  let data=[]
-  try{
-    const usuario= await prisma.usuarios.findUnique({
+  const {
+    id
+  } = req.params;
+  let data = []
+  try {
+    const usuario = await prisma.usuarios.findUnique({
       where: {
         id
       }
     })
-  
-    if(!usuario){
+
+    if (!usuario) {
       return res.status(400).json({
         ok: false,
         msg: 'El usuario no existe'
@@ -271,17 +240,17 @@ const getReparacionesByUser = async (req, res = response) => {
     }
 
     let reparaciones;
-    
-    if(usuario.rol=="cliente"){
-      reparaciones=await prisma.$queryRaw `
+
+    if (usuario.rol == "cliente") {
+      reparaciones = await prisma.$queryRaw `
       select reparacion.id,estado,fecha_compromiso,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join cliente on dispositivo.id_cliente=cliente.id inner join usuarios on cliente.id_usuario=usuarios.id where usuarios.id=${id} 
 
     `
-    }else if(usuario.rol=="tecnico"){
-      reparaciones=await prisma.$queryRaw `
+    } else if (usuario.rol == "tecnico") {
+      reparaciones = await prisma.$queryRaw `
       select reparacion.id,estado,fecha_compromiso, accesorios,averia,observaciones,dispositivo.id as id_dispositivo,tipo,marca,modelo from reparacion inner join dispositivo on reparacion.id_dispositivo=dispositivo.id inner join tecnico on reparacion.id_tecnico=tecnico.id inner join usuarios on tecnico.id_usuario=usuarios.id where usuarios.id=${id}
     `
-    }else{
+    } else {
       return res.status(400).json({
         ok: false,
         msg: 'El usuario no es cliente ni tecnico'
@@ -290,24 +259,24 @@ const getReparacionesByUser = async (req, res = response) => {
 
     const articulos_reparacion = await prisma.articulo_reparacion.findMany()
 
-    reparaciones.forEach((reparacion,i)=>{
+    reparaciones.forEach((reparacion, i) => {
 
-      let articulos=[]
-      articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo)=>{
-  
+      let articulos = []
+      articulos_reparacion.filter((articulo) => articulo.id_reparacion == reparacion.id_reparacion).forEach((articulo) => {
+
         articulos.push(articulo.id_articulo);
       })
 
-      data[i]={
-        id:reparacion.id,
+      data[i] = {
+        id: reparacion.id,
         estado: reparacion.estado,
         fecha_compromiso: reparacion.fecha_compromiso,
         accesorios: reparacion.accesorios,
         averia: reparacion.averia,
         observaciones: reparacion.observaciones,
         articulos,
-        dispositivo:{
-          id:reparacion.id_dispositivo,
+        dispositivo: {
+          id: reparacion.id_dispositivo,
           tipo: reparacion.tipo,
           marca: reparacion.marca,
           modelo: reparacion.modelo,
@@ -316,7 +285,7 @@ const getReparacionesByUser = async (req, res = response) => {
       }
     })
 
-  }catch(error){
+  } catch (error) {
     console.log(error)
     return res.status(500).json({
       ok: false,
@@ -330,8 +299,11 @@ const getReparacionesByUser = async (req, res = response) => {
 
 const enviarMail = async (req, res = response) => {
 
-  const {email,mensaje} = req.body;
-  
+  const {
+    email,
+    mensaje
+  } = req.body;
+
   //Enviar email con token
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -366,11 +338,196 @@ const enviarMail = async (req, res = response) => {
 
 }
 
+const addArticulo = async (req, res = response) => {
+
+  const {
+    id_articulo,
+    id_reparacion
+  } = req.body;
+
+  try {
+
+    const articulo_reparacion = await prisma.articulo_reparacion.findFirst({
+      where: {
+        id_articulo,
+        id_reparacion
+      }
+    })
+
+    //Actualizar stock del articulo
+    await prisma.$queryRaw `
+      update proveedor_articulo set stock = stock - 1 where id_articulo = ${id_articulo} and stock > 0 LIMIT 1
+    `
+
+    const stock_articulo = await prisma.$queryRaw `
+      select * from proveedor_articulo where id_articulo = ${id_articulo} and stock > 0 LIMIT 1
+    `
+
+    if (stock_articulo.length == 0) {
+      return res.status(400).json({
+        ok: false,
+        msg: 'No hay stock del articulo'
+      })
+    }
+
+    if (articulo_reparacion) {
+      await prisma.$queryRaw `
+      update articulo_reparacion set cantidad = cantidad + 1 where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}
+      `
+
+    } else {
+      await prisma.articulo_reparacion.create({
+        data: {
+          id_articulo,
+          id_reparacion,
+          cantidad: 1
+        }
+      })
+    }
+
+
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Articulo añadido correctamente'
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al añadir articulo'
+    })
+
+  }
+}
+
+const removeArticulo = async (req, res = response) => {
+
+  const {
+    id_articulo,
+    id_reparacion
+  } = req.body;
+
+  try {
+
+    const articulo_reparacion = await prisma.$queryRaw `
+      select * from articulo_reparacion where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}
+    `
+
+    console.log(articulo_reparacion[0].cantidad);
+    if (articulo_reparacion[0].cantidad <= 1) {
+      await prisma.$queryRaw `
+      delete from articulo_reparacion where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}
+      `
+    } else {
+      await prisma.$queryRaw `
+      update articulo_reparacion set cantidad = cantidad - 1 where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}
+      `
+    }
+
+    //Actualizar stock del articulo
+    await prisma.$queryRaw `
+      update proveedor_articulo set stock = stock + 1 where id_articulo = ${id_articulo}  LIMIT 1
+    `
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Articulo borrado correctamente'
+    })
+  } catch (error) {
+
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al borrar articulo'
+    })
+
+  }
+}
+
+const getArticulos = async (req, res = response) => {
+
+  const {
+    id
+  } = req.params;
+
+  try {
+
+    const articulos_reparacion = await prisma.articulo_reparacion.findMany({
+      where: {
+        id_reparacion: Number(id)
+      }
+    })
+
+    const articulos = await prisma.articulo.findMany({
+      where: {
+        id: {
+          in: articulos_reparacion.map((articulo) => articulo.id_articulo)
+        }
+      }
+    })
+
+    //agregamos la cantidad de articulos a cada articulo
+    articulos.forEach((articulo) => {
+        articulos_reparacion.forEach((articulo_reparacion) => {
+  
+          if (articulo.id == articulo_reparacion.id_articulo) {
+            articulo.cantidad = articulo_reparacion.cantidad
+          }
+  
+        })
+    })
+
+    return res.status(200).json(articulos)
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al buscar articulos'
+    })
+  }
+}
+
+const changeState = async (req, res = response) => {
+
+  const {id} = req.params;
+  const {estado} = req.body;
+
+  try {
+
+    await prisma.reparacion.update({
+      where: {
+        id
+      },
+      data: {
+        estado
+      }
+    })
+
+    return res.status(200).json({
+      ok: true,
+      msg: 'Estado cambiado correctamente'
+    })
+  }
+  catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al cambiar estado'
+    })
+  }
+}
+
+
 module.exports = {
   getAllReparaciones,
   removeReparacion,
   crearReparacion,
   actualizarReparacion,
   enviarMail,
-  getReparacionesByUser
+  getReparacionesByUser,
+  addArticulo,
+  removeArticulo,
+  getArticulos,
+  changeState
 }

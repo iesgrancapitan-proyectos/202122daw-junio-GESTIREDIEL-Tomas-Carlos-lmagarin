@@ -53,7 +53,7 @@ export class CreateReparacionFormComponent implements OnInit {
       observaciones: this.form.controls['observaciones'].value,
       id_tecnico: parseInt(this.form.controls['tecnico'].value),
       id_dispositivo: this.dispositivo.id,
-      estado: 'pendiente'
+      estado: 'Pendiente'
     };
 
     this.reparacionesService.createReparacion(reparacion).subscribe({

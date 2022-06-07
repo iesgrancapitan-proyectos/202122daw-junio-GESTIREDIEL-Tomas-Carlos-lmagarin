@@ -1,13 +1,12 @@
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
-import { ReparacionesService } from '../../../admin-dashboard/services/reparaciones.service';
 import { ArticulosService } from '../../../admin-dashboard/services/articulos.service';
 import { Articulo } from '../../../interfaces/articulo.interface';
-import { FormControl } from '@angular/forms';
-import { map, Observable, startWith, tap } from 'rxjs';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ReparacionesService } from '../../services/reparaciones.service';
 
 @Component({
   selector: 'app-reparacion-expand',
@@ -25,25 +24,50 @@ export class ReparacionExpandComponent implements OnInit {
   articulosCtrl = new FormControl();
   filteredArticulos!: Observable<Articulo[]>;
   allArticulos: Articulo[] = [];
+  editReparacionFrom!:FormGroup
+  estados = [
+    'Pendiente',
+    'En reparación',
+    'Terminada',
+    'Cancelada'
+  ];
+
 
   @ViewChild('articuloInput') articuloInput!: ElementRef<HTMLInputElement>;
 
   constructor(private serviceReparacion:ReparacionesService,
-              private articulosService:ArticulosService ) { }
+              private articulosService:ArticulosService,
+              private fb:FormBuilder ) { }
 
   ngOnInit(): void {
-    console.log(this.reparacion);
+
+    this.editReparacionFrom = this.fb.group({
+      averia: [this.reparacion.averia],
+      accesorios: [this.reparacion.accesorios],
+      observaciones: [this.reparacion.observaciones]
+    })
+
+    this.updateArticulosReparacion()
+
     this.articulosService.getArticulos().subscribe({
       next: (articulos) => {
         this.allArticulos = articulos;
         this.filteredArticulos = this.articulosCtrl.valueChanges.pipe(
           startWith(null),
-          map((articulo: Articulo | null) => (articulo ? this._filter(articulo) : this.allArticulos.slice())),
+          map((articulo) => (articulo ? this._filter(articulo) : this.allArticulos.slice())),
         );
       }
     })
 
     
+  }
+
+  private updateArticulosReparacion() {
+    this.serviceReparacion.getArticulosReparacion(this.reparacion.id).subscribe({
+      next: (articulos:Articulo[]) => {
+        this.reparacion.articulos = articulos;
+      }
+    })
   }
 
   colorPrioridad(prioridad: string) {
@@ -82,38 +106,68 @@ export class ReparacionExpandComponent implements OnInit {
     }
   }
 
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+  remove(articulo: Articulo): void {
+    const index = this.reparacion.articulos.indexOf(articulo);
 
-    // Add our artículo
-    if (value) {
-      this.reparacion.articulos.push(value);
-    }
-
-    // Clear the input value
-    event.chipInput!.clear();
-
-    this.articulosCtrl.setValue(null);
-  }
-
-  remove(fruit: string): void {
-    const index = this.reparacion.articulos.indexOf(fruit);
-
-    if (index >= 0) {
-      this.reparacion.articulos.splice(index, 1);
-    }
+    this.serviceReparacion.deleteArticulo(this.reparacion.id,articulo.id!).subscribe({
+      next: () => {
+        if (index >= 0 && articulo.cantidad == 1) {
+          this.reparacion.articulos.splice(index, 1);
+        }
+        this.updateArticulosReparacion();
+        
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.reparacion.articulos.push(event.option.viewValue);
+
+    this.serviceReparacion.addArticulo(this.reparacion.id,event.option.value.id!).subscribe({
+      next: () => {
+        if (!this.reparacion.articulos.find((articulo: { id: any; }) => articulo.id === event.option.value.id)) {
+          this.reparacion.articulos.push(event.option.value);
+        }
+        this.updateArticulosReparacion();
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
     this.articuloInput.nativeElement.value = '';
     this.articulosCtrl.setValue(null);
   }
 
-  private _filter(value: Articulo): Articulo[] {
-    const filterValue = value.descripcion.toLowerCase();
+  private _filter(value: string): Articulo[] {
+    const filterValue = value
 
     return this.allArticulos.filter(articulo => articulo.descripcion.toLowerCase().includes(filterValue));
+  }
+
+  public editReparacion(){
+    console.log("editReparacion");
+    this.serviceReparacion.editarReparacion(this.reparacion.id,this.editReparacionFrom.value).subscribe({
+      next: () => {
+        Swal.fire('Editado', 'La reparación ha sido editada', 'success');
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
+  }
+
+  changeState(newState: string) {
+
+    this.serviceReparacion.changeState(this.reparacion.id,newState).subscribe({
+      next: () => {
+        Swal.fire('Editado', 'El estado ha sido editado', 'success');
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
   }
 
 }
