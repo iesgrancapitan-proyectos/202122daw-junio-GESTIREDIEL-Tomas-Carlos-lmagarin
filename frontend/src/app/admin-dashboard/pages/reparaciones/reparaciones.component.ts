@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateReparacionStepperComponent } from '../../components/create-reparacion-stepper/create-reparacion-stepper.component';
-import { Reparacion } from '../../../interfaces/reparacion.interface';
 import { Subject } from 'rxjs';
 
 @Component({
@@ -11,17 +10,12 @@ import { Subject } from 'rxjs';
 })
 export class ReparacionesComponent implements OnInit {
 
-  reparaciones: Reparacion[] = []
-
-  reparacionesFiltradas: Reparacion[] = [];
-
   newReparacion: Subject<void> = new Subject<void>();
-
 
   constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
-    
+
   }
 
   addNewReparacion() {
@@ -32,13 +26,6 @@ export class ReparacionesComponent implements OnInit {
       }
     });
   }
-
-  filtrar(prioridad: string) {
-    // if (prioridad === 'Todas') {
-    //   this.reparacionesFiltradas = this.reparaciones
-    // } else {
-    //   this.reparacionesFiltradas = this.reparaciones.filter(reparacion => reparacion.prioridad === prioridad);
-    // }
-  }
-
 }
+
+

@@ -180,6 +180,7 @@ const getAllReparaciones = async (req, res = response) => {
       id: reparacion.id_reparacion,
       estado: reparacion.estado,
       fecha_compromiso: reparacion.fecha_compromiso,
+      fecha_creacion: reparacion.fecha_creacion,
       averia: reparacion.averia,
       accesorios: reparacion.accesorios,
       observaciones: reparacion.observaciones,
@@ -271,6 +272,7 @@ const getReparacionesByUser = async (req, res = response) => {
         id: reparacion.id,
         estado: reparacion.estado,
         fecha_compromiso: reparacion.fecha_compromiso,
+        fecha_creacion: reparacion.fecha_creacion,
         accesorios: reparacion.accesorios,
         averia: reparacion.averia,
         observaciones: reparacion.observaciones,
@@ -414,7 +416,6 @@ const removeArticulo = async (req, res = response) => {
       select * from articulo_reparacion where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}
     `
 
-    console.log(articulo_reparacion[0].cantidad);
     if (articulo_reparacion[0].cantidad <= 1) {
       await prisma.$queryRaw `
       delete from articulo_reparacion where id_articulo = ${id_articulo} and id_reparacion = ${id_reparacion}

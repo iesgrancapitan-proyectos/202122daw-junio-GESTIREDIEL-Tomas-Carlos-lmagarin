@@ -1,24 +1,8 @@
 <h1 class="text-center">Reparaciones</h1>
 <div class="w-10/12 mx-auto animate__animated animate__fadeIn">
   
-  <div class="flex justify-between items-center my-5">
-    <div>
-      <p>Prioridad:</p>
-      <mat-chip-list>
-        <mat-chip (click)="filtrar('Alta')" color="prioridadAlta">
-          Alta
-        </mat-chip>
-        <mat-chip (click)="filtrar('Media')" color="prioridadMedia">
-          Media
-        </mat-chip>
-        <mat-chip (click)="filtrar('Baja')" color="prioridadBaja">
-          Baja
-        </mat-chip>
-        <mat-chip (click)="filtrar('Todas')" color="azul">
-          Todas
-        </mat-chip>
-      </mat-chip-list>
-    </div>
+  <div class="flex justify-end items-center my-5">
+    
     <button (click)="addNewReparacion()" mat-fab color="azul">
       <mat-icon>add</mat-icon>
     </button>

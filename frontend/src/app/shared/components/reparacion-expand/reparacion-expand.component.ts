@@ -150,7 +150,6 @@ export class ReparacionExpandComponent implements OnInit {
   }
 
   public editReparacion(){
-    console.log("editReparacion");
     this.serviceReparacion.editarReparacion(this.reparacion.id,this.editReparacionFrom.value).subscribe({
       next: () => {
         Swal.fire('Editado', 'La reparación ha sido editada', 'success');
@@ -164,9 +163,6 @@ export class ReparacionExpandComponent implements OnInit {
   changeState(newState: string) {
 
     this.serviceReparacion.changeState(this.reparacion.id,newState).subscribe({
-      next: () => {
-        Swal.fire('Editado', 'El estado ha sido editado', 'success');
-      },
       error: (err) => {
         Swal.fire('Error', err.error.msg, 'error');
       }

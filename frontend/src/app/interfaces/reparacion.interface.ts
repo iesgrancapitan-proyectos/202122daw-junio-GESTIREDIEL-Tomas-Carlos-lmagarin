@@ -8,6 +8,7 @@ export interface Reparacion {
   estado?:           string;
   accesorios?:       string;
   fecha_compromiso: Date;
+  fecha_creacion?: Date;
   averia:           string;
   observaciones:    string;
   dispositivo?:      Dispositivo;

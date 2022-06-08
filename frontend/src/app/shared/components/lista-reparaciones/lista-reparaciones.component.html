@@ -1,7 +1,16 @@
 <div>
+  <div class=" mb-5">
+    <p>Filtrar por estado:</p>
+    <div class="flex gap-5">
+      <mat-checkbox #pendiente (change)="filtrar(pendiente.checked,'Pendiente')">Pendiente</mat-checkbox>
+      <mat-checkbox #en_reparacion (change)="filtrar(en_reparacion.checked,'En reparación')">En reparación</mat-checkbox>
+      <mat-checkbox #terminada (change)="filtrar(terminada.checked,'Terminada')">Terminada</mat-checkbox>
+      <mat-checkbox #cancelada (change)="filtrar(cancelada.checked,'Cancelada')">Cancelada</mat-checkbox>
+    </div>
+  </div>
   <div class="flex flex-col gap-5" *ngIf="reparaciones.length > 0 else noReparaciones ">
     <app-reparacion-expand [forTecnico]="UidTecnico!=undefined" (onBorrar)="actualizarDatos()" [reparacion]="reparacion"
-      *ngFor="let reparacion of reparaciones"></app-reparacion-expand>
+      *ngFor="let reparacion of reparacionesFiltradas"></app-reparacion-expand>
   </div>
 
   <ng-template #noReparaciones>
