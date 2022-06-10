@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ListaReparacionesComponent } from './components/lista-reparaciones/lista-reparaciones.component';
 import { ReparacionExpandComponent } from './components/reparacion-expand/reparacion-expand.component';
 import { MaterialModule } from '../material/material.module';
+import { FiltroComponent } from './components/filtro/filtro.component';
 
 
 
@@ -17,7 +18,8 @@ import { MaterialModule } from '../material/material.module';
     SidebarComponent,
     PerfilComponent,
     ReparacionExpandComponent,
-    ListaReparacionesComponent
+    ListaReparacionesComponent,
+    FiltroComponent
   ],
   imports: [
     CommonModule,

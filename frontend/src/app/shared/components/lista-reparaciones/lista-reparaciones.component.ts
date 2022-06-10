@@ -2,6 +2,8 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reparacion } from '../../../interfaces/reparacion.interface';
 import { ReparacionesService } from '../../services/reparaciones.service';
+import { Tecnico } from '../../../interfaces/tecnico.interface';
+import { TecnicosService } from '../../services/tecnicos.service';
 
 @Component({
   selector: 'app-lista-reparaciones',
@@ -12,14 +14,19 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
 
   reparaciones: Reparacion[] = [];
   reparacionesFiltradas: Reparacion[] = [];
+  tecnicos: Tecnico[] = []
 
   @Input() actualizar!: Observable<void>;
   @Input() UidTecnico!: string;
-  estados: string[] = []
+
+  estados: string[] = ['Pendiente', 'En reparación', 'Terminada', 'Cancelada']
+  estadosFiltro: string[] = []
+  tecnicosFiltro: number[] = []
 
   private eventsSubscription: any
 
-  constructor(private reparacionesService: ReparacionesService) { }
+  constructor(private reparacionesService: ReparacionesService,
+    private tecnicosService: TecnicosService) { }
 
   ngOnDestroy(): void {
     if (this.eventsSubscription) {
@@ -28,6 +35,11 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.tecnicosService.getTecnicos().subscribe({
+      next: (tecnicos: Tecnico[]) => {
+        this.tecnicos = tecnicos
+      }
+    })
 
     if (this.actualizar) {
       this.eventsSubscription = this.actualizar.subscribe(() => {
@@ -56,18 +68,66 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
     }
   }
 
-  filtrar(checked:boolean,estado: string) {
+  filtrar(event: any) {
     this.reparacionesFiltradas = this.reparaciones
-    if (checked) {
-      this.estados.push(estado)
-      this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estados.includes(reparacion.estado!))
-    } else {
-      this.estados = this.estados.filter(estadoAnterior => estadoAnterior !== estado)
 
-      this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estados.includes(reparacion.estado!))
-      if (this.estados.length === 0) {
-        this.reparacionesFiltradas = this.reparaciones
+    if (event.estado) {
+      let { estado, checked } = event
+
+      if (checked) {
+        this.estadosFiltro.push(estado)
+        if (this.tecnicosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))
+          this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+        } else {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+        }
+      } else {
+        this.estadosFiltro = this.estadosFiltro.filter(estadoAnterior => estadoAnterior !== estado)
+        if(this.tecnicosFiltro.length > 0 && this.estadosFiltro.length == 0){
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))
+        }else if (this.tecnicosFiltro.length > 0 && this.estadosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))
+          this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+        } else if(this.tecnicosFiltro.length == 0 && this.estadosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+        } else {
+          this.reparacionesFiltradas = this.reparaciones
+        }
       }
+
+    } else if (event.tecnico) {
+      const { tecnico, checked } = event
+
+      if (checked) {
+        this.tecnicosFiltro.push(tecnico.id)
+        if (this.estadosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+          this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
+        } else {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
+        }
+      } else {
+        console.log(tecnico);
+        this.tecnicosFiltro = this.tecnicosFiltro.filter(estadoAnterior => estadoAnterior !== tecnico.id)
+
+        if(this.estadosFiltro.length > 0 && this.tecnicosFiltro.length == 0){
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+        }else if (this.estadosFiltro.length > 0 && this.tecnicosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
+          this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
+        } else if(this.estadosFiltro.length == 0 && this.tecnicosFiltro.length > 0) {
+          this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
+        } else {
+          this.reparacionesFiltradas = this.reparaciones
+        }
+      }
+
     }
+
+
+
+
+
   }
 }
