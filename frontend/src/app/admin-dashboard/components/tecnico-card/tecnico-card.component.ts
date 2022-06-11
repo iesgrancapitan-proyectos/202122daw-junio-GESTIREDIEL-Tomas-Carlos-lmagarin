@@ -15,7 +15,7 @@ export class TecnicoCardComponent implements OnInit {
   @Input() tecnico!: Tecnico;
   @Output() 
   aztualizarTecnicos: EventEmitter<boolean> = new EventEmitter<boolean>();
-
+  
   constructor( private authService: AuthService,public dialog: MatDialog) { }
 
   ngOnInit(): void {

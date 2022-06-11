@@ -1,18 +1,18 @@
 <div class="card cursor-pointer transition-all duration-250 hover:bg-blue-100 p-5 rounded-3xl bg-secondary-color">
   <div class="flex flex-col justify-center items-center ">
-    <div class="rounded-full border-primary-color border-dashed border-2">
+    <div class="rounded-full border-primary-color border-dashed border-2 " [matBadge]="tecnico.reparaciones" matBadgeSize="large" >
       <img class="p-1 rounded-full w-24 " src="../../../../assets/tecnico_profile.png" alt="tecnico">
     </div>
     <div class="font-semibold break-all text-2xl text-primary-color">{{tecnico.nombre}}</div>
     <div class="text-primary-color break-all font-medium text-base">{{tecnico.email}}</div>
   </div>
-  <hr class="my-4 border-primary-color w-3/6 mx-auto">
-  <div class="text-center mb-5">
-    <div class="text-primary-color font-medium text-base">Reparaciones restantes:</div>
-    <div class="bg-primary-color w-8 rounded-full mx-auto mt-3 font-semibold text-white text-lg">{{tecnico.reparaciones}}</div>
-  </div>
+  <hr class="my-2 border-transparent ">
   <div class="flex gap-4 justify-center">
-    <button (click)="editar()" class="px-2 py-1 rounded bg-primary-color text-secondary-color">Editar</button>
-    <button (click)="borrar()" class="px-2 py-1 rounded bg-red-100 text-red-500 ">Borrar</button>
+    <button (click)="editar()" mat-mini-fab color="">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="borrar()" mat-mini-fab color="warn">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 </div>
