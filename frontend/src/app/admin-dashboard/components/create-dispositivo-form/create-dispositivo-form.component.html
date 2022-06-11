@@ -1,33 +1,25 @@
-<form class="w-full max-w-lg" [formGroup]="form" (ngSubmit)="crearDispositivo()">
+<form class="w-full max-w-lg" [formGroup]="form">
   <div class="flex flex-wrap -mx-3 mb-6">
     <div class="w-full md:w-1/2 px-3 mb-3 md:mb-0">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-tipo">
         Tipo de dispositivo
       </label>
-      <input
-        formControlName="tipo"
+      <input formControlName="tipo"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-tipo" type="text" placeholder="Movil...">
-        <!-- border-red-500  -->
-        <p
-        class="text-red-500 text-xs italic"
-        [style.visibility]="visibility('tipo')"
-        >
+      <!-- border-red-500  -->
+      <p class="text-red-500 text-xs italic" [style.visibility]="visibility('tipo')">
         El tipo de dispositivo es obligatorio
-        </p>
+      </p>
     </div>
     <div class="w-full md:w-1/2 px-3">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-marca">
         Marca
       </label>
-      <input
-        formControlName="marca"
+      <input formControlName="marca"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-marca" type="text" placeholder="Apple...">
-        <p
-        class="text-red-500 text-xs italic"
-        [style.visibility]="visibility('marca')"
-        >
+      <p class="text-red-500 text-xs italic" [style.visibility]="visibility('marca')">
         La marca es obligatoria
       </p>
     </div>
@@ -37,13 +29,10 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-modelo">
         Modelo
       </label>
-      <input
-        formControlName="modelo"
+      <input formControlName="modelo"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-modelo" type="text" placeholder="Iphone X...">
-        <p
-        class="text-red-500 text-xs italic"
-        [style.visibility]="visibility('modelo')">
+      <p class="text-red-500 text-xs italic" [style.visibility]="visibility('modelo')">
         El modelo es obligatorio
       </p>
     </div>
@@ -51,13 +40,10 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-numero_serie">
         Numero de serie
       </label>
-      <input
-        formControlName="numero_serie"
+      <input formControlName="numero_serie"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-numero_serie" type="text" placeholder="101201210210...">
-        <p
-        class="text-red-500 text-xs italic"
-        [style.visibility]="visibility('numero_serie')">
+      <p class="text-red-500 text-xs italic" [style.visibility]="visibility('numero_serie')">
         El numero de serie es obligatorio
       </p>
     </div>
@@ -67,8 +53,7 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-codigo_desbloqueo">
         Codigo de desbloqueo
       </label>
-      <input
-        formControlName="codigo_desbloqueo"
+      <input formControlName="codigo_desbloqueo"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-codigo_desbloqueo" type="text" placeholder="12345...">
     </div>
@@ -76,20 +61,29 @@
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-pin_sim">
         Pin de sim
       </label>
-      <input
-        formControlName="pin_sim"
+      <input formControlName="pin_sim"
         class="appearance-none block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
         id="grid-pin_sim" type="text" placeholder="1234...">
     </div>
   </div>
 
   <div class="mt-5 flex justify-end gap-5">
-    <button
-        [disabled]="form.pristine || form.invalid"
-        class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-        type="submit">
-        Guardar
-      </button>
+    <button  *ngIf="dispositivo" (click)="nuevoDispositivo.emit()"
+      class="shadow bg-primary-color disabled:bg-gray-400 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="button">
+      Nuevo dispositivo
+    </button>
+    <button *ngIf="!dispositivo" [disabled]="form.pristine || form.invalid"
+      (click)="crearDispositivo()"
+      class="shadow bg-green-400 disabled:bg-gray-400 hover:bg-green-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Guardar
+    </button>
+    <button *ngIf="dispositivo" [disabled]="form.pristine || form.invalid"
+      (click)="editarDispositivo()"
+      class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      type="submit">
+      Editar
+    </button>
   </div>
 </form>
-

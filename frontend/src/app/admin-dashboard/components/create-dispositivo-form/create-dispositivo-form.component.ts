@@ -12,25 +12,46 @@ import { Dispositivo } from 'src/app/interfaces/dispositivo.interface';
 })
 export class CreateDispositivoFormComponent implements OnInit {
 
+  public formCrear!: FormGroup;
+  public formEditar!: FormGroup;
   public form!: FormGroup;
   @Input() cliente!:Cliente
+  @Input() dispositivo!:Dispositivo
   @Output() 
   actualizarLista = new EventEmitter<Dispositivo>();
+
+  @Output()
+  nuevoDispositivo = new EventEmitter();
+  @Output()
+  actualizarDispositivo = new EventEmitter<Dispositivo>();
 
   constructor(private fb: FormBuilder,
               private clientesService:ClientesService) { }
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      tipo: ["", [Validators.required]],
-      marca: ["", [Validators.required]],
-      modelo: ["", [Validators.required]],
-      numero_serie: ["", [Validators.required]],
-      pin_sim: [""],
-      codigo_desbloqueo: [""],
-    })
   }
 
+  ngOnChanges(): void {
+    if (this.dispositivo){
+      this.form = this.fb.group({
+        tipo: [this.dispositivo.tipo, [Validators.required]],
+        marca: [this.dispositivo.marca, [Validators.required]],
+        modelo: [this.dispositivo.modelo, [Validators.required]],
+        numero_serie: [this.dispositivo.numero_serie, [Validators.required]],
+        pin_sim: [this.dispositivo.pin_sim],
+        codigo_desbloqueo: [this.dispositivo.codigo_desbloqueo]
+      })
+    }else{
+      this.form = this.fb.group({
+        tipo: ["", [Validators.required]],
+        marca: ["", [Validators.required]],
+        modelo: ["", [Validators.required]],
+        numero_serie: ["", [Validators.required]],
+        pin_sim: [""],
+        codigo_desbloqueo: [""]
+      })
+    }
+  }
 
   crearDispositivo() {
     this.clientesService.createDispositivo(this.cliente.id!,this.form.value).subscribe(
@@ -53,6 +74,27 @@ export class CreateDispositivoFormComponent implements OnInit {
         }
       }
     )
+  }
+
+  editarDispositivo() {
+    this.clientesService.editarDispositivo(this.dispositivo.id!,this.form.value).subscribe({
+      next: () => {
+        Swal.fire({
+          title: 'Dispositivo editado',
+          text: 'El dispositivo se ha editado correctamente',
+          icon: 'success'
+        })
+        this.dispositivo = this.form.value;
+        this.actualizarDispositivo.emit(this.form.value);
+      },
+      error: () => {
+        Swal.fire({
+          title: 'Error',
+          text: 'Ha ocurrido un error al editar el dispositivo',
+          icon: 'error'
+        })
+      }
+    })
   }
 
   visibility(field: string):string {

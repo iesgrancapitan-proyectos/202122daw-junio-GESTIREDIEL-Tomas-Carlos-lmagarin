@@ -6,6 +6,7 @@ import { Cliente } from '../../../interfaces/cliente.interface';
 import { map, Observable, startWith } from 'rxjs';
 import { Dispositivo } from '../../../interfaces/dispositivo.interface';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-create-reparacion-stepper',
@@ -24,11 +25,11 @@ export class CreateReparacionStepperComponent implements OnInit {
   isOptional = false;
   clientes!: Cliente[];
   dispositivos!: Dispositivo[]
-  clienteCtrl = new FormControl("", {validators: Validators.required});
+  clienteCtrl = new FormControl("", { validators: Validators.required });
   filteredClientes!: Observable<Cliente[]>;
   clienteSelected!: Cliente;
-  dispositivoSelected!:Dispositivo;
-  buscarCliente:boolean = true;
+  dispositivoSelected!: Dispositivo | undefined;
+  buscarCliente: boolean = true;
 
   constructor(private _formBuilder: FormBuilder,
     private clientesService: ClientesService,
@@ -60,31 +61,32 @@ export class CreateReparacionStepperComponent implements OnInit {
     return this.clientes.filter(cliente => cliente.nombre_fiscal.toLowerCase().includes(filterValue));
   }
 
-  saveClienteSelected(cliente: Cliente,stepper:any) {
+  saveClienteSelected(cliente: Cliente, stepper: any) {
     this.clienteSelected = cliente;
     this.getDispositivos()
-    
-    stepper.next();
   }
 
   getDispositivos() {
-      this.clientesService.getDispositivos(this.clienteSelected.id!).subscribe(dispositivos => {this.dispositivos = dispositivos})
+    this.clientesService.getDispositivos(this.clienteSelected.id!).subscribe(dispositivos => { this.dispositivos = dispositivos })
   }
 
   closeDialog(): void {
     this.dialogRef.close();
   }
 
-  actualizarLista(dispositivo: Dispositivo, stepper:any) {
+  actualizarLista(dispositivo: Dispositivo, stepper: any) {
     this.dispositivoSelected = dispositivo;
     this.dispositivos.unshift(dispositivo);
     this.secondFormGroup.get('dispositivo')!.setValue(dispositivo);
-    stepper.next();
   }
 
-  seleccionarDispositivo(dispositivo: Dispositivo,stepper:any) {
+  actualizarDispositivo(dispositivo: Dispositivo) {
+    console.log(this.dispositivos);
+    this.dispositivos.filter(d => d.id === dispositivo.id)[0] = dispositivo;
+  }
+
+  seleccionarDispositivo(dispositivo: Dispositivo, stepper: any) {
     this.dispositivoSelected = dispositivo;
-    stepper.next();
   }
 
   toogleBuscarCliente() {
@@ -93,4 +95,41 @@ export class CreateReparacionStepperComponent implements OnInit {
     this.clienteSelected = {} as Cliente;
   }
 
+  borrarDispositivo(dispositivo: Dispositivo) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, borrarlo!'
+    }).then((result) => {
+      if (result.value) {
+
+        this.clientesService.borrarDispositivo(dispositivo.id!).subscribe({
+          next: () => {
+            this.dispositivos = this.dispositivos.filter(d => d.id !== dispositivo.id);
+            Swal.fire(
+              'Borrado!',
+              'El dispositivo ha sido borrado.',
+              'success'
+            )
+          },
+          error: () => {
+            Swal.fire(
+              'Error!',
+              'Ha ocurrido un error.',
+              'error'
+            )
+          }
+        })
+      }
+    })
+  }
+
+  nuevoDispositivo(){
+    this.dispositivoSelected = undefined
+    console.log(this.dispositivoSelected);
+  }
 }
