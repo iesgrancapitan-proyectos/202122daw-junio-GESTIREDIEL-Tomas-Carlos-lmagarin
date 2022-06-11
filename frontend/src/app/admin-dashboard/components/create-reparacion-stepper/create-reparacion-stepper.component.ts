@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { ClientesService } from '../../../shared/services/clientes.service';
@@ -30,6 +30,8 @@ export class CreateReparacionStepperComponent implements OnInit {
   clienteSelected!: Cliente;
   dispositivoSelected!: Dispositivo | undefined;
   buscarCliente: boolean = true;
+
+  radios!: string
 
   constructor(private _formBuilder: FormBuilder,
     private clientesService: ClientesService,
@@ -64,6 +66,7 @@ export class CreateReparacionStepperComponent implements OnInit {
   saveClienteSelected(cliente: Cliente, stepper: any) {
     this.clienteSelected = cliente;
     this.getDispositivos()
+    stepper.next();
   }
 
   getDispositivos() {
@@ -74,18 +77,17 @@ export class CreateReparacionStepperComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  actualizarLista(dispositivo: Dispositivo, stepper: any) {
+  actualizarLista(dispositivo: Dispositivo) {
     this.dispositivoSelected = dispositivo;
     this.dispositivos.unshift(dispositivo);
     this.secondFormGroup.get('dispositivo')!.setValue(dispositivo);
   }
 
   actualizarDispositivo(dispositivo: Dispositivo) {
-    console.log(this.dispositivos);
     this.dispositivos.filter(d => d.id === dispositivo.id)[0] = dispositivo;
   }
 
-  seleccionarDispositivo(dispositivo: Dispositivo, stepper: any) {
+  seleccionarDispositivo(dispositivo: Dispositivo) {
     this.dispositivoSelected = dispositivo;
   }
 
@@ -130,6 +132,6 @@ export class CreateReparacionStepperComponent implements OnInit {
 
   nuevoDispositivo(){
     this.dispositivoSelected = undefined
-    console.log(this.dispositivoSelected);
+    this.radios = ''
   }
 }
