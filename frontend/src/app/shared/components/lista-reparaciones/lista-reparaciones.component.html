@@ -1,3 +1,29 @@
-<div class="flex flex-col gap-5">
-<app-reparacion-expand (onBorrar)="actualizarDatos()" [reparacion]="reparacion" *ngFor="let reparacion of reparaciones"></app-reparacion-expand>
+<div>
+  <div class=" flex gap-5 mb-5">
+    <app-filtro (filtrarEvent)="filtrar($event)" [estados]="estados"></app-filtro>
+    <app-filtro *ngIf="!UidTecnico" (filtrarEvent)="filtrar($event)" [tecnicos]="tecnicos"></app-filtro>
+  </div>
+  <div class="flex flex-col gap-5" *ngIf="reparaciones.length > 0 else noReparaciones ">
+    <app-reparacion-expand [forTecnico]="UidTecnico!=undefined" (onBorrar)="actualizarDatos()" [reparacion]="reparacion"
+      *ngFor="let reparacion of reparacionesPaginada"></app-reparacion-expand>
+      <mat-paginator
+              #paginator
+              [length]="reparacionesFiltradas.length"
+              [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions"
+              (page)="pageChanged($event)">
+      </mat-paginator>
+  </div>
+
+  <ng-template #noReparaciones>
+    <div class="flex justify-center items-center gap-5">
+      <div class="text-3xl">No hay reparaciones</div>
+    </div>
+  </ng-template>
 </div>
+
+<ng-template #loading>
+  <div class="flex justify-center w-full">
+    <mat-spinner></mat-spinner>
+  </div>
+</ng-template>

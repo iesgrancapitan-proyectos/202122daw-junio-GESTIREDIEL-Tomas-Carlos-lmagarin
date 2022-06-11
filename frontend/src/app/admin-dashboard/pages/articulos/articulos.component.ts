@@ -119,7 +119,8 @@ export class ArticulosComponent implements OnInit {
           title: 'Eliminado',
           text: `El artículo ${articulo.descripcion} ha sido eliminado`,
           icon: 'success',
-          confirmButtonText: 'Ok'
+          showConfirmButton: false,
+          timer: 1500
         });
       }
 

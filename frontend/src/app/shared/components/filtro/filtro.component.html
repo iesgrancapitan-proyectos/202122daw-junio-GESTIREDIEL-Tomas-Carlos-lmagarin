@@ -1,0 +1,16 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" >
+  <div *ngIf="estados" class="flex justify-center items-center">
+    <mat-icon>filter_list</mat-icon>
+  </div>
+  <div *ngIf="tecnicos" class="flex justify-center items-center">
+    <mat-icon>group</mat-icon>
+  </div>
+</button>
+<mat-menu #menu="matMenu"  class="p-5">
+  <div *ngIf="estados" class="flex flex-col gap-3">
+    <mat-checkbox  *ngFor="let estado of estados" (change)="filtrar($event,estado)" (click)="$event.stopPropagation()">{{estado}}</mat-checkbox>
+  </div>
+  <div *ngIf="tecnicos" class="flex flex-col gap-3">
+    <mat-checkbox *ngFor="let tecnico of tecnicos" (change)="filtrar($event,tecnico)" (click)="$event.stopPropagation()">{{tecnico.nombre}}</mat-checkbox>
+  </div>
+</mat-menu>

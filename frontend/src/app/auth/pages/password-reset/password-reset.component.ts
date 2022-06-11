@@ -35,7 +35,8 @@ export class PasswordResetComponent implements OnInit {
             title: 'Enviado',
             text: 'Se ha enviado un correo para restablecer la contraseña',
             icon: 'success',
-            confirmButtonText: 'Ok'
+            showConfirmButton: false,
+            timer: 1500
           })
           this.router.navigate(['/login'])
         } else {

@@ -9,6 +9,8 @@ import { ListaReparacionesComponent } from './components/lista-reparaciones/list
 import { ReparacionExpandComponent } from './components/reparacion-expand/reparacion-expand.component';
 import { MaterialModule } from '../material/material.module';
 import { ReparacionClienteComponent } from './components/reparacion-cliente/reparacion-cliente.component';
+import { FiltroComponent } from './components/filtro/filtro.component';
+
 
 
 
@@ -19,7 +21,8 @@ import { ReparacionClienteComponent } from './components/reparacion-cliente/repa
     PerfilComponent,
     ReparacionExpandComponent,
     ListaReparacionesComponent,
-    ReparacionClienteComponent
+    ReparacionClienteComponent,
+    FiltroComponent
   ],
   imports: [
     CommonModule,

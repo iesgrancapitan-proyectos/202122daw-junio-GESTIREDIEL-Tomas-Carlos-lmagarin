@@ -53,7 +53,7 @@ export class EntradaArticuloFormComponent implements OnInit {
               icon: 'success',
               title: 'Entrada de articulo creada correctamente',
               showConfirmButton: false,
-              timer: 2000
+              timer: 1500
             }).then(() => {
               this.dialogRef.close();
             })

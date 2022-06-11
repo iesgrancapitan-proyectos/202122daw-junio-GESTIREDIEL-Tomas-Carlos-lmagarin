@@ -1,6 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
-import { ReparacionesService } from '../../../admin-dashboard/services/reparaciones.service';
+import { ArticulosService } from '../../../admin-dashboard/services/articulos.service';
+import { Articulo } from '../../../interfaces/articulo.interface';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { map, Observable, startWith } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ReparacionesService } from '../../services/reparaciones.service';
+import { TooltipPosition } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-reparacion-expand',
@@ -10,12 +17,60 @@ import { ReparacionesService } from '../../../admin-dashboard/services/reparacio
 export class ReparacionExpandComponent implements OnInit {
 
   @Input() reparacion: any;
+  @Input() forTecnico!:boolean;
 
   @Output() onBorrar = new EventEmitter();
+  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
+  position = new FormControl(this.positionOptions[3]);
 
-  constructor(private serviceReparacion:ReparacionesService ) { }
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  articulosCtrl = new FormControl();
+  filteredArticulos!: Observable<Articulo[]>;
+  allArticulos: Articulo[] = [];
+  editReparacionFrom!:FormGroup
+  estados = [
+    'Pendiente',
+    'En reparación',
+    'Terminada',
+    'Cancelada'
+  ];
+
+
+  @ViewChild('articuloInput') articuloInput!: ElementRef<HTMLInputElement>;
+
+  constructor(private serviceReparacion:ReparacionesService,
+              private articulosService:ArticulosService,
+              private fb:FormBuilder ) { }
 
   ngOnInit(): void {
+
+    this.editReparacionFrom = this.fb.group({
+      averia: [this.reparacion.averia],
+      accesorios: [this.reparacion.accesorios],
+      observaciones: [this.reparacion.observaciones]
+    })
+
+    this.updateArticulosReparacion()
+
+    this.articulosService.getArticulos().subscribe({
+      next: (articulos) => {
+        this.allArticulos = articulos;
+        this.filteredArticulos = this.articulosCtrl.valueChanges.pipe(
+          startWith(null),
+          map((articulo) => (articulo ? this._filter(articulo) : this.allArticulos.slice())),
+        );
+      }
+    })
+
+    
+  }
+
+  private updateArticulosReparacion() {
+    this.serviceReparacion.getArticulosReparacion(this.reparacion.id).subscribe({
+      next: (articulos:Articulo[]) => {
+        this.reparacion.articulos = articulos;
+      }
+    })
   }
 
   colorPrioridad(prioridad: string) {
@@ -51,52 +106,66 @@ export class ReparacionExpandComponent implements OnInit {
           Swal.fire('Enviado', 'El correo ha sido enviado', 'success');
         }
       )
-
-      // Swal.fire({
-      //   title: 'Enviado',
-      //   text: 'Mensaje enviado correctamente',
-      //   icon: 'success'
-      // })
     }
-
-
   }
 
-  borrar() {
-    Swal.fire({
-      title: '¿Estás seguro?',
-      text: `¿Seguro que quieres eliminar la reparación?`,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
-      cancelButtonText: 'No, cancelar'
-    }).then((result) => {
-      if (result.value) {
+  remove(articulo: Articulo): void {
+    const index = this.reparacion.articulos.indexOf(articulo);
 
-        this.serviceReparacion.borrarReparacion(this.reparacion.id).subscribe({
-          next: (data) => {
-            this.onBorrar.emit();
-            Swal.fire({
-              title: 'Eliminada',
-              text: `La reparación ha sido eliminada`,
-              icon: 'success'
-            });
-          },
-          error: (err) => {
-            Swal.fire({
-              title: 'Error',
-              text: `Error al eliminar la reparación`,
-              icon: 'error'
-            });
-          }
-        })
-
-
-
+    this.serviceReparacion.deleteArticulo(this.reparacion.id,articulo.id!).subscribe({
+      next: () => {
+        if (index >= 0 && articulo.cantidad == 1) {
+          this.reparacion.articulos.splice(index, 1);
+        }
+        this.updateArticulosReparacion();
+        
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
       }
+    })
+  }
 
+  selected(event: MatAutocompleteSelectedEvent): void {
+
+    this.serviceReparacion.addArticulo(this.reparacion.id,event.option.value.id!).subscribe({
+      next: () => {
+        if (!this.reparacion.articulos.find((articulo: { id: any; }) => articulo.id === event.option.value.id)) {
+          this.reparacion.articulos.push(event.option.value);
+        }
+        this.updateArticulosReparacion();
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
+    this.articuloInput.nativeElement.value = '';
+    this.articulosCtrl.setValue(null);
+  }
+
+  private _filter(value: string): Articulo[] {
+    const filterValue = value
+
+    return this.allArticulos.filter(articulo => articulo.descripcion.toLowerCase().includes(filterValue));
+  }
+
+  public editReparacion(){
+    this.serviceReparacion.editarReparacion(this.reparacion.id,this.editReparacionFrom.value).subscribe({
+      next: () => {
+        Swal.fire('Editado', 'La reparación ha sido editada', 'success');
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
+    })
+  }
+
+  changeState(newState: string) {
+
+    this.serviceReparacion.changeState(this.reparacion.id,newState).subscribe({
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
+      }
     })
   }
 

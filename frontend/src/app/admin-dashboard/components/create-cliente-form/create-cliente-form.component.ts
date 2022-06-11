@@ -46,7 +46,8 @@ export class CreateClienteFormComponent implements OnInit {
             title: 'Cliente creado',
             text: 'El cliente ha sido creado correctamente',
             icon: 'success',
-            confirmButtonText: 'Ok'
+            showConfirmButton: false,
+            timer: 1500
           });
           this.newClienteOnReparacion.emit(res.cliente);
           if(!this.inReparacion){

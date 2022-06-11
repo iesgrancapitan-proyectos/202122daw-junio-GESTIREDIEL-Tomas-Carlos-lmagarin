@@ -335,6 +335,69 @@ const getDispositivos = async (req, res = response) => {
   }
 }
 
+const borrarDispositivo = async (req, res = response) => {
+
+  const {
+    id
+  } = req.params;
+
+  try {
+
+    await prisma.dispositivo.delete({
+      where: {
+        id: Number(id)
+      }
+    });
+
+    return res.status(200).json({ok: true})
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
+const editarDispositivo = async (req, res = response) => {
+  const {
+    id
+  } = req.params;
+  const {
+    tipo,
+    marca,
+    modelo,
+    numero_serie,
+    pin_sim,
+    codigo_desbloqueo
+  } = req.body;
+
+  try {
+
+    await prisma.dispositivo.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        tipo,
+        marca,
+        modelo,
+        numero_serie,
+        pin_sim,
+        codigo_desbloqueo
+      }
+    });
+    
+    return res.status(200).json({ok: true})
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 const createDispositivo = async (req, res = response) => {
   const {
     id
@@ -380,5 +443,7 @@ module.exports = {
   editarCliente,
   getClienteByToken,
   getDispositivos,
-  createDispositivo
+  createDispositivo,
+  borrarDispositivo,
+  editarDispositivo
 }

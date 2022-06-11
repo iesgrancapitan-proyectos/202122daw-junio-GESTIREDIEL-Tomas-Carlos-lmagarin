@@ -9,10 +9,8 @@ import { Dispositivo } from 'src/app/interfaces/dispositivo.interface';
   providedIn: 'root'
 })
 export class ClientesService {
-
-
+  
   constructor(private http: HttpClient) { }
-
 
   createCliente(cliente: Cliente):Observable<any> {
     return this.http.post<Cliente>(`${environment.baseUrl}/clientes`, cliente);
@@ -36,6 +34,14 @@ export class ClientesService {
 
   createDispositivo(idCliente:string,dispositivo: Dispositivo) {
     return this.http.post<Dispositivo>(`${environment.baseUrl}/clientes/dispositivos/${idCliente}`, dispositivo);
+  }
+
+  borrarDispositivo(id: number) {
+    return this.http.delete(`${environment.baseUrl}/clientes/dispositivos/${id}`);
+  }
+
+  editarDispositivo(id: number, dispositivo: Dispositivo) {
+    return this.http.put<Dispositivo>(`${environment.baseUrl}/clientes/dispositivos/${id}`, dispositivo);
   }
 
 }

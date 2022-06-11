@@ -57,18 +57,15 @@
       <td class="w-5" mat-cell *matCellDef="let element">
         <div class="flex gap-5">
 
-
+          <button (click)="nuevaEntrada(element)" #tooltip="matTooltip" matTooltip="Nueva entrada de stock"
+          [matTooltipPosition]="position.value"
+          class=' bg-blue-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>
+          <i class="bx bx-plus"></i>
+          </button>
           <button (click)="edit(element)"
             class='bg-yellow-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>
             <i class="bx bx-edit"></i>
           </button>
-
-          <button (click)="nuevaEntrada(element)" #tooltip="matTooltip" matTooltip="Nueva entrada de stock"
-            [matTooltipPosition]="position.value"
-            class=' bg-blue-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>
-            <i class="bx bx-plus"></i>
-          </button>
-
           <button *ngIf="element.stock == null" (click)="delete(element)"
             class='bg-red-400 flex items-center justify-center text-white text-xl font rounded-full p-3 '>
             <i class="bx bx-trash"></i></button>

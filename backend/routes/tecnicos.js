@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const { check } = require('express-validator');
-const {crearTecnico, getallTecnicos, editarTecnico} = require('../controllers/tecnicos');
+const {crearTecnico, getallTecnicos, editarTecnico, getTecnicoByUid} = require('../controllers/tecnicos');
 const { validarCampos } = require('../middlewares/validar-campos');
 const router = Router();
 
@@ -20,8 +20,8 @@ router.put('/:id',[
   validarCampos
 ],editarTecnico)
 
-
 router.get('/',getallTecnicos)
 
+router.get('/:uid',getTecnicoByUid)
 
 module.exports = router;

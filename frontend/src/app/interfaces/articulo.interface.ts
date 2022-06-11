@@ -1,5 +1,6 @@
-import { Proveedor } from './proveedor.interface';
+
 export interface Articulo {
+  cantidad?: number;
   id?:           number;
   descripcion:  string;
   referencia?:   string;

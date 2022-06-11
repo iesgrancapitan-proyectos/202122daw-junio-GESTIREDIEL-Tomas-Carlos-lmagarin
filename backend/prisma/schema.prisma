@@ -158,6 +158,7 @@ model usuarios {
 model articulo_reparacion {
   id_reparacion Int
   id_articulo   Int
+  cantidad      Int
   articulo      articulo   @relation(fields: [id_articulo], references: [id], onDelete: Cascade, map: "fk_id_articulo1")
   reparacion    reparacion @relation(fields: [id_reparacion], references: [id], onDelete: Cascade, map: "fk_idreparacion")
 

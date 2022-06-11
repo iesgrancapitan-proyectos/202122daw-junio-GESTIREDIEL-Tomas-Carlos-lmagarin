@@ -53,7 +53,7 @@ export class CreateReparacionFormComponent implements OnInit {
       observaciones: this.form.controls['observaciones'].value,
       id_tecnico: parseInt(this.form.controls['tecnico'].value),
       id_dispositivo: this.dispositivo.id,
-      estado: 'pendiente'
+      estado: 'Pendiente'
     };
 
     this.reparacionesService.createReparacion(reparacion).subscribe({
@@ -61,7 +61,9 @@ export class CreateReparacionFormComponent implements OnInit {
         Swal.fire({
           title: 'Reparación creada',
           text: 'La reparación se ha creado correctamente',
-          icon: 'success'
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
         }).then(() => {
           this.dialogRef.close(true);
         })
