@@ -119,8 +119,6 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
           this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
         } else if(this.tecnicosFiltro.length == 0 && this.estadosFiltro.length > 0) {
           this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
-        } else {
-          this.actualizarDatos()
         }
       }
 
@@ -146,9 +144,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
           this.reparacionesFiltradas = this.reparacionesFiltradas.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
         } else if(this.estadosFiltro.length == 0 && this.tecnicosFiltro.length > 0) {
           this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
-        } else {
-          this.actualizarDatos()
-        }
+        } 
 
       }
 

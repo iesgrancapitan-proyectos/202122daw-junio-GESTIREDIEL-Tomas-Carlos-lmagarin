@@ -1,7 +1,7 @@
 <div>
   <div class=" flex gap-5 mb-5">
     <app-filtro (filtrarEvent)="filtrar($event)" [estados]="estados"></app-filtro>
-    <app-filtro (filtrarEvent)="filtrar($event)" [tecnicos]="tecnicos"></app-filtro>
+    <app-filtro *ngIf="!UidTecnico" (filtrarEvent)="filtrar($event)" [tecnicos]="tecnicos"></app-filtro>
   </div>
   <div class="flex flex-col gap-5" *ngIf="reparaciones.length > 0 else noReparaciones ">
     <app-reparacion-expand [forTecnico]="UidTecnico!=undefined" (onBorrar)="actualizarDatos()" [reparacion]="reparacion"
