@@ -15,15 +15,18 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService,private clientesService: ClientesService,
     private router: Router) { }
 
-  username='';
+  username!: string;
 
   ngOnInit(): void {
-    let token=localStorage.getItem('token');
     this.username=this.authService.usuario.username;
   }
 
   public isNotAdmin():boolean{
     return this.authService.usuario.rol!='admin';
+  }
+
+  public isTecnico():boolean{
+    return this.authService.usuario.rol==='tecnico';
   }
 
   public logout() {

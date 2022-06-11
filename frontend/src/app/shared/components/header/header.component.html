@@ -1,17 +1,24 @@
-<header class="bg-white font">
-  <div>
-    <div *ngIf="isNotAdmin()" class="user cursor-pointer hover:text-primary-color" routerLink="/cliente/home">
+<header class="w-full top-0 bg-white flex flex-wrap gap-5 justify-end sm:justify-end items-center fixed">
+  <div *ngIf="isNotAdmin()">
+    <h1 class="text-primary-color">GESTIREDIEL</h1>
+  </div>
+  <div class="flex justify-center items-center flex-wrap gap-5 text-2xl bg-secondary-color p-4 mr-5 rounded-2xl">
+    <div *ngIf="isNotAdmin() && !isTecnico()" class="flex gap-1 justify-center items-center cursor-pointer hover:text-primary-color" routerLink="/cliente/home">
       <i class='bx bx-home '></i>
       <span>Home</span>
     </div>
-    <div *ngIf="isNotAdmin()" class="user cursor-pointer hover:text-primary-color" routerLink="/cliente/perfil">
+    <div *ngIf="isNotAdmin() && !isTecnico()" class="flex gap-1 justify-center items-center cursor-pointer hover:text-primary-color" routerLink="/cliente/perfil">
       <i class='bx bx-user '></i>
       <span>{{username}}</span>
     </div>
-    <div *ngIf="!isNotAdmin()" class="user">
+    <div *ngIf="isTecnico()" class="flex gap-1 justify-center items-center">
+      <i class='bx bx-user '></i>
+      <span>{{username}}</span>
+    </div>
+    <div *ngIf="!isNotAdmin()" class="flex gap-1 justify-center items-center">
       <i class='bx bx-user '></i>
       <span>Administrador</span>
     </div>
-    <i (click)="logout()" class=' hover:text-primary-color bx bx-log-out'></i>
+    <i (click)="logout()" class='cursor-pointer hover:text-primary-color bx bx-log-out'></i>
   </div>
 </header>
