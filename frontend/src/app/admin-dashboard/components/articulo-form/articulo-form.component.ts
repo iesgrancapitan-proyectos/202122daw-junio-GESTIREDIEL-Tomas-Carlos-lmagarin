@@ -155,7 +155,7 @@ export class ArticuloFormComponent implements OnInit {
             icon: 'success',
             title: 'Articulo creado correctamente',
             showConfirmButton: false,
-            timer: 3000
+            timer: 1500
           }).then(() => {
             this.dialogRef.close();
           })
@@ -192,7 +192,7 @@ export class ArticuloFormComponent implements OnInit {
             icon: 'success',
             title: 'Articulo actualizado correctamente',
             showConfirmButton: false,
-            timer: 3000
+            timer: 1500
           }).then(() => {
             this.dialogRef.close();
           })

@@ -61,7 +61,9 @@ export class CreateReparacionFormComponent implements OnInit {
         Swal.fire({
           title: 'Reparación creada',
           text: 'La reparación se ha creado correctamente',
-          icon: 'success'
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
         }).then(() => {
           this.dialogRef.close(true);
         })

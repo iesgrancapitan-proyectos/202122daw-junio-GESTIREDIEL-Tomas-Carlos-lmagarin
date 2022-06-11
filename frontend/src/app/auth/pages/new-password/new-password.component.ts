@@ -39,7 +39,8 @@ export class NewPasswordComponent implements OnInit {
             title: 'Actualizado',
             text: 'Se ha actualizado la contraseña',
             icon: 'success',
-            confirmButtonText: 'Ok',
+            showConfirmButton: false,
+            timer: 1500
           });
           this.router.navigate(['/login']);
         } else {

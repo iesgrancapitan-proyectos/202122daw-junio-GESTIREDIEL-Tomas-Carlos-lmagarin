@@ -134,7 +134,6 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
           this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
         }
       } else {
-        console.log(tecnico);
         this.tecnicosFiltro = this.tecnicosFiltro.filter(estadoAnterior => estadoAnterior !== tecnico.id)
 
         if(this.estadosFiltro.length > 0 && this.tecnicosFiltro.length == 0){

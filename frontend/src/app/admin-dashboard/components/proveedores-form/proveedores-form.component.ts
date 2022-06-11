@@ -58,7 +58,7 @@ export class ProveedoresFormComponent implements OnInit {
               icon: 'success',
               title: 'Proveedor actualizado correctamente',
               showConfirmButton: false,
-              timer: 3000
+              timer: 1500
             }).then(() => {
               this.dialogRef.close();
             })
@@ -82,7 +82,7 @@ export class ProveedoresFormComponent implements OnInit {
               icon: 'success',
               title: 'Proveedor creado correctamente',
               showConfirmButton: false,
-              timer: 3000
+              timer: 1500
             }).then(() => {
               this.dialogRef.close();
             })

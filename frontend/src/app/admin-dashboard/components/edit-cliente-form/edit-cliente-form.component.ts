@@ -42,7 +42,8 @@ export class EditFormComponent implements OnInit {
           Swal.fire({
             title: 'Cliente editado',
             icon: 'success',
-            confirmButtonText: 'Ok'
+            showConfirmButton: false,
+            timer: 1500
           })
           this.dialogRef.close();
         },

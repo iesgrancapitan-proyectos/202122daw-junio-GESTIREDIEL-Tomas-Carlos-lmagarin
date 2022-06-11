@@ -60,7 +60,9 @@ export class CreateDispositivoFormComponent implements OnInit {
           Swal.fire({
             title: 'Dispositivo creado',
             text: 'El dispositivo se ha creado correctamente',
-            icon: 'success'
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
           })
           this.form.reset();
           this.actualizarLista.emit(res);
@@ -82,7 +84,9 @@ export class CreateDispositivoFormComponent implements OnInit {
         Swal.fire({
           title: 'Dispositivo editado',
           text: 'El dispositivo se ha editado correctamente',
-          icon: 'success'
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 1500
         })
         this.actualizarDispositivo.emit({id: this.dispositivo.id!,...this.form.value});
         this.dispositivo = this.form.value;

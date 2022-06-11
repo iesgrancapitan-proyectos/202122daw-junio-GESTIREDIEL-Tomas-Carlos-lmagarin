@@ -112,11 +112,13 @@ export class CreateReparacionStepperComponent implements OnInit {
         this.clientesService.borrarDispositivo(dispositivo.id!).subscribe({
           next: () => {
             this.dispositivos = this.dispositivos.filter(d => d.id !== dispositivo.id);
-            Swal.fire(
-              'Borrado!',
-              'El dispositivo ha sido borrado.',
-              'success'
-            )
+            Swal.fire({
+              title: 'Borrado!',
+              text: 'El dispositivo ha sido borrado.',
+              icon:'success',
+              showConfirmButton: false,
+              timer: 1500
+            })
           },
           error: () => {
             Swal.fire(
