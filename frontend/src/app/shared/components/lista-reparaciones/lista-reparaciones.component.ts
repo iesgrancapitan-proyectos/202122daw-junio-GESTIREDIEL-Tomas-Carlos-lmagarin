@@ -1,9 +1,10 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reparacion } from '../../../interfaces/reparacion.interface';
 import { ReparacionesService } from '../../services/reparaciones.service';
 import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { TecnicosService } from '../../services/tecnicos.service';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-lista-reparaciones',
@@ -14,6 +15,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
 
   reparaciones: Reparacion[] = [];
   reparacionesFiltradas: Reparacion[] = [];
+  reparacionesPaginada: Reparacion[] = [];
   tecnicos: Tecnico[] = []
 
   @Input() actualizar!: Observable<void>;
@@ -25,6 +27,13 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
 
   private eventsSubscription: any
 
+  // MatPaginator Inputs
+  pageSize = 5;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+
+  // MatPaginator Output
+  pageEvent!: PageEvent
+
   constructor(private reparacionesService: ReparacionesService,
     private tecnicosService: TecnicosService) { }
 
@@ -35,6 +44,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
     this.tecnicosService.getTecnicos().subscribe({
       next: (tecnicos: Tecnico[]) => {
         this.tecnicos = tecnicos
@@ -50,19 +60,37 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
     this.actualizarDatos()
   }
 
+  setPageSizeOptions(setPageSizeOptionsInput: string) {
+    if (setPageSizeOptionsInput) {
+      this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+    }
+  }
+
   actualizarDatos() {
     if (this.UidTecnico) {
       this.reparacionesService.getReparacionPorTecnico(this.UidTecnico).subscribe({
         next: (reparaciones: Reparacion[]) => {
           this.reparaciones = reparaciones
+          this.pageEvent = {
+            pageIndex: 0,
+            pageSize: 5,
+            length: reparaciones.length
+          };
           this.reparacionesFiltradas = reparaciones
+          this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
         }
       })
     } else {
       this.reparacionesService.getReparaciones().subscribe({
         next: (reparaciones: Reparacion[]) => {
           this.reparaciones = reparaciones
+          this.pageEvent = {
+            pageIndex: 0,
+            pageSize: 5,
+            length: reparaciones.length
+          };
           this.reparacionesFiltradas = reparaciones
+          this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
         }
       });
     }
@@ -92,7 +120,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
         } else if(this.tecnicosFiltro.length == 0 && this.estadosFiltro.length > 0) {
           this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.estadosFiltro.includes(reparacion.estado!))
         } else {
-          this.reparacionesFiltradas = this.reparaciones
+          this.actualizarDatos()
         }
       }
 
@@ -119,15 +147,17 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
         } else if(this.estadosFiltro.length == 0 && this.tecnicosFiltro.length > 0) {
           this.reparacionesFiltradas = this.reparaciones.filter(reparacion => this.tecnicosFiltro.includes(reparacion.tecnico?.id!))  
         } else {
-          this.reparacionesFiltradas = this.reparaciones
+          this.actualizarDatos()
         }
+
       }
 
     }
+    this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
 
-
-
-
-
+  }
+  pageChanged(event: PageEvent){
+    this.pageEvent = event
+    this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
   }
 }

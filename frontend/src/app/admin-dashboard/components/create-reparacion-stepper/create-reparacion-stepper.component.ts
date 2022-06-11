@@ -84,7 +84,7 @@ export class CreateReparacionStepperComponent implements OnInit {
   }
 
   actualizarDispositivo(dispositivo: Dispositivo) {
-    this.dispositivos.filter(d => d.id === dispositivo.id)[0] = dispositivo;
+    this.dispositivos[this.dispositivos.indexOf(this.dispositivos.filter(d => d.id === dispositivo.id)[0])] = dispositivo;
   }
 
   seleccionarDispositivo(dispositivo: Dispositivo) {

@@ -76,13 +76,13 @@
     <button *ngIf="!dispositivo" [disabled]="form.pristine || form.invalid"
       (click)="crearDispositivo()"
       class="shadow bg-green-400 disabled:bg-gray-400 hover:bg-green-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-      type="submit">
+      >
       Guardar
     </button>
     <button *ngIf="dispositivo" [disabled]="form.pristine || form.invalid"
       (click)="editarDispositivo()"
       class="shadow bg-yellow-400 disabled:bg-gray-400 hover:bg-yellow-300 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-      type="submit">
+      >
       Editar
     </button>
   </div>

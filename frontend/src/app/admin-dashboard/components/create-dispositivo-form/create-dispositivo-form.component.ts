@@ -84,8 +84,8 @@ export class CreateDispositivoFormComponent implements OnInit {
           text: 'El dispositivo se ha editado correctamente',
           icon: 'success'
         })
+        this.actualizarDispositivo.emit({id: this.dispositivo.id!,...this.form.value});
         this.dispositivo = this.form.value;
-        this.actualizarDispositivo.emit(this.form.value);
       },
       error: () => {
         Swal.fire({
