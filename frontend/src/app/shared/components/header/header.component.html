@@ -1,8 +1,8 @@
-<header class="w-full top-0 bg-white flex flex-wrap gap-5 justify-end sm:justify-end items-center fixed">
-  <div *ngIf="isNotAdmin()">
+<header class="w-full top-0 bg-white flex flex-wrap gap-5 justify-center pt-5 sm:justify-end sm:pt-0 items-center fixed">
+  <div *ngIf="isNotAdmin()">  
     <h1 class="text-primary-color">GESTIREDIEL</h1>
   </div>
-  <div class="flex justify-center items-center flex-wrap gap-5 text-2xl bg-secondary-color p-4 mr-5 rounded-2xl">
+  <div class="h-full flex justify-center items-center flex-wrap gap-5 text-2xl bg-secondary-color p-4 m-1 mr-5 rounded-2xl">
     <div *ngIf="isNotAdmin() && !isTecnico()" class="flex gap-1 justify-center items-center cursor-pointer hover:text-primary-color" routerLink="/cliente/home">
       <i class='bx bx-home '></i>
       <span>Home</span>

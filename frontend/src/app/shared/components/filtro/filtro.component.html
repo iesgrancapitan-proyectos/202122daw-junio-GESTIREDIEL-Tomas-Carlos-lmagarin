@@ -11,6 +11,10 @@
     <mat-checkbox  *ngFor="let estado of estados" (change)="filtrar($event,estado)" (click)="$event.stopPropagation()">{{estado}}</mat-checkbox>
   </div>
   <div *ngIf="tecnicos" class="flex flex-col gap-3">
-    <mat-checkbox *ngFor="let tecnico of tecnicos" (change)="filtrar($event,tecnico)" (click)="$event.stopPropagation()">{{tecnico.nombre}}</mat-checkbox>
+    <div *ngFor="let tecnico of tecnicos">
+      <mat-checkbox *ngIf="!fromTecnicoPage"  (change)="filtrar($event,tecnico)" (click)="$event.stopPropagation()">{{tecnico.nombre}}</mat-checkbox>
+      <mat-checkbox *ngIf="fromTecnicoPage && tecnico.id != fromTecnicoPage.id"  (change)="filtrar($event,tecnico)" (click)="$event.stopPropagation()">{{tecnico.nombre}}</mat-checkbox>
+      <mat-checkbox *ngIf="fromTecnicoPage && tecnico.id == fromTecnicoPage.id!" [checked]="true" (change)="filtrar($event,tecnico)" (click)="$event.stopPropagation()">{{tecnico.nombre}}</mat-checkbox>
+    </div>
   </div>
 </mat-menu>

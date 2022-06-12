@@ -3,7 +3,6 @@ h1{
   font-family: Montserrat, sans-serif;
 }
 header{
-  height: 10vh;
   z-index: 1;
   backdrop-filter: saturate(180%) blur(27px);
   background-color: rgba(33, 150, 243, 0.4);

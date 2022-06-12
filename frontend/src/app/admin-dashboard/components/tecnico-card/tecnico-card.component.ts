@@ -4,6 +4,7 @@ import { Tecnico } from '../../../interfaces/tecnico.interface';
 import { AuthService } from '../../../auth/services/auth.service';
 import { TecnicoFormComponent } from '../tecnico-form/tecnico-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tecnico-card',
@@ -16,7 +17,7 @@ export class TecnicoCardComponent implements OnInit {
   @Output() 
   aztualizarTecnicos: EventEmitter<boolean> = new EventEmitter<boolean>();
   
-  constructor( private authService: AuthService,public dialog: MatDialog) { }
+  constructor( private authService: AuthService,public dialog: MatDialog,private router: Router) { }
 
   ngOnInit(): void {
     
@@ -51,6 +52,9 @@ export class TecnicoCardComponent implements OnInit {
           
       }
   })
+  }
+  navigateToReparaciones(){
+    this.router.navigate(['/dashboard/reparaciones'], {state: {tecnico: this.tecnico}});
   }
 
 }

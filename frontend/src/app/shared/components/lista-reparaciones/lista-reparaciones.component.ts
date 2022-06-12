@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Reparacion } from '../../../interfaces/reparacion.interface';
 import { ReparacionesService } from '../../services/reparaciones.service';
@@ -34,6 +34,8 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
   // MatPaginator Output
   pageEvent!: PageEvent
 
+  history!:Tecnico
+
   constructor(private reparacionesService: ReparacionesService,
     private tecnicosService: TecnicosService) { }
 
@@ -44,6 +46,8 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.history = history.state.tecnico
 
     this.tecnicosService.getTecnicos().subscribe({
       next: (tecnicos: Tecnico[]) => {
@@ -57,7 +61,36 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
       })
     }
 
-    this.actualizarDatos()
+    if (this.UidTecnico) {
+      this.reparacionesService.getReparacionPorTecnico(this.UidTecnico).subscribe({
+        next: (reparaciones: Reparacion[]) => {
+          this.reparaciones = reparaciones
+          this.pageEvent = {
+            pageIndex: 0,
+            pageSize: 5,
+            length: reparaciones.length
+          };
+          this.reparacionesFiltradas = reparaciones
+          this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
+        }
+      })
+    } else {
+      this.reparacionesService.getReparaciones().subscribe({
+        next: (reparaciones: Reparacion[]) => {
+          this.reparaciones = reparaciones
+          this.pageEvent = {
+            pageIndex: 0,
+            pageSize: 5,
+            length: reparaciones.length
+          };
+          this.reparacionesFiltradas = reparaciones
+          this.reparacionesPaginada = this.reparacionesFiltradas.slice(this.pageEvent.pageIndex * this.pageEvent.pageSize, (this.pageEvent.pageIndex + 1) * this.pageEvent.pageSize)
+          if(history.state.tecnico){
+            this.filtrar({tecnico: history.state.tecnico, checked: true})
+          }
+        }
+      });
+    }
   }
 
   setPageSizeOptions(setPageSizeOptionsInput: string) {
@@ -97,6 +130,7 @@ export class ListaReparacionesComponent implements OnInit, OnDestroy {
   }
 
   filtrar(event: any) {
+    console.log(event);
     this.reparacionesFiltradas = this.reparaciones
 
     if (event.estado) {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ReparacionesService } from '../../../shared/services/reparaciones.service';
@@ -20,6 +20,8 @@ export class CreateReparacionFormComponent implements OnInit {
   @Input()
   dispositivo!: Dispositivo;
 
+  today = new Date().toISOString().split('.')[0]
+
   constructor(
       private fb: FormBuilder,
       private reparacionesService:ReparacionesService,
@@ -28,6 +30,7 @@ export class CreateReparacionFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.today=this.today.split(':')[0]+':'+this.today.split(':')[1]
     this.tecnicosService.getTecnicos().subscribe({
       next: (res) => {
         this.tecnicos = res;

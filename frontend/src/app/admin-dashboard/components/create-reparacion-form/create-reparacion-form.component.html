@@ -23,7 +23,7 @@
       <input
         formControlName="fecha_compromiso"
         class=" block w-full bg-gray-200 text-gray-700 border  rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
-        id="grid-fecha_compromiso" type="datetime-local">
+        id="grid-fecha_compromiso" type="datetime-local" [min]="today">
         <p
         class="text-red-500 text-xs italic"
         [style.visibility]="visibility('fecha_compromiso')"
