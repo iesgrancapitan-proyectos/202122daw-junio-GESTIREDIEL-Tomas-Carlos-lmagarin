@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Cliente } from 'src/app/interfaces/cliente.interface';
 import { ClientesService } from 'src/app/shared/services/clientes.service';
@@ -17,7 +17,7 @@ import { CreateClienteFormComponent } from '../../components/create-cliente-form
 })
 export class ClientesComponent implements OnInit {
   displayedColumns: string[] = [
-    'nombre',
+    'nombre_fiscal',
     'nif',
     'email',
     'domicilio',
@@ -32,7 +32,7 @@ export class ClientesComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  
   constructor(
     private clientesService: ClientesService,
     private authService: AuthService,
@@ -40,14 +40,14 @@ export class ClientesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getClientes();
+    this.getClientes()
   }
 
   private getClientes(): void {
     this.clientesService.getClientes().subscribe((clientes: Cliente[]) => {
-      this.dataSource = new MatTableDataSource(clientes);
-      this.dataSource.paginator = this.paginator;
+      this.dataSource = new MatTableDataSource<Cliente>(clientes);
       this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
       this.isLoadingResults = false;
     });
   }
