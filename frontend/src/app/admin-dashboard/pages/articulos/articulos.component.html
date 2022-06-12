@@ -7,8 +7,8 @@
     <div class="flex gap-5">
       <mat-form-field appearance="fill">
         <mat-label>Proveedor</mat-label>
-        <mat-select (selectionChange)="filtrarPorProveedor($event.value)">
-          <mat-option> -- </mat-option>
+        <mat-select [value]="historyProveedor" (selectionChange)="filtrarPorProveedor($event.value)">
+          <mat-option value=""> -- </mat-option>
           <mat-option *ngFor="let proveedor of proveedores" [value]="proveedor.id">{{proveedor.nombre_comercial}}</mat-option>
         </mat-select>
       </mat-form-field>

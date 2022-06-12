@@ -41,11 +41,27 @@ export class ArticulosComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
+  historyProveedor!: Proveedor;
+
   constructor(private articulosService: ArticulosService,
     public dialog: MatDialog,
     private proveedoresService:ProveedoresService) { }
 
   ngOnInit(): void {
+
+    this.historyProveedor = history.state.proveedor ? history.state.proveedor.id : '';
+
+    this.articulosService.getArticulos().subscribe(
+      (articulos: Articulo[]) => {
+        this.dataSource = new MatTableDataSource(articulos);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isLoadingResults = false;
+        if(history.state.proveedor){
+          this.filtrarPorProveedor(history.state.proveedor.id)
+        }
+      });
+
     this.getArticulos()
 
     this.proveedoresService.getProveedores().subscribe(

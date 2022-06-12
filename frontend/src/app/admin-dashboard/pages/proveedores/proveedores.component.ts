@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { Proveedor } from '../../../interfaces/proveedor.interface';
 import { ProveedoresService } from '../../services/proveedores.service';
 import { ProveedoresFormComponent } from '../../components/proveedores-form/proveedores-form.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-proveedores',
@@ -36,7 +37,8 @@ export class ProveedoresComponent implements OnInit {
 
 
   constructor(private proveedoresService: ProveedoresService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getArticulos()
@@ -105,5 +107,9 @@ export class ProveedoresComponent implements OnInit {
 
     })
   };
+
+  navigateToArticulos(proveedor: Proveedor): void {
+    this.router.navigate(['/dashboard/articulos'], {state: {proveedor: proveedor}});
+  }
 
 }
