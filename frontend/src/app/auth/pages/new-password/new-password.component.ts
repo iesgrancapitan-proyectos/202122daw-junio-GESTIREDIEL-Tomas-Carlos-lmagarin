@@ -18,9 +18,12 @@ export class NewPasswordComponent implements OnInit {
     ],
   });
 
-  errorPassword: string = '';
   token:string=""
 
+  errorPassword: string = "Debe tener al menos 6 caracteres"
+
+  hidePassword:boolean = true;
+  
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

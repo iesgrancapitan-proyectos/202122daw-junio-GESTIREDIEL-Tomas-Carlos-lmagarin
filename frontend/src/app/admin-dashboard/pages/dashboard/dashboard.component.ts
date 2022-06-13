@@ -10,6 +10,11 @@ export class DashboardComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+
+    const child = document.getElementById("tidio-chat");
+    if(child){
+      document.body.removeChild(child!);
+    }
   }
 
 }

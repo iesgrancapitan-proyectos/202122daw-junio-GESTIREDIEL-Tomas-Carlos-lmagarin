@@ -3,22 +3,22 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './pages/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxCaptchaModule } from 'ngx-captcha';
-import { PasswordResetComponent } from './pages/password-reset/password-reset.component';
 import { RouterModule } from '@angular/router';
 import { NewPasswordComponent } from './pages/new-password/new-password.component';
+import { MaterialModule } from '../material/material.module';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    PasswordResetComponent,
-    NewPasswordComponent,
+    NewPasswordComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     NgxCaptchaModule,
-    RouterModule
+    RouterModule,
+    MaterialModule
   ]
 })
 export class AuthModule { }

@@ -18,6 +18,11 @@ export class TecnicoComponent implements OnInit {
               private tecnicosService:TecnicosService) { }
 
   ngOnInit(): void {
+
+    const child = document.getElementById("tidio-chat");
+    if(child){
+      document.body.removeChild(child!);
+    }
    
     this.usuario = this.authService.usuario
 
