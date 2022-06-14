@@ -6,6 +6,10 @@ input {
   font-family: "Poppins", sans-serif;
 }
 
+.logo{
+  filter: drop-shadow(5px 5px 5px rgba(24, 19, 19, 0.5));
+}
+
 .container {
   position: relative;
   background-color: #fff;
@@ -375,6 +379,13 @@ form.sign-in-form {
   }
   .panel .content {
     padding: 0.5rem 1rem;
+  }
+  .left-panel{
+    padding: 0;
+  }
+
+  .right-panel{
+    padding: 0.7rem;
   }
   .container {
     padding: 1.5rem;

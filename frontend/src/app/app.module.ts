@@ -12,6 +12,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { SharedModule } from './shared/shared.module';
+import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
+import { environment } from 'src/environments/environment';
+import { FormsModule } from '@angular/forms';
 
 registerLocaleData(localeEs);
 
@@ -27,11 +30,18 @@ registerLocaleData(localeEs);
     SharedModule,
     AdminDashboardModule,
     DataTablesModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RecaptchaV3Module,
+    FormsModule
+
   ],
   providers: [{
     provide: LOCALE_ID,
     useValue: 'es-ES'
+  },
+  {
+    provide: RECAPTCHA_V3_SITE_KEY,
+    useValue: environment.recaptcha.siteKey,
   }],
   bootstrap: [AppComponent]
 })

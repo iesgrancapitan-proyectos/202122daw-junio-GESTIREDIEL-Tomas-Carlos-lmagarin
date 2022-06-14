@@ -22,6 +22,7 @@ import { MaterialModule } from '../material/material.module';
 import { CreateReparacionStepperComponent } from './components/create-reparacion-stepper/create-reparacion-stepper.component';
 import { CreateDispositivoFormComponent } from './components/create-dispositivo-form/create-dispositivo-form.component';
 import { CreateReparacionFormComponent } from './components/create-reparacion-form/create-reparacion-form.component';
+import { ChatTidioComponent } from './pages/chat-tidio/chat-tidio.component';
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import { CreateReparacionFormComponent } from './components/create-reparacion-fo
     ReparacionesComponent,
     CreateReparacionStepperComponent,
     CreateDispositivoFormComponent,
-    CreateReparacionFormComponent
+    CreateReparacionFormComponent,
+    ChatTidioComponent
   ],
   imports: [
     CommonModule,

@@ -32,6 +32,7 @@
     "datatables.net-responsive-dt": "^2.2.9",
     "flowbite": "^1.4.2",
     "jquery": "^3.6.0",
+    "ng-recaptcha": "^9.0.0",
     "ngx-captcha": "^11.0.0",
     "primeicons": "^5.0.0",
     "primeng": "^13.3.3",

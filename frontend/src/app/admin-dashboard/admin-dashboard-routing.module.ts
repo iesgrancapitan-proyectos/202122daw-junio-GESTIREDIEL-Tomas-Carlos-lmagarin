@@ -4,10 +4,10 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HomeComponent } from './pages/home/home.component';
 import { ClientesComponent } from './pages/clientes/clientes.component';
 import { TecnicosComponent } from './pages/tecnicos/tecnicos.component';
-import { PerfilComponent } from '../shared/pages/perfil/perfil.component';
 import { ArticulosComponent } from './pages/articulos/articulos.component';
 import { ProveedoresComponent } from './pages/proveedores/proveedores.component';
 import { ReparacionesComponent } from './pages/reparaciones/reparaciones.component';
+import { ChatTidioComponent } from './pages/chat-tidio/chat-tidio.component';
 
 
 const routes: Routes = [
@@ -21,6 +21,7 @@ const routes: Routes = [
       { path: 'articulos'   , component: ArticulosComponent },
       { path: 'proveedores' , component: ProveedoresComponent },
       { path: 'reparaciones'      ,component:  ReparacionesComponent},
+      { path: 'chat'      ,component:  ChatTidioComponent},
       { path: '**', redirectTo: '' }
     ]
   }];

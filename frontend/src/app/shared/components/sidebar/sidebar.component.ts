@@ -16,20 +16,18 @@ export class SidebarComponent implements OnInit {
       title: "Personal",icon:"bx-user",
       items: [
         { title: "Clientes", path: "/dashboard/clientes" },
-        { title: "Técnicos", path: "/dashboard/tecnicos" },
-        // { title: "Informes", path: "/dashboard/informes" }
+        { title: "Técnicos", path: "/dashboard/tecnicos" }
       ]
     },
     {
       title: "Servicios",icon:"bx-briefcase",
       items: [
         { title: "Reparaciones", path: "/dashboard/reparaciones" },
-        { title: "Artículos", path: "/dashboard/articulos" },
+        { title: "Artículos", path: "/dashboard/articulos" }
       ]
     },
-    // { title: "Ventas",icon:"bx-dollar", path: "/dashboard/ventas" },
     { title: "Proveedores",icon:"bx-phone", path: "/dashboard/proveedores" },
-    // { title: "Chat",icon:"bx-chat", path: "/dashboard/chat" },
+    { title: "Chat",icon:"bx-chat", path: "/dashboard/chat" }
   ];
 
   open: boolean = true;

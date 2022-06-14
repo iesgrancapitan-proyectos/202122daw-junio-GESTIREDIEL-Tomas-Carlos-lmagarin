@@ -4,33 +4,36 @@
       <form class="sign-in-form" [formGroup]="formLogin" (ngSubmit)="login()">
         <h2 class="title">Iniciar sesión</h2>
         <div class="input-field">
-          <mat-form-field appearance="fill" class="w-full" >
+          <mat-form-field appearance="fill" class="w-full">
             <mat-label>Introduce tu email</mat-label>
-            <input class="focus:ring-transparent" type="email" autocomplete="off" matInput placeholder="pat@example.com" formControlName="email" required>
+            <input class="focus:ring-transparent" type="email" autocomplete="off" matInput placeholder="pat@example.com"
+              formControlName="email" required>
             <mat-error *ngIf="formLogin.controls['email'].invalid">{{errorEmail}}</mat-error>
           </mat-form-field>
         </div>
         <div class="input-field">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>Introduce tu contraseña</mat-label>
-            <input class="focus:ring-transparent" autocomplete="off" formControlName="password" matInput [type]="hidePassword ? 'password' : 'text'" required>
-            <button type="button" mat-icon-button matSuffix  (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <input class="focus:ring-transparent" autocomplete="off" formControlName="password" matInput
+              [type]="hidePassword ? 'password' : 'text'" required>
+            <button type="button" mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+              [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
               <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
             </button>
             <mat-error *ngIf="formLogin.controls['password'].invalid">{{errorPassword}}</mat-error>
           </mat-form-field>
         </div>
         <p class="text-xs italic text-red-500">{{ errorMsg }}</p>
-        <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
-        </ngx-recaptcha2>
         <input type="submit" value="Iniciar sesión" class="btn solid" />
       </form>
-      <form [formGroup]="formNewPassword" class="sign-up-form" (ngSubmit)="sendPass()">
+      <form *ngIf="!correoEnviado else formCorreoEnviado" [formGroup]="formNewPassword" class="sign-up-form"
+        (ngSubmit)="sendPass()">
         <h2 class="title">Cambiar contraseña</h2>
         <div class="input-field">
-          <mat-form-field appearance="fill" class="w-full" >
+          <mat-form-field appearance="fill" class="w-full">
             <mat-label>Introduce tu email</mat-label>
-            <input class="focus:ring-transparent" autocomplete="off" matInput placeholder="pat@example.com" formControlName="email" required>
+            <input class="focus:ring-transparent" autocomplete="off" matInput placeholder="pat@example.com"
+              formControlName="email" required>
             <mat-error *ngIf="formLogin.controls['email'].invalid">{{errorEmail}}</mat-error>
           </mat-form-field>
         </div>
@@ -42,10 +45,9 @@
   <div class="panels-container">
     <div class="panel left-panel">
       <div class="content">
+        <img class="w-20 mx-auto logo" src="/assets/Gestirediel.png" >
+        <h1>Gestirediel</h1>
         <h3>¿No te acuerdas de tu contraseña?</h3>
-        <p>
-          No te preocupes, puedes cambiarla en cualquier momento.
-        </p>
         <button class="btn transparent" (click)="signUpMode()">
           Cambiar contraseña
         </button>
@@ -54,10 +56,9 @@
     </div>
     <div class="panel right-panel">
       <div class="content">
+        <img class="w-20 mx-auto logo" src="/assets/Gestirediel.png" >
+        <h1>Gestirediel</h1>
         <h3>¿Ya tienes cuenta?</h3>
-        <p>
-          Inicia sesión para acceder a tu cuenta.
-        </p>
         <button class="btn transparent" (click)="signInMode()">
           Iniciar sesión
         </button>
@@ -66,3 +67,10 @@
     </div>
   </div>
 </div>
+
+<ng-template #formCorreoEnviado >
+  <form class="sign-up-form flex flex-col justify-center items-center">
+    <h2 class="title">Correo enviado correctamente.</h2>
+    <p>Mira tu bandeja de entrada y punsa en el link para cambiar tu contraseña.</p>
+  </form>
+</ng-template>

@@ -15,22 +15,21 @@ export class LoginComponent implements OnInit {
 
   formLogin: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(50)]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    recaptcha: ['', Validators.required]
+    password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   formNewPassword: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email, Validators.minLength(3), Validators.maxLength(50)]],
   });
-  siteKey: string = "6LeC2ZMfAAAAAEE8Z1L4cLhr8IZVMLmdu_WRu5Zp"
 
   errorMsg: string = ""
   errorEmail: string = "Formato de email incorrecto"
   errorPassword: string = "Debe tener al menos 6 caracteres"
 
-  @ViewChild('container') container!:ElementRef;
+  @ViewChild('container') container!: ElementRef;
 
-  hidePassword:boolean = true;
+  hidePassword: boolean = true;
+  correoEnviado: boolean = false;
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -56,22 +55,18 @@ export class LoginComponent implements OnInit {
         {
           next: (ok) => {
             if (ok === true && this.formLogin.valid) {
-              this.authService.getRolByToken().subscribe((rol)=>{
-                if(rol === "admin"){
+              this.authService.getRolByToken().subscribe((rol) => {
+                if (rol === "admin") {
                   this.router.navigate(['/dashboard']);
-                }else if(rol === "tecnico"){
+                } else if (rol === "tecnico") {
                   this.router.navigate(['/tecnico']);
-                }else{
+                } else {
                   this.router.navigate(['/cliente']);
                 }
               })
             } else {
-              if (this.formLogin.controls['recaptcha'].errors) {
-                Swal.fire('Error','Es necesario completar el captcha', 'error')
-              } else {
-                this.errorMsg = "Usuario o contraseña incorrectos"
-                Swal.fire('Error', ok.msg, 'error')
-              }
+              this.errorMsg = "Usuario o contraseña incorrectos"
+              Swal.fire('Error', ok.msg, 'error')
             }
           }
         }
@@ -82,34 +77,35 @@ export class LoginComponent implements OnInit {
 
     const { email } = this.formNewPassword.value;
 
-    this.authService.sendEmail(email).subscribe(
-      (resp) => {
-        if (resp) {
-          console.log(resp);
-          Swal.fire({
-            title: 'Enviado',
-            text: 'Se ha enviado un correo para restablecer la contraseña',
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          this.router.navigate(['/login'])
-        } else {
-          Swal.fire({
-            title: 'Error',
-            text: 'No se ha podido enviar el correo',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-          })
-        }
-      })
+    this.authService.sendEmail(email).subscribe({
+      next: () => {
+        Swal.fire({
+          title: 'Enviado',
+          text: 'Se ha enviado un correo para restablecer la contraseña',
+          icon: 'success',
+          showConfirmButton: false,
+          timer: 3000
+        })
+        this.router.navigate(['/login'])
+        this.correoEnviado = true;
+      },
+      error: (err) => {
+        Swal.fire({
+          title: 'Error',
+          text: 'No se ha podido enviar el correo',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        })
+      }
+    }
+    )
   }
 
-  signUpMode(){
+  signUpMode() {
     this.container.nativeElement.classList.add("sign-up-mode");
   }
 
-  signInMode(){
+  signInMode() {
     this.container.nativeElement.classList.remove("sign-up-mode");
   }
 
