@@ -44,6 +44,6 @@ router.get('/exist/:referencia',articuloExist)
 router.get('/byProveedor/:id_proveedor',getArticulosByIdProveedor)
 
 //Contar artículos por proveedor
-router.get('/contarArts',contarArticulos);
+router.get('/contarArticulos',contarArticulos);
 
 module.exports = router;

@@ -543,7 +543,7 @@ const proximasReparaciones = async (req, res = response) => {
   try{
     //Obtener ultimas 5 reparaciones
     const reparaciones = await prisma.$queryRaw `
-      select * from reparacion order by fecha_compromiso asc limit 5 `;
+      select * from reparacion where fecha_compromiso>now() order by fecha_compromiso asc limit 5 `;
     return res.status(200).json(reparaciones)
   }catch(error){
     console.log(error)

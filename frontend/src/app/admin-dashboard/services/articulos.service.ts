@@ -42,7 +42,7 @@ export class ArticulosService {
   }
 
   contarArticulos(){
-    return this.http.get(`${environment.baseUrl}/contarArts`);
+    return this.http.get(`${environment.baseUrl}/articulos/contarArticulos`);
   }
 
 }

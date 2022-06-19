@@ -16,3 +16,6 @@ body {
   box-shadow: none;
 }
 
+.clase > div{
+  justify-content: center;
+}

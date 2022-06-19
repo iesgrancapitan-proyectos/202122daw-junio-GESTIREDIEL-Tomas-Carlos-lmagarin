@@ -70,11 +70,11 @@ export class ReparacionesService {
   }
 
   countReparacionesTecnicos(){
-    return this.http.get(`${environment.baseUrl}/countReparaciones`);
+    return this.http.get(`${environment.baseUrl}/reparaciones/countReparaciones`);
   }
 
   nextReparaciones(){
-    return this.http.get(`${environment.baseUrl}/nextReparaciones`);
+    return this.http.get(`${environment.baseUrl}/reparaciones/nextReparaciones`);
   }
 
 }

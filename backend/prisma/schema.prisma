@@ -121,6 +121,7 @@ model reparacion {
   fecha_compromiso    DateTime              @db.DateTime(0)
   averia              String                @db.VarChar(50)
   observaciones       String                @db.VarChar(255)
+  fecha_creacion      DateTime              @default(now()) @db.Timestamp(0)
   dispositivo         dispositivo           @relation(fields: [id_dispositivo], references: [id], onDelete: Cascade, map: "fk_id_dispositivo")
   tecnico             tecnico               @relation(fields: [id_tecnico], references: [id], onDelete: Cascade, map: "fk_id_tecnico")
   articulo_reparacion articulo_reparacion[]
