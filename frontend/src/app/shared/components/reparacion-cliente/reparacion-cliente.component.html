@@ -1,20 +1,43 @@
-<div class="container w-full flex justify-center items-center flex-wrap gap-5 responsiveContainer sm:max-w-50">
-  <div *ngFor="let reparacion of reparaciones;index as i;" >
-    <div class="p-10  bg-white rounded-lg border border-gray-500 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <span >
-          <h3 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{reparacion.reparacion.averia}}</h3>
+<h1 class="text-center">Historial de reparaciones</h1>
+<div
+  class="container w-full flex justify-center items-center flex-wrap gap-5 sm:max-w-50"
+>
+
+  <div *ngFor="let reparacion of reparaciones; index as i">
+    <div
+      class="p-10 bg-white rounded-lg border border-gray-500 shadow-md dark:bg-gray-800 dark:border-gray-700"
+    >
+      <span>
+        <h2
+          class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+        >
+          {{ reparacion.averia }}
+        </h2>
       </span>
-      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{reparacion.dispositivo.tipo}} {{reparacion.dispositivo.modelo}}</p>
-      <span class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-          {{reparacion.reparacion.estado}}
+      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+        Tipo: {{ reparacion.dispositivo.tipo }} {{ reparacion.dispositivo.modelo }}
+      </p>
+      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+        Modelo: {{ reparacion.dispositivo.modelo }}
+      </p>
+      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+        <i class="fa-solid fa-calendar-check"> {{reparacion.fecha_compromiso.slice(0,10)}}</i>
+      </p>
+      <span
+        class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      >
+        {{ reparacion.estado }}
       </span>
     </div>
   </div>
 
-  <div *ngIf="reparaciones.length==0">
+  <div *ngIf="reparaciones.length == 0">
     <div>
-      <h3 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">No hay reparaciones</h3>
+      <h3
+        class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
+      >
+        No hay reparaciones
+      </h3>
     </div>
   </div>
-
 </div>

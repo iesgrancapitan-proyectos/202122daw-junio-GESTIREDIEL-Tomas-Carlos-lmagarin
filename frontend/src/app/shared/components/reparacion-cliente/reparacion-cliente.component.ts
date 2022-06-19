@@ -13,13 +13,13 @@ export class ReparacionClienteComponent implements OnInit {
 
   constructor(private reparacionServ:ReparacionesService,private userService: AuthService) { }
 
-  reparaciones:any = [];
+  reparaciones:any=[];
 
   ngOnInit(): void {
     this.reparacionServ.getReparacion(this.userService.usuario.uid).subscribe(
       {
         next: (reparaciones:any)=>{
-          this.reparaciones = reparaciones.data;
+          this.reparaciones = reparaciones;
         },
         error: (error)=>{
           console.log(error);
