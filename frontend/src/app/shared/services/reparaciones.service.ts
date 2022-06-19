@@ -9,7 +9,7 @@ import { Articulo } from '../../interfaces/articulo.interface';
   providedIn: 'root'
 })
 export class ReparacionesService {
-  
+
 
   constructor(private http: HttpClient) { }
 
@@ -68,4 +68,13 @@ export class ReparacionesService {
   changeState(id:number,state:string){
     return this.http.put(`${environment.baseUrl}/reparaciones/estado/${id}`,{estado:state});
   }
+
+  countReparacionesTecnicos(){
+    return this.http.get(`${environment.baseUrl}/countReparaciones`);
+  }
+
+  nextReparaciones(){
+    return this.http.get(`${environment.baseUrl}/nextReparaciones`);
+  }
+
 }

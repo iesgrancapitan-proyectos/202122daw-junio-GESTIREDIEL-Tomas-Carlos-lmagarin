@@ -76,8 +76,7 @@ const getAllArticulo = async (req, res = response) => {
     SELECT id,descripcion,referencia,precio_coste,precio_venta,id_categoria, 
     (SELECT nombre FROM categoria WHERE articulo.id_categoria = categoria.id) AS categoria,
     (SELECT SUM(stock) FROM proveedor_articulo WHERE proveedor_articulo.id_articulo = articulo.id) AS stock
-    FROM articulo
-    `
+    FROM articulo order by precio_venta desc`;
 
     return res.status(200).json(articulos)
 
@@ -279,6 +278,22 @@ const getArticulosByIdProveedor = async (req, res = response) => {
   }
 }
 
+const contarArticulos = async (req, res = response) => {
+  try{
+    //contar cantidad de cada articulo usado en una reparacion
+    const articulos = await prisma.$queryRaw `
+    select count(*) as count,id_articulo,descripcion,precio_venta from articulo_reparacion inner join articulo a on a.id=articulo_reparacion.id_articulo group by id_articulo order by count desc `;
+
+    return res.status(200).json(articulos)
+  }catch(error){
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: 'Por favor hable con el administrador'
+    })
+  }
+}
+
 module.exports = {
   crearArticulo,
   editarArticulo,
@@ -286,5 +301,6 @@ module.exports = {
   getAllArticulo,
   entradaArticulo,
   articuloExist,
-  getArticulosByIdProveedor
+  getArticulosByIdProveedor,
+  contarArticulos
 }

@@ -10,7 +10,7 @@ import { EntradaArticulo } from '../../interfaces/entradaArticulo.interface';
   providedIn: 'root'
 })
 export class ArticulosService {
-  
+
   constructor(private http:HttpClient) { }
 
   getArticulos():Observable<Articulo[]>{
@@ -40,4 +40,9 @@ export class ArticulosService {
   getArticulosByProveedor(id: number):Observable<Articulo[]>{
     return this.http.get<Articulo[]>(`${environment.baseUrl}/articulos/byProveedor/${id}`);
   }
+
+  contarArticulos(){
+    return this.http.get(`${environment.baseUrl}/contarArts`);
+  }
+
 }

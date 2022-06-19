@@ -14,7 +14,9 @@ const {
     addArticulo,
     removeArticulo,
     getArticulos,
-    changeState
+    changeState,
+    countReparacionTecnico,
+    proximasReparaciones
 } = require('../controllers/reparaciones');
 const {
     validarCampos
@@ -74,5 +76,12 @@ router.put('/reparacion/articulo',[
     check('id_reparacion', 'El id de la reparación es obligatorio').not().isEmpty(),
     validarCampos
 ], removeArticulo)
+
+
+//Contar reparaciones por tecnico
+router.get('/countReparaciones',countReparacionTecnico);
+
+//Ultimas 5 reparaciones 
+router.get('/nextReparaciones', proximasReparaciones);
 
 module.exports = router;

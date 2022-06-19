@@ -469,13 +469,13 @@ const getArticulos = async (req, res = response) => {
 
     //agregamos la cantidad de articulos a cada articulo
     articulos.forEach((articulo) => {
-        articulos_reparacion.forEach((articulo_reparacion) => {
-  
-          if (articulo.id == articulo_reparacion.id_articulo) {
-            articulo.cantidad = articulo_reparacion.cantidad
-          }
-  
-        })
+      articulos_reparacion.forEach((articulo_reparacion) => {
+
+        if (articulo.id == articulo_reparacion.id_articulo) {
+          articulo.cantidad = articulo_reparacion.cantidad
+        }
+
+      })
     })
 
     return res.status(200).json(articulos)
@@ -491,14 +491,18 @@ const getArticulos = async (req, res = response) => {
 
 const changeState = async (req, res = response) => {
 
-  const {id} = req.params;
-  const {estado} = req.body;
+  const {
+    id
+  } = req.params;
+  const {
+    estado
+  } = req.body;
 
   try {
 
     await prisma.reparacion.update({
       where: {
-        id:Number(id)
+        id: Number(id)
       },
       data: {
         estado
@@ -509,12 +513,43 @@ const changeState = async (req, res = response) => {
       ok: true,
       msg: 'Estado cambiado correctamente'
     })
-  }
-  catch (error) {
+  } catch (error) {
     console.log(error)
     return res.status(500).json({
       ok: false,
       msg: 'Error al cambiar estado'
+    })
+  }
+}
+
+const countReparacionTecnico = async (req, res = response) => {
+  try {
+    //Contar el numero de reparaciones que tiene cada tecnico en el mes actual
+    const reparaciones = await prisma.$queryRaw `
+      select count(*) as cantidad, id_tecnico,nombre from reparacion inner join tecnico t on reparacion.id_tecnico=t.id group by id_tecnico order by cantidad desc `;
+
+    return res.status(200).json(reparaciones)
+
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al contar reparaciones del tecnico'
+    })
+  }
+}
+
+const proximasReparaciones = async (req, res = response) => {
+  try{
+    //Obtener ultimas 5 reparaciones
+    const reparaciones = await prisma.$queryRaw `
+      select * from reparacion order by fecha_compromiso asc limit 5 `;
+    return res.status(200).json(reparaciones)
+  }catch(error){
+    console.log(error)
+    return res.status(500).json({
+      ok: false,
+      msg: 'Error al obtener las ultimas reparaciones'
     })
   }
 }
@@ -530,5 +565,7 @@ module.exports = {
   addArticulo,
   removeArticulo,
   getArticulos,
-  changeState
+  changeState,
+  countReparacionTecnico, 
+  proximasReparaciones
 }
