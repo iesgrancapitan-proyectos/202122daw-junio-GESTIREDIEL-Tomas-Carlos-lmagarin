@@ -78,7 +78,6 @@
       <tr mat-header-row *matHeaderRowDef="columnsArtsOrders"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsArtsOrders;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
   </div>
   <div class="w-11/12 mx-auto animate__animated text-center animate__fadeIn " >
     <h2>Reparaciones por técnicos</h2>
@@ -97,7 +96,6 @@
       <tr mat-header-row *matHeaderRowDef="columnsTecnicos"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsTecnicos;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
   </div>
 </div>
 

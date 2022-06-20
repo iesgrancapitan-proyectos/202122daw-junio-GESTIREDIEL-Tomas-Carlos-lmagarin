@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     'precio_venta'
   ];
   articulosOrder!: MatTableDataSource<any[]>;
-  @ViewChild(MatPaginator) paginatorArtsOrder!: MatPaginator;
+  @ViewChild('articulosOrderPag') paginatorArtsOrder!: MatPaginator;
   @ViewChild(MatSort) sortArtsOrder!: MatSort;
 
   columnsTecnicos: string[] = [
@@ -64,7 +64,6 @@ export class HomeComponent implements OnInit {
 
   private getReparacionesByTecnico():void{
     this.serviceReparacion.countReparacionesTecnicos().subscribe((reparaciones: any) => {
-      console.log(reparaciones)
       this.reparacionesTecnicos = new MatTableDataSource(reparaciones);
       this.reparacionesTecnicos.paginator = this.paginatorRepTecnico;
       this.reparacionesTecnicos.sort = this.sortRepTecnico;
@@ -73,7 +72,8 @@ export class HomeComponent implements OnInit {
 
   private getAllArticulosOrder(): void {
     this.serviceArticulos.getArticulos().subscribe((articulos: any) => {
-      this.articulosOrder = new MatTableDataSource(articulos);
+      let arts=articulos.slice(0,5);
+      this.articulosOrder = new MatTableDataSource(arts);
       this.articulosOrder.paginator = this.paginatorArtsOrder;
       this.articulosOrder.sort = this.sortArtsOrder;
     });
