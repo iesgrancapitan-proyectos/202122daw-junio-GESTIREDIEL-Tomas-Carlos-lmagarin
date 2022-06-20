@@ -23,7 +23,8 @@ export class TecnicoCardComponent implements OnInit {
     
   }
 
-  editar(){
+  editar($event:any){
+    $event.stopPropagation()
     const dialogRef = this.dialog.open(TecnicoFormComponent,{disableClose: true});
     dialogRef.componentInstance.tecnico = this.tecnico;
     dialogRef.afterClosed().subscribe(result => {
@@ -33,7 +34,8 @@ export class TecnicoCardComponent implements OnInit {
     });
   }
 
-  borrar(){
+  borrar($event:any){
+    $event.stopPropagation()
     Swal.fire({
       title: '¿Estás seguro?',
       text: "Estas a punto de boorar a " + this.tecnico.nombre + " y todos sus datos.",

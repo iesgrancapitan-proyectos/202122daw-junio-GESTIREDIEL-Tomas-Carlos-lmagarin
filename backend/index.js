@@ -23,7 +23,7 @@ app.use('/api/articulos',require('./routes/articulos'));
 app.use('/api/categorias',require('./routes/categorias'));
 app.use('/api/proveedores',require('./routes/proveedores'));
 app.use('/api/reparaciones',require('./routes/reparaciones'));
-
+app.use('/api/verificarRecaptcha',require('./routes/recaptcha'));
 
 //manegar rutas
 app.get('*' ,(req,res) => {

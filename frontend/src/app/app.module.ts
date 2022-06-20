@@ -15,12 +15,15 @@ import { SharedModule } from './shared/shared.module';
 import { RecaptchaV3Module, RECAPTCHA_V3_SITE_KEY } from 'ng-recaptcha';
 import { environment } from 'src/environments/environment';
 import { FormsModule } from '@angular/forms';
+import { MaterialModule } from './material/material.module';
+import { ErrorRobotComponent } from './components/error-robot/error-robot.component';
 
 registerLocaleData(localeEs);
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ErrorRobotComponent
   ],
   imports: [
     BrowserModule,
@@ -32,8 +35,8 @@ registerLocaleData(localeEs);
     DataTablesModule,
     BrowserAnimationsModule,
     RecaptchaV3Module,
-    FormsModule
-
+    FormsModule,
+    MaterialModule
   ],
   providers: [{
     provide: LOCALE_ID,
